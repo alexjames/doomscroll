@@ -1,0 +1,7 @@
+# Initial Setup
+Create a React App flash cards quiz app. On the main page, you can see one flash card at a time.
+If you click on a card, it rotates to show the answer in the back. You have to scroll up to see the next card, similar to Tiktok.
+There are two modes - (1) Learn Mode and (2) Practice Mode. In Learn Mode, show all the cards one by one. In practice mode.
+In practice mode, the app keeps track of how many answers you got correct and wrong.
+Data to display in the cards is queried from a Python backend that stores all the quiz data.
+Implement this frontend and backed.
