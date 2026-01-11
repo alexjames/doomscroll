@@ -3,17 +3,21 @@ import './App.css';
 import Flashcard from './Flashcard';
 
 const CARDS_DATA = [
-  { id: 1, question: "What is React?", answer: "A JavaScript library for building user interfaces." },
-  { id: 2, question: "What is a Component?", answer: "Independent and reusable bits of code." },
-  { id: 3, question: "What is State?", answer: "A built-in React object that is used to contain data or information about the component." },
-  { id: 4, question: "What is a Hook?", answer: "Functions that let you use state and other React features without writing a class." },
-  { id: 5, question: "What is JSX?", answer: "A syntax extension to JavaScript." },
-  { id: 6, question: "What is the Virtual DOM?", answer: "A lightweight copy of the actual DOM in memory." },
-  { id: 7, question: "What is Props?", answer: "Inputs to a React component. They are data passed down from a parent component." },
+  { id: 1, question: "execute typical instruction", answer: "1/1,000,000,000 sec = 1 nanoseconds" },
+  { id: 2, question: "fetch from L1 cache memory", answer: "0.5 nanoseconds" },
+  { id: 3, question: "branch misprediction", answer: "5 nanoseconds" },
+  { id: 4, question: "fetch from L2 cache memory", answer: "7 nanoseconds" },
+  { id: 5, question: "Mutex lock/unlock", answer: "25 nanoseconds" },
+  { id: 6, question: "fetch from main memory", answer: "100 nanoseconds" },
+  { id: 7, question: "send 2K bytes over 1Gbps network", answer: "20,000 nanoseconds" },
+  { id: 8, question: "read 1MB sequentially from memory", answer: "250,000 nanoseconds" },
+  { id: 9, question: "fetch from new disk location (seek)", answer: "8,000,000 nanoseconds" },
+  { id: 10, question: "read 1MB sequentially from disk", answer: "20,000,000 nanoseconds" },
+  { id: 11, question: "send packet US to Europe and back", answer: "150 milliseconds = 150,000,000 nanoseconds" },
 ];
 
 function App() {
-  const [cards] = useState(CARDS_DATA);
+  const [cards, setCards] = useState(CARDS_DATA);
   const [mode, setMode] = useState('learn'); // 'learn' or 'practice'
   const [score, setScore] = useState({ correct: 0, wrong: 0 });
   const [activeIndex, setActiveIndex] = useState(0);
@@ -88,13 +92,30 @@ function App() {
     }));
   };
 
+  const shuffleCards = () => {
+    const shuffled = [...cards];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    setCards(shuffled);
+    setFlippedStates({});
+    setActiveIndex(0);
+    if (containerRef.current) {
+      containerRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
   return (
     <div className="app-container" ref={containerRef}>
       {/* HUD / Controls */}
       <div className="header-hud">
-        <button onClick={toggleMode}>
-          Switch to {mode === 'learn' ? 'Practice' : 'Learn'} Mode
-        </button>
+        <div style={{ display: 'flex', gap: '10px' }}>
+          <button onClick={toggleMode}>
+            Switch to {mode === 'learn' ? 'Practice' : 'Learn'} Mode
+          </button>
+          <button onClick={shuffleCards}>Shuffle</button>
+        </div>
         
         {mode === 'practice' && (
           <div className="score-board">
