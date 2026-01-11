@@ -1,10 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-const Flashcard = ({ data, mode, onScore }) => {
-  const [isFlipped, setIsFlipped] = useState(false);
-
+const Flashcard = ({ data, mode, onScore, isFlipped, onFlip }) => {
   const handleClick = () => {
-    setIsFlipped(!isFlipped);
+    onFlip();
   };
 
   const handleScore = (e, type) => {

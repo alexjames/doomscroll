@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import './App.css';
 import Flashcard from './Flashcard';
 
@@ -16,6 +16,57 @@ function App() {
   const [cards] = useState(CARDS_DATA);
   const [mode, setMode] = useState('learn'); // 'learn' or 'practice'
   const [score, setScore] = useState({ correct: 0, wrong: 0 });
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [flippedStates, setFlippedStates] = useState({});
+  const containerRef = useRef(null);
+
+  // Track active card index on scroll
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const handleScroll = () => {
+      const index = Math.round(container.scrollTop / container.clientHeight);
+      if (index !== activeIndex) {
+        setActiveIndex(index);
+      }
+    };
+
+    container.addEventListener('scroll', handleScroll);
+    return () => container.removeEventListener('scroll', handleScroll);
+  }, [activeIndex]);
+
+  // Keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        if (activeIndex > 0) {
+          containerRef.current.scrollTo({
+            top: (activeIndex - 1) * containerRef.current.clientHeight,
+            behavior: 'smooth'
+          });
+        }
+      } else if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        if (activeIndex < cards.length - 1) {
+          containerRef.current.scrollTo({
+            top: (activeIndex + 1) * containerRef.current.clientHeight,
+            behavior: 'smooth'
+          });
+        }
+      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+        const currentCard = cards[activeIndex];
+        setFlippedStates(prev => ({
+          ...prev,
+          [currentCard.id]: !prev[currentCard.id]
+        }));
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [activeIndex, cards]);
 
   const toggleMode = () => {
     setMode((prev) => (prev === 'learn' ? 'practice' : 'learn'));
@@ -30,8 +81,15 @@ function App() {
     }));
   };
 
+  const handleCardFlip = (id) => {
+    setFlippedStates((prev) => ({
+      ...prev,
+      [id]: !prev[id]
+    }));
+  };
+
   return (
-    <div className="app-container">
+    <div className="app-container" ref={containerRef}>
       {/* HUD / Controls */}
       <div className="header-hud">
         <button onClick={toggleMode}>
@@ -52,6 +110,8 @@ function App() {
           data={card} 
           mode={mode}
           onScore={handleScoreUpdate}
+          isFlipped={!!flippedStates[card.id]}
+          onFlip={() => handleCardFlip(card.id)}
         />
       ))}
     </div>
