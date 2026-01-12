@@ -5,16 +5,18 @@ import LatencyChart from './LatencyChart';
 
 const CARDS_DATA = [
   { id: 1, question: "execute typical instruction", answer: "1/1,000,000,000 sec = 1 nanoseconds", val: 1 },
-  { id: 2, question: "fetch from L1 cache memory", answer: "0.5 nanoseconds", val: 0.5 },
+  { id: 2, question: "read from L1 cache memory", answer: "0.5 nanoseconds", val: 0.5 },
   { id: 3, question: "branch misprediction", answer: "5 nanoseconds", val: 5 },
-  { id: 4, question: "fetch from L2 cache memory", answer: "7 nanoseconds", val: 7 },
+  { id: 4, question: "read from L2 cache memory", answer: "5 nanoseconds", val: 5 },
   { id: 5, question: "Mutex lock/unlock", answer: "25 nanoseconds", val: 25 },
-  { id: 6, question: "fetch from main memory", answer: "100 nanoseconds", val: 100 },
-  { id: 7, question: "send 2K bytes over 1Gbps network", answer: "20,000 nanoseconds", val: 20000 },
-  { id: 8, question: "read 1MB sequentially from memory", answer: "250,000 nanoseconds", val: 250000 },
-  { id: 9, question: "fetch from new disk location (seek)", answer: "8,000,000 nanoseconds", val: 8000000 },
-  { id: 10, question: "read 1MB sequentially from disk", answer: "20,000,000 nanoseconds", val: 20000000 },
-  { id: 11, question: "send packet US to Europe and back", answer: "150 milliseconds = 150,000,000 nanoseconds", val: 150000000 },
+  { id: 6, question: "read from main memory", answer: "100 nanoseconds", val: 100 },
+  { id: 7, question: "send 2K bytes over 1Gbps network", answer: "20 microseconds = 20,000 nanoseconds", val: 20000 },
+  { id: 8, question: "read 1MB sequentially from memory", answer: "250 microseconds = 250,000 nanoseconds", val: 250000 },
+  { id: 9, question: "roundtrip time in the same datacenter", answer: "500 microseconds = 500,000 nanoseconds", val: 500000 },
+  { id: 10, question: "read 1MB sequentially from SSD", answer: "1 millisecond = 1,000,000 nanoseconds", val: 1000000 },
+  { id: 11, question: "read from new disk location (disk seek)", answer: "5 milliseconds = 5,000,000 nanoseconds", val: 5000000 },
+  { id: 12, question: "read 1MB sequentially from disk", answer: "30 milliseconds = 30,000,000 nanoseconds", val: 30000000 },
+  { id: 13, question: "send packet US to Europe and back", answer: "150 milliseconds = 150,000,000 nanoseconds", val: 150000000 },
 ];
 
 function App() {
