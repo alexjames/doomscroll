@@ -23,7 +23,8 @@ const Flashcard = ({ data, mode, onScore, isFlipped, onFlip }) => {
 
           {/* Back of Card */}
           <div className="flip-card-back">
-            <h2>Answer</h2>
+            <h2 style={{ fontSize: '1rem' }}>Answer</h2>
+            <p style={{ fontSize: '1.5rem', marginBottom: '20px', opacity: 0.7 }}>{data.question}</p>
             <p style={{ fontSize: '1.2rem' }}>{data.answer}</p>
             
             {mode === 'practice' && (
