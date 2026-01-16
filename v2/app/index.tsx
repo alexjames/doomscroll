@@ -1,5 +1,5 @@
-import React, { useState, useRef } from 'react';
-import { FlatList, Dimensions, StyleSheet, ViewToken, Text } from 'react-native';
+import React, { useState, useRef, useEffect } from 'react';
+import { FlatList, Dimensions, StyleSheet, ViewToken, Text, Animated } from 'react-native';
 import { ThemedView } from '@/components/themed-view';
 import { ContentItem } from '@/components/ContentItem';
 import { SAMPLE_CONTENT } from '@/data/sample-content';
@@ -10,12 +10,19 @@ const { height: SCREEN_HEIGHT } = Dimensions.get('window');
 export default function ContentFeedScreen() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showSwipeHint, setShowSwipeHint] = useState(true);
+  const fadeAnim = useRef(new Animated.Value(1)).current;
 
   const onViewableItemsChanged = useRef(({ viewableItems }: { viewableItems: ViewToken[] }) => {
     if (viewableItems.length > 0 && viewableItems[0].index !== null) {
       setCurrentIndex(viewableItems[0].index);
       if (viewableItems[0].index > 0 && showSwipeHint) {
-        setShowSwipeHint(false);
+        Animated.timing(fadeAnim, {
+          toValue: 0,
+          duration: 300,
+          useNativeDriver: true,
+        }).start(() => {
+          setShowSwipeHint(false);
+        });
       }
     }
   }).current;
@@ -54,10 +61,10 @@ export default function ContentFeedScreen() {
         })}
       />
       {showSwipeHint && (
-        <ThemedView style={styles.swipeHint}>
+        <Animated.View style={[styles.swipeHint, { opacity: fadeAnim }]}>
           <Text style={styles.swipeHintCaret}>^</Text>
           <Text style={styles.swipeHintText}>Swipe up for more</Text>
-        </ThemedView>
+        </Animated.View>
       )}
     </ThemedView>
   );
