@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { FlatList, Dimensions, StyleSheet, ViewToken } from 'react-native';
+import { FlatList, Dimensions, StyleSheet, ViewToken, Text } from 'react-native';
 import { ThemedView } from '@/components/themed-view';
 import { ContentItem } from '@/components/ContentItem';
 import { SAMPLE_CONTENT } from '@/data/sample-content';
@@ -9,10 +9,14 @@ const { height: SCREEN_HEIGHT } = Dimensions.get('window');
 
 export default function ContentFeedScreen() {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [showSwipeHint, setShowSwipeHint] = useState(true);
 
   const onViewableItemsChanged = useRef(({ viewableItems }: { viewableItems: ViewToken[] }) => {
     if (viewableItems.length > 0 && viewableItems[0].index !== null) {
       setCurrentIndex(viewableItems[0].index);
+      if (viewableItems[0].index > 0 && showSwipeHint) {
+        setShowSwipeHint(false);
+      }
     }
   }).current;
 
@@ -49,6 +53,12 @@ export default function ContentFeedScreen() {
           index,
         })}
       />
+      {showSwipeHint && (
+        <ThemedView style={styles.swipeHint}>
+          <Text style={styles.swipeHintCaret}>^</Text>
+          <Text style={styles.swipeHintText}>Swipe up for more</Text>
+        </ThemedView>
+      )}
     </ThemedView>
   );
 }
@@ -56,5 +66,23 @@ export default function ContentFeedScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  swipeHint: {
+    position: 'absolute',
+    bottom: 40,
+    alignSelf: 'center',
+    backgroundColor: 'transparent',
+    alignItems: 'center',
+  },
+  swipeHintCaret: {
+    color: '#999999',
+    fontSize: 20,
+    marginBottom: -4,
+  },
+  swipeHintText: {
+    color: '#999999',
+    fontSize: 14,
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
 });
