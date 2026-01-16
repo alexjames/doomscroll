@@ -43,4 +43,44 @@ export const SAMPLE_CONTENT: ContentData[] = [
       },
     ],
   },
+  {
+    id: '4',
+    title: 'Getting Started',
+    slides: [
+      {
+        id: '3-1',
+        text: 'Install Expo CLI and create your first app in minutes. Start building amazing mobile experiences today!',
+      },
+    ],
+  },
+  {
+    id: '5',
+    title: 'Getting Started',
+    slides: [
+      {
+        id: '3-1',
+        text: 'Install Expo CLI and create your first app in minutes. Start building amazing mobile experiences today!',
+      },
+    ],
+  },
+  {
+    id: '6',
+    title: 'Getting Started',
+    slides: [
+      {
+        id: '3-1',
+        text: 'Install Expo CLI and create your first app in minutes. Start building amazing mobile experiences today!',
+      },
+    ],
+  },
+  {
+    id: '7',
+    title: 'Getting Started',
+    slides: [
+      {
+        id: '3-1',
+        text: 'Install Expo CLI and create your first app in minutes. Start building amazing mobile experiences today!',
+      },
+    ],
+  },
 ];

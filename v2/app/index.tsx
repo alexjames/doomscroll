@@ -3,6 +3,7 @@ import { FlatList, Dimensions, StyleSheet, ViewToken } from 'react-native';
 import { ThemedView } from '@/components/themed-view';
 import { ContentItem } from '@/components/ContentItem';
 import { SAMPLE_CONTENT } from '@/data/sample-content';
+import { COLOR_SCHEMES } from '@/constants/theme';
 
 const { height: SCREEN_HEIGHT } = Dimensions.get('window');
 
@@ -23,13 +24,17 @@ export default function ContentFeedScreen() {
     <ThemedView style={styles.container}>
       <FlatList
         data={SAMPLE_CONTENT}
-        renderItem={({ item, index }) => (
-          <ContentItem
-            item={item}
-            height={SCREEN_HEIGHT}
-            isActive={index === currentIndex}
-          />
-        )}
+        renderItem={({ item, index }) => {
+          const colorScheme = COLOR_SCHEMES[index % COLOR_SCHEMES.length];
+          return (
+            <ContentItem
+              item={item}
+              height={SCREEN_HEIGHT}
+              isActive={index === currentIndex}
+              colorScheme={colorScheme}
+            />
+          );
+        }}
         keyExtractor={(item) => item.id}
         pagingEnabled
         snapToInterval={SCREEN_HEIGHT}

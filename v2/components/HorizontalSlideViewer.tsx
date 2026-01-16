@@ -1,18 +1,19 @@
 import React, { useState, useRef } from 'react';
-import { ScrollView, Dimensions, StyleSheet, NativeScrollEvent, NativeSyntheticEvent } from 'react-native';
+import { ScrollView, Dimensions, StyleSheet, NativeScrollEvent, NativeSyntheticEvent, View } from 'react-native';
 import { SlideCard } from './SlideCard';
 import { SlideIndicator } from './SlideIndicator';
 import { Slide } from '@/types/content';
-import { ThemedView } from './themed-view';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
 interface HorizontalSlideViewerProps {
   slides: Slide[];
   contentId: string;
+  backgroundColor: string;
+  textColor: string;
 }
 
-export const HorizontalSlideViewer = ({ slides, contentId }: HorizontalSlideViewerProps) => {
+export const HorizontalSlideViewer = ({ slides, contentId, backgroundColor, textColor }: HorizontalSlideViewerProps) => {
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const scrollViewRef = useRef<ScrollView>(null);
 
@@ -23,7 +24,7 @@ export const HorizontalSlideViewer = ({ slides, contentId }: HorizontalSlideView
   };
 
   return (
-    <ThemedView style={styles.container}>
+    <View style={[styles.container, { backgroundColor }]}>
       <ScrollView
         ref={scrollViewRef}
         horizontal
@@ -40,6 +41,8 @@ export const HorizontalSlideViewer = ({ slides, contentId }: HorizontalSlideView
             slide={slide}
             width={SCREEN_WIDTH}
             height={SCREEN_HEIGHT}
+            backgroundColor={backgroundColor}
+            textColor={textColor}
           />
         ))}
       </ScrollView>
@@ -49,7 +52,7 @@ export const HorizontalSlideViewer = ({ slides, contentId }: HorizontalSlideView
           currentSlide={currentSlideIndex}
         />
       )}
-    </ThemedView>
+    </View>
   );
 };
 

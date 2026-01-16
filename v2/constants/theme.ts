@@ -5,25 +5,27 @@
 
 import { Platform } from 'react-native';
 
-const tintColorLight = '#0a7ea4';
-const tintColorDark = '#fff';
+const mintGreenBackground = '#9FD9D4';
+const darkCharcoalText = '#2C3E50';
+const darkTealTint = '#1B4D5C';
+const mintGreenIcon = '#6BABA5';
 
 export const Colors = {
   light: {
-    text: '#11181C',
-    background: '#fff',
-    tint: tintColorLight,
-    icon: '#687076',
-    tabIconDefault: '#687076',
-    tabIconSelected: tintColorLight,
+    text: darkCharcoalText,
+    background: mintGreenBackground,
+    tint: darkTealTint,
+    icon: mintGreenIcon,
+    tabIconDefault: mintGreenIcon,
+    tabIconSelected: darkTealTint,
   },
   dark: {
-    text: '#ECEDEE',
-    background: '#151718',
-    tint: tintColorDark,
-    icon: '#9BA1A6',
-    tabIconDefault: '#9BA1A6',
-    tabIconSelected: tintColorDark,
+    text: darkCharcoalText,
+    background: mintGreenBackground,
+    tint: darkTealTint,
+    icon: mintGreenIcon,
+    tabIconDefault: mintGreenIcon,
+    tabIconSelected: darkTealTint,
   },
 };
 
@@ -51,3 +53,72 @@ export const Fonts = Platform.select({
     mono: "SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace",
   },
 });
+
+export interface ColorScheme {
+  background: string;
+  text: string;
+  tint: string;
+}
+
+export const COLOR_SCHEMES: ColorScheme[] = [
+  {
+    background: '#9FD9D4', // Mint Green
+    text: '#2C3E50',
+    tint: '#1B4D5C',
+  },
+  {
+    background: '#FFB5A7', // Coral
+    text: '#5C3A3A',
+    tint: '#8B4F47',
+  },
+  {
+    background: '#C8B6E2', // Lavender
+    text: '#3E2B52',
+    tint: '#5C4370',
+  },
+  {
+    background: '#FFD4A3', // Peach
+    text: '#5C4430',
+    tint: '#8B6842',
+  },
+  {
+    background: '#A7D8DE', // Sky Blue
+    text: '#2B4C5C',
+    tint: '#1B3847',
+  },
+  {
+    background: '#F5C2C7', // Rose Pink
+    text: '#5C3038',
+    tint: '#8B4853',
+  },
+  {
+    background: '#BFEAD5', // Sage Green
+    text: '#2F4538',
+    tint: '#1F3528',
+  },
+  {
+    background: '#E8D4B8', // Cream
+    text: '#4A3D2E',
+    tint: '#6B5A42',
+  },
+  {
+    background: '#D4C5F9', // Periwinkle
+    text: '#3B2E52',
+    tint: '#5A4370',
+  },
+  {
+    background: '#FFE5B4', // Vanilla
+    text: '#5C4E30',
+    tint: '#8B7542',
+  },
+  {
+    background: '#B8E6E6', // Aqua
+    text: '#2B4C4C',
+    tint: '#1B3838',
+  },
+  {
+    background: '#F4D4DC', // Blush
+    text: '#5C3A42',
+    tint: '#8B5763',
+  },
+];

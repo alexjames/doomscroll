@@ -1,22 +1,23 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
-import { ThemedView } from './themed-view';
-import { ThemedText } from './themed-text';
+import { StyleSheet, View, Text } from 'react-native';
 import { Slide } from '@/types/content';
+import { Fonts } from '@/constants/theme';
 
 interface SlideCardProps {
   slide: Slide;
   width: number;
   height: number;
+  backgroundColor: string;
+  textColor: string;
 }
 
-export const SlideCard = ({ slide, width, height }: SlideCardProps) => {
+export const SlideCard = ({ slide, width, height, backgroundColor, textColor }: SlideCardProps) => {
   return (
-    <ThemedView style={[styles.container, { width, height }]}>
-      <ThemedText type="title" style={styles.text}>
+    <View style={[styles.container, { width, height, backgroundColor }]}>
+      <Text style={[styles.text, { color: textColor }]}>
         {slide.text}
-      </ThemedText>
-    </ThemedView>
+      </Text>
+    </View>
   );
 };
 
@@ -30,5 +31,6 @@ const styles = StyleSheet.create({
     fontSize: 28,
     textAlign: 'center',
     lineHeight: 40,
+    fontFamily: Fonts?.serif || 'serif',
   },
 });
