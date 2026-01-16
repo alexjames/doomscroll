@@ -1,0 +1,1 @@
+Jefferey Dean, Chief Scientist at Google is known for his pioneering work in systems powering Google's infrastructure such as MapReduce, Big Table, Spanner and Tensor Flow.
