@@ -118,83 +118,56 @@ export const SAMPLE_CONTENT: ContentData[] = [
   },
   {
     id: '1',
-    title: 'Amazing Animal Facts',
+    title: 'Tech IPO 2026',
     slides: [
       {
         id: '1-1',
-        text: 'Did you know? Octopuses have three hearts and blue blood!',
+        headline: 'Top tech companies expected to IPO in 2026',
+        text: '',
       },
       {
         id: '1-2',
-        text: 'Did you know? A group of flamingos is called a "flamboyance".',
+        headline: 'Stripe',
+        text: ['Stripe is a fintech SaaS company that makes money by charging businesses to process online payments and automate financial operations, was most recently valued around $91.5 billion–$107 billion in private secondary and funding rounds.'],
       },
       {
         id: '1-3',
-        text: 'Did you know? Butterflies can taste with their feet.',
+        headline: 'Anthropic',
+        text: ['Anthropic is a generative-AI company that makes money by selling enterprise AI services, APIs and subscriptions around its Claude models and related tools, has been valued at roughly $183 billion (with talks of $300 billion–$350 billion+ private funding valuations) in late-2025/early-2026, and is reportedly preparing for a possible IPO as early as 2026.'],
+      },
+      {
+        id: '1-4',
+        headline: 'SpaceX',
+        text: ['Elon Musk\'s SpaceX is a private aerospace and satellite-internet company that makes money by launching rockets and spacecraft for governments and commercial customers and selling subscriptions to its Starlink satellite broadband, is currently valued in private markets around $800 billion–$1.5 trillion+ ahead of a planned public offering, and is widely reported to be targeting an IPO in mid-to-late 2026.'],
       },
     ],
   },
   {
     id: '2',
-    title: 'Space Wonders',
+    title: 'Cyber Incident',
     slides: [
       {
-        id: '2-1',
-        text: 'Did you know? A day on Venus is longer than a year on Venus!',
+        id: '1-1',
+        headline: 'The 16 Billion Credential “Mega Leak”',
+        text: 'Largest Password Exposure in History',
       },
       {
-        id: '2-2',
-        text: 'Did you know? There are more stars in the universe than grains of sand on all Earth\'s beaches.',
+        id: '1-2',
+        text: ['In mid-2025, researchers at Cybernews uncovered 30 exposed datasets containing more than 16 billion login credentials.',
+          'These included passwords for Google, Apple, Facebook, Telegram, GitHub and even government services.'
+        ],
       },
-    ],
-  },
-  {
-    id: '3',
-    title: 'Human Body',
-    slides: [
       {
-        id: '3-1',
-        text: 'Did you know? Your brain uses 20% of your body\'s energy despite being only 2% of your body weight.',
+        id: '1-3',
+        text: ['While there was no single breach of those big tech firms, the dataset was a massive aggregation of credentials stolen by infostealer malware and earlier breaches.',
+          'Hosted openly online for a period, it effectively turned  into a “credential buffet” for attackers.'
+        ],
       },
-    ],
-  },
-  {
-    id: '4',
-    title: 'Nature & Plants',
-    slides: [
       {
-        id: '4-1',
-        text: 'Did you know? Bamboo is the fastest-growing plant on Earth, growing up to 35 inches per day!',
-      },
-    ],
-  },
-  {
-    id: '5',
-    title: 'History Facts',
-    slides: [
-      {
-        id: '5-1',
-        text: 'Did you know? Cleopatra lived closer to the Moon landing than to the construction of the Great Pyramid.',
-      },
-    ],
-  },
-  {
-    id: '6',
-    title: 'Ocean Mysteries',
-    slides: [
-      {
-        id: '6-1',
-        text: 'Did you know? We\'ve explored less than 5% of the world\'s oceans!',
-      },
-    ],
-  },
-  {
-    id: '7',
-    title: 'Technology Trivia',
-    slides: [
-      {
-        id: '7-1',
-        text: 'Did you know? The first computer mouse was made of wood and invented in 1964.',
+        id: '1-4',
+        text: ['This attack was the accumulated result of years of poor password hygiene by employees at tech firms.',
+          'Any organisation whose users re-used passwords could face stealthy account takeovers on VPNs, email, CRM and cloud consoles.'
+        ],
       },
     ],
   },
