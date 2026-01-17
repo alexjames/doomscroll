@@ -50,6 +50,7 @@ export const HorizontalSlideViewer = ({ slides, contentId, backgroundColor, text
         <SlideIndicator
           totalSlides={slides.length}
           currentSlide={currentSlideIndex}
+          color={textColor}
         />
       )}
     </View>

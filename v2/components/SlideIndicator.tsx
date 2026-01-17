@@ -1,30 +1,29 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { useThemeColor } from '@/hooks/use-theme-color';
 
 interface SlideIndicatorProps {
   totalSlides: number;
   currentSlide: number;
+  color: string;
 }
 
-export const SlideIndicator = ({ totalSlides, currentSlide }: SlideIndicatorProps) => {
-  const activeDotColor = useThemeColor({}, 'tint');
-  const inactiveDotColor = useThemeColor({ light: '#CCCCCC', dark: '#555555' }, 'icon');
+export const SlideIndicator = ({ totalSlides, currentSlide, color }: SlideIndicatorProps) => {
+  const segmentWidth = 100 / totalSlides;
+  const fillLeft = currentSlide * segmentWidth;
 
   return (
     <View style={styles.container}>
-      {Array.from({ length: totalSlides }).map((_, index) => (
-        <View
-          key={index}
-          style={[
-            styles.dot,
-            {
-              backgroundColor: index === currentSlide ? activeDotColor : inactiveDotColor,
-              opacity: index === currentSlide ? 1 : 0.5,
-            },
-          ]}
-        />
-      ))}
+      <View style={[styles.track, { backgroundColor: color }]} />
+      <View
+        style={[
+          styles.fill,
+          {
+            backgroundColor: color,
+            left: `${fillLeft}%`,
+            width: `${segmentWidth}%`,
+          },
+        ]}
+      />
     </View>
   );
 };
@@ -32,17 +31,23 @@ export const SlideIndicator = ({ totalSlides, currentSlide }: SlideIndicatorProp
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
-    bottom: 40,
+    bottom: 50,
+    left: 40,
+    right: 40,
+    height: 3,
+  },
+  track: {
+    position: 'absolute',
     left: 0,
     right: 0,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: 8,
+    height: 3,
+    borderRadius: 1.5,
+    opacity: 0.3,
   },
-  dot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
+  fill: {
+    position: 'absolute',
+    left: 0,
+    height: 3,
+    borderRadius: 1.5,
   },
 });
