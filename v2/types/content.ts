@@ -1,6 +1,7 @@
 export interface Slide {
   id: string;
   text: string;
+  headline?: string;
   backgroundColor?: string;
   textColor?: string;
 }

@@ -14,6 +14,11 @@ interface SlideCardProps {
 export const SlideCard = ({ slide, width, height, backgroundColor, textColor }: SlideCardProps) => {
   return (
     <View style={[styles.container, { width, height, backgroundColor }]}>
+      {slide.headline && (
+        <Text style={[styles.headline, { color: textColor }]}>
+          {slide.headline}
+        </Text>
+      )}
       <Text style={[styles.text, { color: textColor }]}>
         {slide.text}
       </Text>
@@ -26,6 +31,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 40,
+  },
+  headline: {
+    fontSize: 28,
+    textAlign: 'center',
+    fontFamily: Fonts?.serif || 'serif',
+    fontWeight: 'bold',
+    marginBottom: 24,
   },
   text: {
     fontSize: 28,
