@@ -20,7 +20,9 @@ export const HorizontalSlideViewer = ({ slides, contentId, backgroundColor, text
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const offsetX = event.nativeEvent.contentOffset.x;
     const index = Math.round(offsetX / SCREEN_WIDTH);
-    setCurrentSlideIndex(index);
+    if (index !== currentSlideIndex) {
+      setCurrentSlideIndex(index);
+    }
   };
 
   return (
@@ -30,7 +32,8 @@ export const HorizontalSlideViewer = ({ slides, contentId, backgroundColor, text
         horizontal
         pagingEnabled
         showsHorizontalScrollIndicator={false}
-        onMomentumScrollEnd={handleScroll}
+        onScroll={handleScroll}
+        scrollEventThrottle={16}
         decelerationRate="fast"
         snapToInterval={SCREEN_WIDTH}
         snapToAlignment="start"

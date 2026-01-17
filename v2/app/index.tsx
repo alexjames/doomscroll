@@ -76,18 +76,19 @@ const styles = StyleSheet.create({
   },
   swipeHint: {
     position: 'absolute',
-    bottom: 40,
+    bottom: 0,
     alignSelf: 'center',
     backgroundColor: 'transparent',
     alignItems: 'center',
+    paddingBottom: 10,
   },
   swipeHintCaret: {
-    color: '#999999',
+    color: '#F5F5F5',
     fontSize: 20,
     marginBottom: -4,
   },
   swipeHintText: {
-    color: '#999999',
+    color: '#F5F5F5',
     fontSize: 14,
     fontWeight: 'bold',
     textAlign: 'center',
