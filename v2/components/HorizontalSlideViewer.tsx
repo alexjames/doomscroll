@@ -4,16 +4,17 @@ import { SlideCard } from './SlideCard';
 import { SlideIndicator } from './SlideIndicator';
 import { Slide } from '@/types/content';
 
-const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
+const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
 interface HorizontalSlideViewerProps {
   slides: Slide[];
   contentId: string;
   backgroundColor: string;
   textColor: string;
+  height: number;
 }
 
-export const HorizontalSlideViewer = ({ slides, contentId, backgroundColor, textColor }: HorizontalSlideViewerProps) => {
+export const HorizontalSlideViewer = ({ slides, contentId, backgroundColor, textColor, height }: HorizontalSlideViewerProps) => {
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const scrollViewRef = useRef<ScrollView>(null);
 
@@ -43,7 +44,7 @@ export const HorizontalSlideViewer = ({ slides, contentId, backgroundColor, text
             key={slide.id}
             slide={slide}
             width={SCREEN_WIDTH}
-            height={SCREEN_HEIGHT}
+            height={height}
             backgroundColor={backgroundColor}
             textColor={textColor}
           />

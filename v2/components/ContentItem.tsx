@@ -19,6 +19,7 @@ export const ContentItem = React.memo(({ item, height, isActive, colorScheme }: 
         contentId={item.id}
         backgroundColor={colorScheme.background}
         textColor={colorScheme.text}
+        height={height}
       />
     </View>
   );

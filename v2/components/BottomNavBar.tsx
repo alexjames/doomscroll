@@ -45,12 +45,13 @@ export const BottomNavBar = ({ activeTab, onTabChange }: BottomNavBarProps) => {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
+    justifyContent: 'center',
+    gap: 80,
     backgroundColor: '#000000',
     paddingVertical: 4,
     paddingBottom: 10,
   },
   tab: {
-    flex: 1,
     alignItems: 'center',
     gap: 4,
   },
