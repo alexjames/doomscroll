@@ -1,6 +1,6 @@
 export interface Slide {
   id: string;
-  text: string;
+  text: string | string[];
   headline?: string;
   image?: string;
   backgroundColor?: string;

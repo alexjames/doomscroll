@@ -11,11 +11,22 @@ interface SlideCardProps {
   textColor: string;
 }
 
+const getTextSizing = (fieldCount: number) => {
+  if (fieldCount <= 1) return { fontSize: 28, lineHeight: 40, gap: 24 };
+  if (fieldCount <= 3) return { fontSize: 24, lineHeight: 34, gap: 20 };
+  if (fieldCount <= 5) return { fontSize: 20, lineHeight: 28, gap: 16 };
+  return { fontSize: 16, lineHeight: 22, gap: 12 };
+};
+
 export const SlideCard = ({ slide, width, height, backgroundColor, textColor }: SlideCardProps) => {
   const hasImage = !!slide.image;
-  const hasText = !!slide.text;
   const hasHeadline = !!slide.headline;
+
+  const textFields = Array.isArray(slide.text) ? slide.text : (slide.text ? [slide.text] : []);
+  const hasText = textFields.length > 0;
   const isImageOnly = hasImage && !hasText && !hasHeadline;
+
+  const { fontSize, lineHeight, gap } = getTextSizing(textFields.length);
 
   return (
     <View style={[styles.container, { width, height, backgroundColor }]}>
@@ -38,9 +49,19 @@ export const SlideCard = ({ slide, width, height, backgroundColor, textColor }: 
         />
       )}
       {hasText && (
-        <Text style={[styles.text, { color: textColor }]}>
-          {slide.text}
-        </Text>
+        <View style={[styles.textContainer, { gap }]}>
+          {textFields.map((text, index) => (
+            <Text
+              key={index}
+              style={[
+                styles.text,
+                { color: textColor, fontSize, lineHeight },
+              ]}
+            >
+              {text}
+            </Text>
+          ))}
+        </View>
       )}
     </View>
   );
@@ -64,10 +85,11 @@ const styles = StyleSheet.create({
     height: '100%',
     marginVertical: 16,
   },
+  textContainer: {
+    alignItems: 'center',
+  },
   text: {
-    fontSize: 28,
     textAlign: 'center',
-    lineHeight: 40,
     fontFamily: Fonts?.serif || 'serif',
   },
 });

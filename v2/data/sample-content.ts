@@ -8,137 +8,111 @@ export const SAMPLE_CONTENT: ContentData[] = [
       {
         id: '8-0',
         headline: 'Sam Altman\'s 13 Principles Of Success',
-        text: ""
+        text: '',
       },
       {
         id: '8-1',
         headline: 'Compound Yourself',
-        text: 'Look for exponential growth in your career and business.',
+        text: [
+          'Look for exponential growth in your career and business.',
+          'Focus on long-term success and work on projects that have the potential to make everything else seem small.',
+        ],
       },
       {
         id: '8-2',
-        headline: 'Compound Yourself',
-        text: 'Focus on long-term success and work on projects that have the potential to make everything else seem small.',
+        headline: 'Have Almost Too Much Self-Belief',
+        text: [
+          'Trust yourself. Self-belief is necessary to take contrarian positions and create value.',
+          'Balance confidence with awareness. Listen to criticism but stick to your convictions.',
+        ],
       },
       {
         id: '8-3',
-        headline: 'Have Almost Too Much Self-Belief',
-        text: 'Trust yourself. Self-belief is necessary to take contrarian positions and create value.',
+        headline: 'Learn to Think Independently',
+        text: [
+          'Think from first principles and create your own ideas.',
+          'Take risks, fail often, and keep learning.',
+        ],
       },
       {
         id: '8-4',
-        headline: 'Have Almost Too Much Self-Belief',
-        text: 'Balance confidence with awareness. Listen to criticism but stick to your convictions.',
+        headline: 'Get Good at Sales',
+        text: [
+          'Selling is essential. Convince others of what you believe in with clarity and authenticity.',
+          'Master communication: Write clearly and speak directly.',
+        ],
       },
       {
         id: '8-5',
-        headline: 'Learn to Think Independently',
-        text: 'Think from first principles and create your own ideas.',
+        headline: 'Make It Easy to Take Risks',
+        text: [
+          'Take risks early. The reward is often worth the risk, especially in the beginning.',
+          'Keep your life flexible to take bigger bets as you learn.',
+        ],
       },
       {
         id: '8-6',
-        headline: 'Learn to Think Independently',
-        text: 'Take risks, fail often, and keep learning.',
+        headline: 'Focus',
+        text: [
+          'Work on what matters. Cut distractions and focus on your top priorities.',
+          'Be relentless in getting things done fast.',
+        ],
       },
       {
         id: '8-7',
-        headline: 'Get Good at Sales',
-        text: 'Selling is essential. Convince others of what you believe in with clarity and authenticity.',
+        headline: 'Work Hard',
+        text: [
+          'Hard work compounds. Talent alone won\'t get you to the top.',
+          'Work efficiently, but put in the effort required for extreme success.',
+        ],
       },
       {
         id: '8-8',
-        headline: 'Get Good at Sales',
-        text: 'Master communication: Write clearly and speak directly.',
+        headline: 'Be Bold',
+        text: [
+          'Take on big, ambitious projects. If others are not doing it, there\'s an opportunity.',
+          'Follow your curiosity and pursue what excites you.',
+        ],
       },
       {
         id: '8-9',
-        headline: 'Make It Easy to Take Risks',
-        text: 'Take risks early. The reward is often worth the risk, especially in the beginning.',
+        headline: 'Be Willful',
+        text: [
+          'Keep pushing forward, even when things get tough.',
+          'Be optimistic, persistence turns luck in your favor.',
+        ],
       },
       {
         id: '8-10',
-        headline: 'Make It Easy to Take Risks',
-        text: 'Keep your life flexible to take bigger bets as you learn.',
+        headline: 'Be Hard to Compete With',
+        text: [
+          'Create leverage: Build a unique skill set, brand, or network that others can\'t replicate.',
+          'Do things differently to stand out.',
+        ],
       },
       {
         id: '8-11',
-        headline: 'Focus',
-        text: 'Work on what matters. Cut distractions and focus on your top priorities.',
+        headline: 'Build a Network',
+        text: [
+          'Surround yourself with talent. Help others and build relationships that will pay off later.',
+          'Build a reputation for being generous and reliable.',
+        ],
       },
       {
         id: '8-12',
-        headline: 'Focus',
-        text: 'Be relentless in getting things done fast.',
+        headline: 'You Get Rich by Owning Things',
+        text: [
+          'Own equity in things that appreciate in value, like businesses or assets.',
+          'Scale what people want for maximum value.',
+        ],
       },
       {
         id: '8-13',
-        headline: 'Work Hard',
-        text: 'Hard work compounds. Talent alone won\'t get you to the top.',
-      },
-      {
-        id: '8-14',
-        headline: 'Work Hard',
-        text: 'Work efficiently, but put in the effort required for extreme success.',
-      },
-      {
-        id: '8-15',
-        headline: 'Be Bold',
-        text: 'Take on big, ambitious projects. If others are not doing it, there\'s an opportunity.',
-      },
-      {
-        id: '8-16',
-        headline: 'Be Bold',
-        text: 'Follow your curiosity and pursue what excites you.',
-      },
-      {
-        id: '8-17',
-        headline: 'Be Willful',
-        text: 'Keep pushing forward, even when things get tough.',
-      },
-      {
-        id: '8-18',
-        headline: 'Be Willful',
-        text: 'Be optimistic, persistence turns luck in your favor.',
-      },
-      {
-        id: '8-19',
-        headline: 'Be Hard to Compete With',
-        text: 'Create leverage: Build a unique skill set, brand, or network that others can\'t replicate.',
-      },
-      {
-        id: '8-20',
-        headline: 'Be Hard to Compete With',
-        text: 'Do things differently to stand out.',
-      },
-      {
-        id: '8-21',
-        headline: 'Build a Network',
-        text: 'Surround yourself with talent. Help others and build relationships that will pay off later.',
-      },
-      {
-        id: '8-22',
-        headline: 'Build a Network',
-        text: 'Build a reputation for being generous and reliable.',
-      },
-      {
-        id: '8-23',
-        headline: 'You Get Rich by Owning Things',
-        text: 'Own equity in things that appreciate in value, like businesses or assets.',
-      },
-      {
-        id: '8-24',
-        headline: 'You Get Rich by Owning Things',
-        text: 'Scale what people want for maximum value.',
-      },
-      {
-        id: '8-25',
         headline: 'Be Internally Driven',
-        text: 'Don\'t do it for others. Your drive should come from within, not to impress anyone.',
-      },
-      {
-        id: '8-26',
-        headline: 'Be Internally Driven',
-        text: 'Follow your passion and take risks based on your own beliefs.',
+        text: [
+          'Don\'t do it for others. Your drive should come from within, not to impress anyone.',
+          'Follow your passion and take risks based on your own beliefs.',
+        ],
       },
     ],
   },
@@ -221,6 +195,44 @@ export const SAMPLE_CONTENT: ContentData[] = [
       {
         id: '7-1',
         text: 'Did you know? The first computer mouse was made of wood and invented in 1964.',
+      },
+    ],
+  },
+  {
+    id: '10',
+    title: 'Multiple Text Fields Demo',
+    slides: [
+      {
+        id: '10-1',
+        headline: 'Two Text Fields',
+        text: [
+          'This is the first text field with some content.',
+          'This is the second text field with different content.',
+        ],
+      },
+      {
+        id: '10-2',
+        headline: 'Four Text Fields',
+        text: [
+          'First point about something interesting.',
+          'Second point with more details.',
+          'Third point expanding on the topic.',
+          'Fourth point wrapping things up.',
+        ],
+      },
+      {
+        id: '10-3',
+        headline: 'Eight Text Fields',
+        text: [
+          'Point 1: Keep it short.',
+          'Point 2: Stay focused.',
+          'Point 3: Be clear.',
+          'Point 4: Add value.',
+          'Point 5: Think big.',
+          'Point 6: Act fast.',
+          'Point 7: Learn always.',
+          'Point 8: Never give up.',
+        ],
       },
     ],
   },
