@@ -46,8 +46,8 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     backgroundColor: '#000000',
-    paddingVertical: 8,
-    paddingBottom: 16,
+    paddingVertical: 4,
+    paddingBottom: 10,
   },
   tab: {
     flex: 1,
