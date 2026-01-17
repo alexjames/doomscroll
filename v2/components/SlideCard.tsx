@@ -9,16 +9,44 @@ interface SlideCardProps {
   height: number;
   backgroundColor: string;
   textColor: string;
+  isFirstSlide?: boolean;
 }
 
-const getTextSizing = (fieldCount: number) => {
-  if (fieldCount <= 1) return { fontSize: 28, lineHeight: 40, gap: 24 };
-  if (fieldCount <= 3) return { fontSize: 24, lineHeight: 34, gap: 20 };
-  if (fieldCount <= 5) return { fontSize: 20, lineHeight: 28, gap: 16 };
-  return { fontSize: 16, lineHeight: 22, gap: 12 };
+const getTextSizing = (fieldCount: number, totalCharCount: number) => {
+  // Base sizing on field count
+  let baseFontSize: number;
+  let gap: number;
+
+  if (fieldCount <= 1) {
+    baseFontSize = 28;
+    gap = 24;
+  } else if (fieldCount <= 3) {
+    baseFontSize = 24;
+    gap = 20;
+  } else if (fieldCount <= 5) {
+    baseFontSize = 20;
+    gap = 16;
+  } else {
+    baseFontSize = 16;
+    gap = 12;
+  }
+
+  // Reduce font size for very long text
+  let fontSize = baseFontSize;
+  if (totalCharCount > 600) {
+    fontSize = Math.max(14, baseFontSize - 6);
+  } else if (totalCharCount > 400) {
+    fontSize = Math.max(16, baseFontSize - 4);
+  } else if (totalCharCount > 250) {
+    fontSize = Math.max(18, baseFontSize - 2);
+  }
+
+  const lineHeight = Math.round(fontSize * 1.4);
+
+  return { fontSize, lineHeight, gap };
 };
 
-export const SlideCard = ({ slide, width, height, backgroundColor, textColor }: SlideCardProps) => {
+export const SlideCard = ({ slide, width, height, backgroundColor, textColor, isFirstSlide = false }: SlideCardProps) => {
   const hasImage = !!slide.image;
   const hasHeadline = !!slide.headline;
 
@@ -26,7 +54,8 @@ export const SlideCard = ({ slide, width, height, backgroundColor, textColor }: 
   const hasText = textFields.length > 0;
   const isImageOnly = hasImage && !hasText && !hasHeadline;
 
-  const { fontSize, lineHeight, gap } = getTextSizing(textFields.length);
+  const totalCharCount = textFields.reduce((sum, text) => sum + text.length, 0);
+  const { fontSize, lineHeight, gap } = getTextSizing(textFields.length, totalCharCount);
 
   return (
     <View style={[styles.container, { width, height, backgroundColor }]}>
@@ -55,7 +84,12 @@ export const SlideCard = ({ slide, width, height, backgroundColor, textColor }: 
               key={index}
               style={[
                 styles.text,
-                { color: textColor, fontSize, lineHeight },
+                {
+                  color: textColor,
+                  fontSize,
+                  lineHeight,
+                  textAlign: isFirstSlide ? 'center' : 'justify',
+                },
               ]}
             >
               {text}
@@ -89,7 +123,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   text: {
-    textAlign: 'center',
     fontFamily: Fonts?.serif || 'serif',
   },
 });

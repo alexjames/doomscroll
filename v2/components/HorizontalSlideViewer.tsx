@@ -39,7 +39,7 @@ export const HorizontalSlideViewer = ({ slides, contentId, backgroundColor, text
         snapToInterval={SCREEN_WIDTH}
         snapToAlignment="start"
       >
-        {slides.map((slide) => (
+        {slides.map((slide, index) => (
           <SlideCard
             key={slide.id}
             slide={slide}
@@ -47,6 +47,7 @@ export const HorizontalSlideViewer = ({ slides, contentId, backgroundColor, text
             height={height}
             backgroundColor={backgroundColor}
             textColor={textColor}
+            isFirstSlide={index === 0}
           />
         ))}
       </ScrollView>
