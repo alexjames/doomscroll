@@ -8,22 +8,21 @@ interface SlideIndicatorProps {
 }
 
 export const SlideIndicator = ({ totalSlides, currentSlide, color }: SlideIndicatorProps) => {
-  const segmentWidth = 100 / totalSlides;
-  const fillLeft = currentSlide * segmentWidth;
-
   return (
-    <View style={styles.container}>
-      <View style={[styles.track, { backgroundColor: color }]} />
-      <View
-        style={[
-          styles.fill,
-          {
-            backgroundColor: color,
-            left: `${fillLeft}%`,
-            width: `${segmentWidth}%`,
-          },
-        ]}
-      />
+    <View style={[styles.container, { backgroundColor: `${color}4D` }]}>
+      {Array.from({ length: totalSlides }).map((_, index) => (
+        <View
+          key={index}
+          style={[
+            styles.segment,
+            {
+              backgroundColor: index === currentSlide ? color : 'transparent',
+              borderRightWidth: index < totalSlides - 1 ? 2 : 0,
+              borderRightColor: 'transparent',
+            },
+          ]}
+        />
+      ))}
     </View>
   );
 };
@@ -34,20 +33,13 @@ const styles = StyleSheet.create({
     bottom: 50,
     left: 40,
     right: 40,
-    height: 3,
+    height: 5,
+    borderRadius: 2.5,
+    overflow: 'hidden',
+    flexDirection: 'row',
   },
-  track: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    height: 3,
-    borderRadius: 1.5,
-    opacity: 0.3,
-  },
-  fill: {
-    position: 'absolute',
-    left: 0,
-    height: 3,
-    borderRadius: 1.5,
+  segment: {
+    flex: 1,
+    height: 5,
   },
 });
