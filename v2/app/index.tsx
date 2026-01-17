@@ -1,13 +1,18 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { FlatList, Dimensions, StyleSheet, ViewToken, Text, Animated } from 'react-native';
+import React, { useState, useRef } from 'react';
+import { FlatList, Dimensions, StyleSheet, ViewToken, Text, Animated, View } from 'react-native';
 import { ThemedView } from '@/components/themed-view';
 import { ContentItem } from '@/components/ContentItem';
 import { SAMPLE_CONTENT } from '@/data/sample-content';
 import { COLOR_SCHEMES } from '@/constants/theme';
+import { BottomNavBar } from '@/components/BottomNavBar';
+import { ArticlesScreen } from '@/components/ArticlesScreen';
+
+type TabType = 'articles' | 'shorts';
 
 const { height: SCREEN_HEIGHT } = Dimensions.get('window');
 
 export default function ContentFeedScreen() {
+  const [activeTab, setActiveTab] = useState<TabType>('shorts');
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showSwipeHint, setShowSwipeHint] = useState(true);
   const fadeAnim = useRef(new Animated.Value(1)).current;
@@ -32,46 +37,62 @@ export default function ContentFeedScreen() {
   }).current;
 
   return (
-    <ThemedView style={styles.container}>
-      <FlatList
-        data={SAMPLE_CONTENT}
-        renderItem={({ item, index }) => {
-          const colorScheme = COLOR_SCHEMES[index % COLOR_SCHEMES.length];
-          return (
-            <ContentItem
-              item={item}
-              height={SCREEN_HEIGHT}
-              isActive={index === currentIndex}
-              colorScheme={colorScheme}
+    <View style={styles.container}>
+      <View style={styles.content}>
+        {activeTab === 'shorts' ? (
+          <ThemedView style={styles.feedContainer}>
+            <FlatList
+              data={SAMPLE_CONTENT}
+              renderItem={({ item, index }) => {
+                const colorScheme = COLOR_SCHEMES[index % COLOR_SCHEMES.length];
+                return (
+                  <ContentItem
+                    item={item}
+                    height={SCREEN_HEIGHT - 80}
+                    isActive={index === currentIndex}
+                    colorScheme={colorScheme}
+                  />
+                );
+              }}
+              keyExtractor={(item) => item.id}
+              pagingEnabled
+              snapToInterval={SCREEN_HEIGHT - 80}
+              snapToAlignment="start"
+              decelerationRate="fast"
+              showsVerticalScrollIndicator={false}
+              onViewableItemsChanged={onViewableItemsChanged}
+              viewabilityConfig={viewabilityConfig}
+              getItemLayout={(_, index) => ({
+                length: SCREEN_HEIGHT - 80,
+                offset: (SCREEN_HEIGHT - 80) * index,
+                index,
+              })}
             />
-          );
-        }}
-        keyExtractor={(item) => item.id}
-        pagingEnabled
-        snapToInterval={SCREEN_HEIGHT}
-        snapToAlignment="start"
-        decelerationRate="fast"
-        showsVerticalScrollIndicator={false}
-        onViewableItemsChanged={onViewableItemsChanged}
-        viewabilityConfig={viewabilityConfig}
-        getItemLayout={(data, index) => ({
-          length: SCREEN_HEIGHT,
-          offset: SCREEN_HEIGHT * index,
-          index,
-        })}
-      />
-      {showSwipeHint && (
-        <Animated.View style={[styles.swipeHint, { opacity: fadeAnim }]}>
-          <Text style={styles.swipeHintCaret}>^</Text>
-          <Text style={styles.swipeHintText}>Swipe up for more</Text>
-        </Animated.View>
-      )}
-    </ThemedView>
+            {showSwipeHint && (
+              <Animated.View style={[styles.swipeHint, { opacity: fadeAnim }]}>
+                <Text style={styles.swipeHintCaret}>^</Text>
+                <Text style={styles.swipeHintText}>Swipe up for more</Text>
+              </Animated.View>
+            )}
+          </ThemedView>
+        ) : (
+          <ArticlesScreen />
+        )}
+      </View>
+      <BottomNavBar activeTab={activeTab} onTabChange={setActiveTab} />
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+    backgroundColor: '#000000',
+  },
+  content: {
+    flex: 1,
+  },
+  feedContainer: {
     flex: 1,
   },
   swipeHint: {
