@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, Image } from 'react-native';
 import { Slide } from '@/types/content';
 import { Fonts } from '@/constants/theme';
 
@@ -12,16 +12,36 @@ interface SlideCardProps {
 }
 
 export const SlideCard = ({ slide, width, height, backgroundColor, textColor }: SlideCardProps) => {
+  const hasImage = !!slide.image;
+  const hasText = !!slide.text;
+  const hasHeadline = !!slide.headline;
+  const isImageOnly = hasImage && !hasText && !hasHeadline;
+
   return (
     <View style={[styles.container, { width, height, backgroundColor }]}>
-      {slide.headline && (
+      {hasHeadline && (
         <Text style={[styles.headline, { color: textColor }]}>
           {slide.headline}
         </Text>
       )}
-      <Text style={[styles.text, { color: textColor }]}>
-        {slide.text}
-      </Text>
+      {hasImage && (
+        <Image
+          source={{ uri: slide.image }}
+          style={[
+            styles.image,
+            {
+              maxWidth: width * 0.8,
+              maxHeight: isImageOnly ? height * 0.7 : height * 0.5,
+            },
+          ]}
+          resizeMode="contain"
+        />
+      )}
+      {hasText && (
+        <Text style={[styles.text, { color: textColor }]}>
+          {slide.text}
+        </Text>
+      )}
     </View>
   );
 };
@@ -38,6 +58,11 @@ const styles = StyleSheet.create({
     fontFamily: Fonts?.serif || 'serif',
     fontWeight: 'bold',
     marginBottom: 24,
+  },
+  image: {
+    width: '100%',
+    height: '100%',
+    marginVertical: 16,
   },
   text: {
     fontSize: 28,

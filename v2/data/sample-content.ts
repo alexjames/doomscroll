@@ -224,4 +224,32 @@ export const SAMPLE_CONTENT: ContentData[] = [
       },
     ],
   },
+  {
+    id: '9',
+    title: 'Beautiful Nature',
+    slides: [
+      {
+        id: '9-1',
+        image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800',
+        text: '',
+      },
+      {
+        id: '9-2',
+        headline: 'Mountain Majesty',
+        image: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800',
+        text: 'The Alps stretch across eight countries and are home to over 30,000 animal species.',
+      },
+      {
+        id: '9-3',
+        headline: 'Ocean Depths',
+        image: 'https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=800',
+        text: '',
+      },
+      {
+        id: '9-4',
+        image: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=800',
+        text: '',
+      },
+    ],
+  },
 ];
