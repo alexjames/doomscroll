@@ -35,10 +35,10 @@ export function MatchTheFollowing({
     setSelectedLeft(null);
   };
 
-  const getMatchedRightId = (leftId: string) => matches[leftId];
+  const getMatchedRightId = (leftId: string) => matches?.[leftId];
 
   const isRightMatched = (rightId: string) =>
-    Object.values(matches).includes(rightId);
+    matches ? Object.values(matches).includes(rightId) : false;
 
   const getLeftStyle = (id: string) => {
     const isSelected = selectedLeft === id;
@@ -59,7 +59,7 @@ export function MatchTheFollowing({
 
   const getRightStyle = (id: string) => {
     const matched = isRightMatched(id);
-    const leftId = Object.keys(matches).find((key) => matches[key] === id);
+    const leftId = matches ? Object.keys(matches).find((key) => matches[key] === id) : undefined;
     const isCorrect = leftId === id;
 
     if (isSubmitted && matched) {

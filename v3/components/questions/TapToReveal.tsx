@@ -1,11 +1,5 @@
-import React from 'react';
-import { View, Text, Pressable, StyleSheet } from 'react-native';
-import Animated, {
-  useAnimatedStyle,
-  withSpring,
-  interpolate,
-  useSharedValue,
-} from 'react-native-reanimated';
+import React, { useEffect, useRef } from 'react';
+import { View, Text, Pressable, StyleSheet, Animated } from 'react-native';
 import { TapToRevealQuestion } from '@/types/question';
 import { Colors } from '@/constants/Colors';
 
@@ -26,26 +20,35 @@ export function TapToReveal({
   onSelfAssess,
   isSubmitted,
 }: TapToRevealProps) {
-  const flip = useSharedValue(0);
+  const flipAnim = useRef(new Animated.Value(0)).current;
 
-  React.useEffect(() => {
-    flip.value = withSpring(isRevealed ? 1 : 0, { damping: 15 });
-  }, [isRevealed, flip]);
+  useEffect(() => {
+    Animated.spring(flipAnim, {
+      toValue: isRevealed ? 1 : 0,
+      friction: 8,
+      tension: 10,
+      useNativeDriver: true,
+    }).start();
+  }, [isRevealed, flipAnim]);
 
-  const frontAnimatedStyle = useAnimatedStyle(() => {
-    const rotateY = interpolate(flip.value, [0, 1], [0, 180]);
-    return {
-      transform: [{ perspective: 1000 }, { rotateY: `${rotateY}deg` }],
-      backfaceVisibility: 'hidden',
-    };
+  const frontRotation = flipAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['0deg', '180deg'],
   });
 
-  const backAnimatedStyle = useAnimatedStyle(() => {
-    const rotateY = interpolate(flip.value, [0, 1], [180, 360]);
-    return {
-      transform: [{ perspective: 1000 }, { rotateY: `${rotateY}deg` }],
-      backfaceVisibility: 'hidden',
-    };
+  const backRotation = flipAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['180deg', '360deg'],
+  });
+
+  const frontOpacity = flipAnim.interpolate({
+    inputRange: [0, 0.5, 1],
+    outputRange: [1, 0, 0],
+  });
+
+  const backOpacity = flipAnim.interpolate({
+    inputRange: [0, 0.5, 1],
+    outputRange: [0, 0, 1],
   });
 
   return (
@@ -57,14 +60,32 @@ export function TapToReveal({
         onPress={() => !isRevealed && onReveal()}
         disabled={isRevealed}
       >
-        <Animated.View style={[styles.card, styles.cardFront, frontAnimatedStyle]}>
+        <Animated.View
+          style={[
+            styles.card,
+            styles.cardFront,
+            {
+              transform: [{ perspective: 1000 }, { rotateY: frontRotation }],
+              opacity: frontOpacity,
+            },
+          ]}
+        >
           <Text style={styles.tapHint}>Tap to reveal answer</Text>
           <View style={styles.iconContainer}>
             <Text style={styles.questionMark}>?</Text>
           </View>
         </Animated.View>
 
-        <Animated.View style={[styles.card, styles.cardBack, backAnimatedStyle]}>
+        <Animated.View
+          style={[
+            styles.card,
+            styles.cardBack,
+            {
+              transform: [{ perspective: 1000 }, { rotateY: backRotation }],
+              opacity: backOpacity,
+            },
+          ]}
+        >
           <Text style={styles.answerLabel}>Answer</Text>
           <Text style={styles.answer}>{question.answer}</Text>
         </Animated.View>
@@ -153,6 +174,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     padding: 24,
+    backfaceVisibility: 'hidden',
   },
   cardFront: {
     backgroundColor: Colors.primary,

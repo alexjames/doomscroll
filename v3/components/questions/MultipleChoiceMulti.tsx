@@ -16,7 +16,7 @@ export function MultipleChoiceMulti({
   onToggle,
   isSubmitted,
 }: MultipleChoiceMultiProps) {
-  const isSelected = (index: number) => selectedIndices.includes(index);
+  const isSelected = (index: number) => selectedIndices?.includes(index) ?? false;
   const isCorrectOption = (index: number) =>
     question.correctAnswerIndices.includes(index);
 

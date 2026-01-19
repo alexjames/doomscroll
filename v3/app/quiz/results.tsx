@@ -1,14 +1,7 @@
-import React, { useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import React, { useEffect, useRef } from 'react';
+import { View, Text, StyleSheet, ScrollView, Animated } from 'react-native';
 import { router } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withTiming,
-  withDelay,
-  Easing,
-} from 'react-native-reanimated';
 import { useQuiz } from '@/context/QuizContext';
 import { Button, Card } from '@/components/common';
 import { Colors } from '@/constants/Colors';
@@ -16,8 +9,8 @@ import { Colors } from '@/constants/Colors';
 export default function ResultsScreen() {
   const { result, session, resetQuiz, startQuiz } = useQuiz();
 
-  const scoreScale = useSharedValue(0);
-  const scoreOpacity = useSharedValue(0);
+  const scoreScale = useRef(new Animated.Value(0)).current;
+  const scoreOpacity = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     if (!result) {
@@ -25,17 +18,20 @@ export default function ResultsScreen() {
       return;
     }
 
-    scoreOpacity.value = withTiming(1, { duration: 300 });
-    scoreScale.value = withDelay(
-      200,
-      withTiming(1, { duration: 600, easing: Easing.out(Easing.back(1.2)) })
-    );
-  }, [result]);
-
-  const scoreAnimatedStyle = useAnimatedStyle(() => ({
-    opacity: scoreOpacity.value,
-    transform: [{ scale: scoreScale.value }],
-  }));
+    Animated.sequence([
+      Animated.timing(scoreOpacity, {
+        toValue: 1,
+        duration: 300,
+        useNativeDriver: true,
+      }),
+      Animated.spring(scoreScale, {
+        toValue: 1,
+        friction: 5,
+        tension: 40,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  }, [result, scoreOpacity, scoreScale]);
 
   if (!result || !session) {
     return null;
@@ -80,7 +76,15 @@ export default function ResultsScreen() {
       >
         <Text style={styles.title}>Quiz Complete!</Text>
 
-        <Animated.View style={[styles.scoreContainer, scoreAnimatedStyle]}>
+        <Animated.View
+          style={[
+            styles.scoreContainer,
+            {
+              opacity: scoreOpacity,
+              transform: [{ scale: scoreScale }],
+            },
+          ]}
+        >
           <View style={[styles.scoreCircle, { borderColor: getScoreColor() }]}>
             <Text style={[styles.scorePercentage, { color: getScoreColor() }]}>
               {result.percentage}%
