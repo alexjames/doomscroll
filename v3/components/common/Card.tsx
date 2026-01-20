@@ -1,6 +1,7 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useMemo } from 'react';
 import { View, StyleSheet, ViewStyle } from 'react-native';
-import { Colors } from '@/constants/Colors';
+import { useTheme } from '@/context/ThemeContext';
+import { ColorScheme } from '@/constants/Colors';
 
 interface CardProps {
   children: ReactNode;
@@ -9,6 +10,9 @@ interface CardProps {
 }
 
 export function Card({ children, style, padding = 20 }: CardProps) {
+  const { colors, isDark } = useTheme();
+  const styles = useMemo(() => createStyles(colors, isDark), [colors, isDark]);
+
   return (
     <View style={[styles.card, { padding }, style]}>
       {children}
@@ -16,14 +20,16 @@ export function Card({ children, style, padding = 20 }: CardProps) {
   );
 }
 
-const styles = StyleSheet.create({
-  card: {
-    backgroundColor: Colors.surface,
-    borderRadius: 16,
-    shadowColor: Colors.black,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.08,
-    shadowRadius: 8,
-    elevation: 3,
-  },
-});
+function createStyles(colors: ColorScheme, isDark: boolean) {
+  return StyleSheet.create({
+    card: {
+      backgroundColor: colors.surface,
+      borderRadius: 16,
+      shadowColor: colors.shadowColor,
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: isDark ? 0.4 : 0.08,
+      shadowRadius: 8,
+      elevation: 3,
+    },
+  });
+}

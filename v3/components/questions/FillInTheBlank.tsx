@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
 import { FillInTheBlankQuestion } from '@/types/question';
-import { Colors } from '@/constants/Colors';
+import { useTheme } from '@/context/ThemeContext';
+import { ColorScheme } from '@/constants/Colors';
 
 interface FillInTheBlankProps {
   question: FillInTheBlankQuestion;
@@ -18,6 +19,9 @@ export function FillInTheBlank({
   isSubmitted,
   isCorrect,
 }: FillInTheBlankProps) {
+  const { colors } = useTheme();
+  const styles = useMemo(() => createStyles(colors), [colors]);
+
   const parts = question.questionWithBlank.split('___');
 
   const getInputStyle = () => {
@@ -39,7 +43,7 @@ export function FillInTheBlank({
               value={enteredText}
               onChangeText={onTextChange}
               placeholder="Type answer"
-              placeholderTextColor={Colors.textLight}
+              placeholderTextColor={colors.textLight}
               editable={!isSubmitted}
               autoCapitalize="none"
               autoCorrect={false}
@@ -58,84 +62,86 @@ export function FillInTheBlank({
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  question: {
-    fontSize: 16,
-    fontWeight: '500',
-    color: Colors.textSecondary,
-    marginBottom: 16,
-  },
-  sentenceContainer: {
-    backgroundColor: Colors.surface,
-    borderRadius: 24,
-    padding: 24,
-    borderWidth: 0,
-  },
-  sentenceText: {
-    fontSize: 20,
-    fontWeight: '500',
-    color: Colors.text,
-    lineHeight: 36,
-  },
-  inputWrapper: {
-    transform: [{ translateY: 4 }],
-  },
-  input: {
-    borderBottomWidth: 2,
-    borderBottomColor: Colors.primary,
-    fontSize: 16,
-    fontWeight: '600',
-    color: Colors.primary,
-    minWidth: 120,
-    paddingVertical: 4,
-    paddingHorizontal: 8,
-    textAlign: 'center',
-  },
-  inputCorrect: {
-    borderBottomWidth: 2,
-    borderBottomColor: Colors.success,
-    backgroundColor: Colors.successLight,
-    fontSize: 16,
-    fontWeight: '600',
-    color: Colors.success,
-    minWidth: 120,
-    paddingVertical: 4,
-    paddingHorizontal: 8,
-    textAlign: 'center',
-    borderRadius: 4,
-  },
-  inputIncorrect: {
-    borderBottomWidth: 2,
-    borderBottomColor: Colors.error,
-    backgroundColor: Colors.errorLight,
-    fontSize: 16,
-    fontWeight: '600',
-    color: Colors.error,
-    minWidth: 120,
-    paddingVertical: 4,
-    paddingHorizontal: 8,
-    textAlign: 'center',
-    borderRadius: 4,
-  },
-  correctAnswerContainer: {
-    marginTop: 20,
-    padding: 16,
-    backgroundColor: Colors.successLight,
-    borderRadius: 24,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  correctAnswerLabel: {
-    fontSize: 14,
-    color: Colors.success,
-    marginRight: 8,
-  },
-  correctAnswer: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: Colors.success,
-  },
-});
+function createStyles(colors: ColorScheme) {
+  return StyleSheet.create({
+    container: {
+      flex: 1,
+    },
+    question: {
+      fontSize: 16,
+      fontWeight: '500',
+      color: colors.textSecondary,
+      marginBottom: 16,
+    },
+    sentenceContainer: {
+      backgroundColor: colors.surface,
+      borderRadius: 24,
+      padding: 24,
+      borderWidth: 0,
+    },
+    sentenceText: {
+      fontSize: 20,
+      fontWeight: '500',
+      color: colors.text,
+      lineHeight: 36,
+    },
+    inputWrapper: {
+      transform: [{ translateY: 4 }],
+    },
+    input: {
+      borderBottomWidth: 2,
+      borderBottomColor: colors.primary,
+      fontSize: 16,
+      fontWeight: '600',
+      color: colors.primary,
+      minWidth: 120,
+      paddingVertical: 4,
+      paddingHorizontal: 8,
+      textAlign: 'center',
+    },
+    inputCorrect: {
+      borderBottomWidth: 2,
+      borderBottomColor: colors.success,
+      backgroundColor: colors.successLight,
+      fontSize: 16,
+      fontWeight: '600',
+      color: colors.success,
+      minWidth: 120,
+      paddingVertical: 4,
+      paddingHorizontal: 8,
+      textAlign: 'center',
+      borderRadius: 4,
+    },
+    inputIncorrect: {
+      borderBottomWidth: 2,
+      borderBottomColor: colors.error,
+      backgroundColor: colors.errorLight,
+      fontSize: 16,
+      fontWeight: '600',
+      color: colors.error,
+      minWidth: 120,
+      paddingVertical: 4,
+      paddingHorizontal: 8,
+      textAlign: 'center',
+      borderRadius: 4,
+    },
+    correctAnswerContainer: {
+      marginTop: 20,
+      padding: 16,
+      backgroundColor: colors.successLight,
+      borderRadius: 24,
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    correctAnswerLabel: {
+      fontSize: 14,
+      color: colors.success,
+      marginRight: 8,
+    },
+    correctAnswer: {
+      fontSize: 16,
+      fontWeight: '600',
+      color: colors.success,
+    },
+  });
+}

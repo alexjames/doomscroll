@@ -1,7 +1,8 @@
 import React, { useMemo } from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 import { MultipleChoiceSingleQuestion } from '@/types/question';
-import { Colors } from '@/constants/Colors';
+import { useTheme } from '@/context/ThemeContext';
+import { ColorScheme } from '@/constants/Colors';
 import { shuffleArray } from '@/utils/shuffle';
 
 interface MultipleChoiceSingleProps {
@@ -17,6 +18,9 @@ export function MultipleChoiceSingle({
   onSelect,
   isSubmitted,
 }: MultipleChoiceSingleProps) {
+  const { colors } = useTheme();
+  const styles = useMemo(() => createStyles(colors), [colors]);
+
   const shuffledOptions = useMemo(() => {
     const optionsWithIndices = question.options.map((option, originalIndex) => ({
       option,
@@ -93,80 +97,82 @@ export function MultipleChoiceSingle({
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  question: {
-    fontSize: 20,
-    fontWeight: '600',
-    color: Colors.text,
-    marginBottom: 24,
-    lineHeight: 28,
-  },
-  optionsContainer: {
-    gap: 12,
-  },
-  option: {
-    backgroundColor: Colors.surface,
-    borderRadius: 24,
-    borderWidth: 0,
-    padding: 16,
-  },
-  optionSelected: {
-    backgroundColor: Colors.primary + '15',
-    borderRadius: 24,
-    borderWidth: 2,
-    borderColor: Colors.primary,
-    padding: 16,
-  },
-  optionCorrect: {
-    backgroundColor: Colors.successLight,
-    borderRadius: 24,
-    borderWidth: 2,
-    borderColor: Colors.success,
-    padding: 16,
-  },
-  optionIncorrect: {
-    backgroundColor: Colors.errorLight,
-    borderRadius: 24,
-    borderWidth: 2,
-    borderColor: Colors.error,
-    padding: 16,
-  },
-  optionContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  optionLetter: {
-    width: 28,
-    height: 28,
-    borderRadius: 14,
-    backgroundColor: Colors.surfaceSecondary,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: 12,
-  },
-  optionLetterText: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: Colors.textSecondary,
-  },
-  optionText: {
-    fontSize: 16,
-    color: Colors.text,
-    flex: 1,
-  },
-  optionTextSelected: {
-    fontSize: 16,
-    color: Colors.primary,
-    fontWeight: '500',
-    flex: 1,
-  },
-  optionTextHighlighted: {
-    fontSize: 16,
-    color: Colors.text,
-    fontWeight: '600',
-    flex: 1,
-  },
-});
+function createStyles(colors: ColorScheme) {
+  return StyleSheet.create({
+    container: {
+      flex: 1,
+    },
+    question: {
+      fontSize: 20,
+      fontWeight: '600',
+      color: colors.text,
+      marginBottom: 24,
+      lineHeight: 28,
+    },
+    optionsContainer: {
+      gap: 12,
+    },
+    option: {
+      backgroundColor: colors.surface,
+      borderRadius: 24,
+      borderWidth: 0,
+      padding: 16,
+    },
+    optionSelected: {
+      backgroundColor: colors.primary + '15',
+      borderRadius: 24,
+      borderWidth: 2,
+      borderColor: colors.primary,
+      padding: 16,
+    },
+    optionCorrect: {
+      backgroundColor: colors.successLight,
+      borderRadius: 24,
+      borderWidth: 2,
+      borderColor: colors.success,
+      padding: 16,
+    },
+    optionIncorrect: {
+      backgroundColor: colors.errorLight,
+      borderRadius: 24,
+      borderWidth: 2,
+      borderColor: colors.error,
+      padding: 16,
+    },
+    optionContent: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    optionLetter: {
+      width: 28,
+      height: 28,
+      borderRadius: 14,
+      backgroundColor: colors.surfaceSecondary,
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginRight: 12,
+    },
+    optionLetterText: {
+      fontSize: 14,
+      fontWeight: '600',
+      color: colors.textSecondary,
+    },
+    optionText: {
+      fontSize: 16,
+      color: colors.text,
+      flex: 1,
+    },
+    optionTextSelected: {
+      fontSize: 16,
+      color: colors.primary,
+      fontWeight: '500',
+      flex: 1,
+    },
+    optionTextHighlighted: {
+      fontSize: 16,
+      color: colors.text,
+      fontWeight: '600',
+      flex: 1,
+    },
+  });
+}

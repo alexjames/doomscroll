@@ -13,7 +13,6 @@ import {
   OrderItemsAnswer,
 } from '@/types/quiz';
 import { evaluateAnswer } from '@/utils/scoring';
-import { Colors } from '@/constants/Colors';
 import { Button } from '@/components/common';
 import { MultipleChoiceSingle } from './MultipleChoiceSingle';
 import { TrueOrFalse } from './TrueOrFalse';

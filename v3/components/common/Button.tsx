@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import {
   Pressable,
   Text,
@@ -7,7 +7,8 @@ import {
   TextStyle,
   PressableProps,
 } from 'react-native';
-import { Colors } from '@/constants/Colors';
+import { useTheme } from '@/context/ThemeContext';
+import { ColorScheme } from '@/constants/Colors';
 
 interface ButtonProps extends Omit<PressableProps, 'style'> {
   title: string;
@@ -28,6 +29,9 @@ export function Button({
   textStyle,
   ...props
 }: ButtonProps) {
+  const { colors } = useTheme();
+  const styles = useMemo(() => createStyles(colors), [colors]);
+
   const buttonStyles = [
     styles.base,
     styles[variant],
@@ -59,79 +63,81 @@ export function Button({
   );
 }
 
-const styles = StyleSheet.create({
-  base: {
-    borderRadius: 12,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  primary: {
-    backgroundColor: Colors.primary,
-  },
-  secondary: {
-    backgroundColor: Colors.secondary,
-  },
-  outline: {
-    backgroundColor: 'transparent',
-    borderWidth: 2,
-    borderColor: Colors.primary,
-  },
-  success: {
-    backgroundColor: Colors.success,
-  },
-  error: {
-    backgroundColor: Colors.error,
-  },
-  small: {
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-  },
-  medium: {
-    paddingVertical: 14,
-    paddingHorizontal: 24,
-  },
-  large: {
-    paddingVertical: 18,
-    paddingHorizontal: 32,
-  },
-  fullWidth: {
-    width: '100%',
-  },
-  disabled: {
-    backgroundColor: Colors.border,
-  },
-  pressed: {
-    opacity: 0.8,
-    transform: [{ scale: 0.98 }],
-  },
-  text: {
-    fontWeight: '600',
-  },
-  primaryText: {
-    color: Colors.white,
-  },
-  secondaryText: {
-    color: Colors.white,
-  },
-  outlineText: {
-    color: Colors.primary,
-  },
-  successText: {
-    color: Colors.white,
-  },
-  errorText: {
-    color: Colors.white,
-  },
-  smallText: {
-    fontSize: 14,
-  },
-  mediumText: {
-    fontSize: 16,
-  },
-  largeText: {
-    fontSize: 18,
-  },
-  disabledText: {
-    color: Colors.textSecondary,
-  },
-});
+function createStyles(colors: ColorScheme) {
+  return StyleSheet.create({
+    base: {
+      borderRadius: 12,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    primary: {
+      backgroundColor: colors.primary,
+    },
+    secondary: {
+      backgroundColor: colors.secondary,
+    },
+    outline: {
+      backgroundColor: 'transparent',
+      borderWidth: 2,
+      borderColor: colors.primary,
+    },
+    success: {
+      backgroundColor: colors.success,
+    },
+    error: {
+      backgroundColor: colors.error,
+    },
+    small: {
+      paddingVertical: 8,
+      paddingHorizontal: 16,
+    },
+    medium: {
+      paddingVertical: 14,
+      paddingHorizontal: 24,
+    },
+    large: {
+      paddingVertical: 18,
+      paddingHorizontal: 32,
+    },
+    fullWidth: {
+      width: '100%',
+    },
+    disabled: {
+      backgroundColor: colors.border,
+    },
+    pressed: {
+      opacity: 0.8,
+      transform: [{ scale: 0.98 }],
+    },
+    text: {
+      fontWeight: '600',
+    },
+    primaryText: {
+      color: colors.white,
+    },
+    secondaryText: {
+      color: colors.white,
+    },
+    outlineText: {
+      color: colors.primary,
+    },
+    successText: {
+      color: colors.white,
+    },
+    errorText: {
+      color: colors.white,
+    },
+    smallText: {
+      fontSize: 14,
+    },
+    mediumText: {
+      fontSize: 16,
+    },
+    largeText: {
+      fontSize: 18,
+    },
+    disabledText: {
+      color: colors.textSecondary,
+    },
+  });
+}

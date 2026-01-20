@@ -1,7 +1,8 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useMemo } from 'react';
 import { View, Text, Pressable, StyleSheet, Animated } from 'react-native';
 import { TapToRevealQuestion } from '@/types/question';
-import { Colors } from '@/constants/Colors';
+import { useTheme } from '@/context/ThemeContext';
+import { ColorScheme } from '@/constants/Colors';
 
 interface TapToRevealProps {
   question: TapToRevealQuestion;
@@ -20,6 +21,9 @@ export function TapToReveal({
   onSelfAssess,
   isSubmitted,
 }: TapToRevealProps) {
+  const { colors } = useTheme();
+  const styles = useMemo(() => createStyles(colors), [colors]);
+
   const flipAnim = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -151,121 +155,123 @@ export function TapToReveal({
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  question: {
-    fontSize: 20,
-    fontWeight: '600',
-    color: Colors.text,
-    marginBottom: 24,
-    lineHeight: 28,
-  },
-  cardContainer: {
-    height: 200,
-    marginBottom: 24,
-  },
-  card: {
-    position: 'absolute',
-    width: '100%',
-    height: '100%',
-    borderRadius: 24,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 24,
-    backfaceVisibility: 'hidden',
-  },
-  cardFront: {
-    backgroundColor: Colors.primary,
-  },
-  cardBack: {
-    backgroundColor: Colors.surface,
-    borderWidth: 2,
-    borderColor: Colors.success,
-  },
-  tapHint: {
-    fontSize: 14,
-    color: Colors.white + 'CC',
-    marginBottom: 12,
-  },
-  iconContainer: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    backgroundColor: Colors.white + '30',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  questionMark: {
-    fontSize: 32,
-    fontWeight: '700',
-    color: Colors.white,
-  },
-  answerLabel: {
-    fontSize: 12,
-    color: Colors.textSecondary,
-    marginBottom: 8,
-    textTransform: 'uppercase',
-    letterSpacing: 1,
-  },
-  answer: {
-    fontSize: 22,
-    fontWeight: '700',
-    color: Colors.text,
-    textAlign: 'center',
-  },
-  selfAssessContainer: {
-    alignItems: 'center',
-  },
-  selfAssessLabel: {
-    fontSize: 16,
-    color: Colors.textSecondary,
-    marginBottom: 16,
-  },
-  selfAssessButtons: {
-    flexDirection: 'row',
-    gap: 12,
-  },
-  selfAssessButton: {
-    flex: 1,
-    paddingVertical: 16,
-    paddingHorizontal: 20,
-    borderRadius: 24,
-    borderWidth: 0,
-    backgroundColor: Colors.surface,
-    alignItems: 'center',
-  },
-  selfAssessButtonCorrect: {
-    borderColor: Colors.success,
-    backgroundColor: Colors.successLight,
-  },
-  selfAssessButtonIncorrect: {
-    borderColor: Colors.error,
-    backgroundColor: Colors.errorLight,
-  },
-  selfAssessButtonText: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: Colors.text,
-  },
-  selfAssessButtonTextActive: {
-    fontWeight: '700',
-  },
-  resultContainer: {
-    padding: 16,
-    borderRadius: 24,
-    alignItems: 'center',
-  },
-  resultContainerCorrect: {
-    backgroundColor: Colors.successLight,
-  },
-  resultContainerIncorrect: {
-    backgroundColor: Colors.errorLight,
-  },
-  resultText: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: Colors.text,
-  },
-});
+function createStyles(colors: ColorScheme) {
+  return StyleSheet.create({
+    container: {
+      flex: 1,
+    },
+    question: {
+      fontSize: 20,
+      fontWeight: '600',
+      color: colors.text,
+      marginBottom: 24,
+      lineHeight: 28,
+    },
+    cardContainer: {
+      height: 200,
+      marginBottom: 24,
+    },
+    card: {
+      position: 'absolute',
+      width: '100%',
+      height: '100%',
+      borderRadius: 24,
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: 24,
+      backfaceVisibility: 'hidden',
+    },
+    cardFront: {
+      backgroundColor: colors.primary,
+    },
+    cardBack: {
+      backgroundColor: colors.surface,
+      borderWidth: 2,
+      borderColor: colors.success,
+    },
+    tapHint: {
+      fontSize: 14,
+      color: colors.white + 'CC',
+      marginBottom: 12,
+    },
+    iconContainer: {
+      width: 60,
+      height: 60,
+      borderRadius: 30,
+      backgroundColor: colors.white + '30',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    questionMark: {
+      fontSize: 32,
+      fontWeight: '700',
+      color: colors.white,
+    },
+    answerLabel: {
+      fontSize: 12,
+      color: colors.textSecondary,
+      marginBottom: 8,
+      textTransform: 'uppercase',
+      letterSpacing: 1,
+    },
+    answer: {
+      fontSize: 22,
+      fontWeight: '700',
+      color: colors.text,
+      textAlign: 'center',
+    },
+    selfAssessContainer: {
+      alignItems: 'center',
+    },
+    selfAssessLabel: {
+      fontSize: 16,
+      color: colors.textSecondary,
+      marginBottom: 16,
+    },
+    selfAssessButtons: {
+      flexDirection: 'row',
+      gap: 12,
+    },
+    selfAssessButton: {
+      flex: 1,
+      paddingVertical: 16,
+      paddingHorizontal: 20,
+      borderRadius: 24,
+      borderWidth: 0,
+      backgroundColor: colors.surface,
+      alignItems: 'center',
+    },
+    selfAssessButtonCorrect: {
+      borderColor: colors.success,
+      backgroundColor: colors.successLight,
+    },
+    selfAssessButtonIncorrect: {
+      borderColor: colors.error,
+      backgroundColor: colors.errorLight,
+    },
+    selfAssessButtonText: {
+      fontSize: 16,
+      fontWeight: '600',
+      color: colors.text,
+    },
+    selfAssessButtonTextActive: {
+      fontWeight: '700',
+    },
+    resultContainer: {
+      padding: 16,
+      borderRadius: 24,
+      alignItems: 'center',
+    },
+    resultContainerCorrect: {
+      backgroundColor: colors.successLight,
+    },
+    resultContainerIncorrect: {
+      backgroundColor: colors.errorLight,
+    },
+    resultText: {
+      fontSize: 16,
+      fontWeight: '600',
+      color: colors.text,
+    },
+  });
+}

@@ -1,7 +1,8 @@
 import React, { useMemo } from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 import { OrderItemsQuestion, OrderItem } from '@/types/question';
-import { Colors } from '@/constants/Colors';
+import { useTheme } from '@/context/ThemeContext';
+import { ColorScheme } from '@/constants/Colors';
 import { shuffleArray } from '@/utils/shuffle';
 
 interface OrderItemsProps {
@@ -21,6 +22,9 @@ export function OrderItems({
   onClear,
   isSubmitted,
 }: OrderItemsProps) {
+  const { colors } = useTheme();
+  const styles = useMemo(() => createStyles(colors), [colors]);
+
   const safeOrderedItemIds = orderedItemIds ?? [];
 
   const allItems = useMemo(() => {
@@ -131,165 +135,167 @@ export function OrderItems({
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  upperSection: {
-    flex: 1,
-  },
-  lowerSection: {
-    flex: 1,
-    justifyContent: 'center',
-  },
-  question: {
-    fontSize: 20,
-    fontWeight: '600',
-    color: Colors.text,
-    marginBottom: 8,
-    lineHeight: 28,
-  },
-  hint: {
-    fontSize: 14,
-    color: Colors.textSecondary,
-    marginBottom: 16,
-  },
-  // Answer Section
-  answerSection: {
-    marginBottom: 20,
-  },
-  answerHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 8,
-  },
-  answerLabel: {
-    fontSize: 13,
-    fontWeight: '600',
-    color: Colors.textSecondary,
-    textTransform: 'uppercase',
-    letterSpacing: 0.5,
-  },
-  clearButtonText: {
-    fontSize: 13,
-    color: Colors.error,
-    fontWeight: '500',
-  },
-  dropZone: {
-    backgroundColor: Colors.surface,
-    borderRadius: 24,
-    borderWidth: 2,
-    borderColor: Colors.border,
-    borderStyle: 'dashed',
-    padding: 12,
-    minHeight: 60,
-    justifyContent: 'center',
-  },
-  dropZoneCorrect: {
-    borderColor: Colors.success,
-    borderStyle: 'solid',
-    backgroundColor: Colors.successLight,
-  },
-  dropZoneIncorrect: {
-    borderColor: Colors.error,
-    borderStyle: 'solid',
-    backgroundColor: Colors.errorLight,
-  },
-  placeholderText: {
-    fontSize: 13,
-    color: Colors.textLight,
-    textAlign: 'center',
-  },
-  placedCards: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 6,
-  },
-  placedCard: {
-    backgroundColor: Colors.primary,
-    borderRadius: 6,
-    paddingVertical: 6,
-    paddingHorizontal: 10,
-    borderWidth: 1,
-    borderColor: Colors.primary,
-  },
-  placedCardText: {
-    fontSize: 13,
-    fontWeight: '600',
-    color: Colors.white,
-  },
-  // Correct Answer
-  correctAnswerBox: {
-    backgroundColor: Colors.successLight,
-    borderRadius: 24,
-    padding: 12,
-    marginBottom: 16,
-  },
-  correctAnswerLabel: {
-    fontSize: 11,
-    fontWeight: '600',
-    color: Colors.success,
-    textTransform: 'uppercase',
-    letterSpacing: 0.5,
-    marginBottom: 4,
-  },
-  correctAnswerText: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: Colors.success,
-    fontFamily: 'monospace',
-  },
-  // Available Cards Section
-  availableLabel: {
-    fontSize: 13,
-    fontWeight: '600',
-    color: Colors.textSecondary,
-    textTransform: 'uppercase',
-    letterSpacing: 0.5,
-    marginBottom: 10,
-  },
-  availableCards: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 8,
-  },
-  availableCard: {
-    backgroundColor: Colors.surfaceSecondary,
-    borderRadius: 16,
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    borderWidth: 0,
-  },
-  availableCardUsed: {
-    backgroundColor: Colors.border,
-    opacity: 0.4,
-  },
-  availableCardText: {
-    fontSize: 13,
-    fontWeight: '500',
-    color: Colors.text,
-  },
-  availableCardTextUsed: {
-    color: Colors.textLight,
-  },
-  // Preview Hint
-  previewHint: {
-    backgroundColor: Colors.surfaceSecondary,
-    borderRadius: 6,
-    padding: 10,
-  },
-  previewHintLabel: {
-    fontSize: 11,
-    fontWeight: '600',
-    color: Colors.textSecondary,
-    textTransform: 'uppercase',
-    letterSpacing: 0.5,
-    marginBottom: 4,
-  },
-  previewHintText: {
-    fontSize: 13,
-    fontFamily: 'monospace',
-    color: Colors.textSecondary,
-  },
-});
+function createStyles(colors: ColorScheme) {
+  return StyleSheet.create({
+    container: {
+      flex: 1,
+    },
+    upperSection: {
+      flex: 1,
+    },
+    lowerSection: {
+      flex: 1,
+      justifyContent: 'center',
+    },
+    question: {
+      fontSize: 20,
+      fontWeight: '600',
+      color: colors.text,
+      marginBottom: 8,
+      lineHeight: 28,
+    },
+    hint: {
+      fontSize: 14,
+      color: colors.textSecondary,
+      marginBottom: 16,
+    },
+    // Answer Section
+    answerSection: {
+      marginBottom: 20,
+    },
+    answerHeader: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginBottom: 8,
+    },
+    answerLabel: {
+      fontSize: 13,
+      fontWeight: '600',
+      color: colors.textSecondary,
+      textTransform: 'uppercase',
+      letterSpacing: 0.5,
+    },
+    clearButtonText: {
+      fontSize: 13,
+      color: colors.error,
+      fontWeight: '500',
+    },
+    dropZone: {
+      backgroundColor: colors.surface,
+      borderRadius: 24,
+      borderWidth: 2,
+      borderColor: colors.border,
+      borderStyle: 'dashed',
+      padding: 12,
+      minHeight: 60,
+      justifyContent: 'center',
+    },
+    dropZoneCorrect: {
+      borderColor: colors.success,
+      borderStyle: 'solid',
+      backgroundColor: colors.successLight,
+    },
+    dropZoneIncorrect: {
+      borderColor: colors.error,
+      borderStyle: 'solid',
+      backgroundColor: colors.errorLight,
+    },
+    placeholderText: {
+      fontSize: 13,
+      color: colors.textLight,
+      textAlign: 'center',
+    },
+    placedCards: {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      gap: 6,
+    },
+    placedCard: {
+      backgroundColor: colors.primary,
+      borderRadius: 6,
+      paddingVertical: 6,
+      paddingHorizontal: 10,
+      borderWidth: 1,
+      borderColor: colors.primary,
+    },
+    placedCardText: {
+      fontSize: 13,
+      fontWeight: '600',
+      color: colors.white,
+    },
+    // Correct Answer
+    correctAnswerBox: {
+      backgroundColor: colors.successLight,
+      borderRadius: 24,
+      padding: 12,
+      marginBottom: 16,
+    },
+    correctAnswerLabel: {
+      fontSize: 11,
+      fontWeight: '600',
+      color: colors.success,
+      textTransform: 'uppercase',
+      letterSpacing: 0.5,
+      marginBottom: 4,
+    },
+    correctAnswerText: {
+      fontSize: 14,
+      fontWeight: '600',
+      color: colors.success,
+      fontFamily: 'monospace',
+    },
+    // Available Cards Section
+    availableLabel: {
+      fontSize: 13,
+      fontWeight: '600',
+      color: colors.textSecondary,
+      textTransform: 'uppercase',
+      letterSpacing: 0.5,
+      marginBottom: 10,
+    },
+    availableCards: {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      gap: 8,
+    },
+    availableCard: {
+      backgroundColor: colors.surfaceSecondary,
+      borderRadius: 16,
+      paddingVertical: 8,
+      paddingHorizontal: 12,
+      borderWidth: 0,
+    },
+    availableCardUsed: {
+      backgroundColor: colors.border,
+      opacity: 0.4,
+    },
+    availableCardText: {
+      fontSize: 13,
+      fontWeight: '500',
+      color: colors.text,
+    },
+    availableCardTextUsed: {
+      color: colors.textLight,
+    },
+    // Preview Hint
+    previewHint: {
+      backgroundColor: colors.surfaceSecondary,
+      borderRadius: 6,
+      padding: 10,
+    },
+    previewHintLabel: {
+      fontSize: 11,
+      fontWeight: '600',
+      color: colors.textSecondary,
+      textTransform: 'uppercase',
+      letterSpacing: 0.5,
+      marginBottom: 4,
+    },
+    previewHintText: {
+      fontSize: 13,
+      fontFamily: 'monospace',
+      color: colors.textSecondary,
+    },
+  });
+}

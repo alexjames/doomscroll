@@ -1,7 +1,8 @@
 import React, { useState, useMemo } from 'react';
 import { View, Text, Pressable, StyleSheet, ScrollView } from 'react-native';
 import { MatchTheFollowingQuestion } from '@/types/question';
-import { Colors } from '@/constants/Colors';
+import { useTheme } from '@/context/ThemeContext';
+import { ColorScheme } from '@/constants/Colors';
 import { shuffleArray } from '@/utils/shuffle';
 
 interface MatchTheFollowingProps {
@@ -17,6 +18,9 @@ export function MatchTheFollowing({
   onMatch,
   isSubmitted,
 }: MatchTheFollowingProps) {
+  const { colors } = useTheme();
+  const styles = useMemo(() => createStyles(colors), [colors]);
+
   const [selectedLeft, setSelectedLeft] = useState<string | null>(null);
 
   const shuffledRight = useMemo(
@@ -126,115 +130,117 @@ export function MatchTheFollowing({
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  question: {
-    fontSize: 20,
-    fontWeight: '600',
-    color: Colors.text,
-    marginBottom: 8,
-    lineHeight: 28,
-  },
-  hint: {
-    fontSize: 14,
-    color: Colors.textSecondary,
-    marginBottom: 20,
-  },
-  matchContainer: {
-    flex: 1,
-  },
-  columns: {
-    flexDirection: 'row',
-    gap: 12,
-  },
-  column: {
-    flex: 1,
-    gap: 10,
-  },
-  item: {
-    backgroundColor: Colors.surface,
-    borderRadius: 12,
-    borderWidth: 0,
-    padding: 14,
-    minHeight: 70,
-    justifyContent: 'center',
-  },
-  itemSelected: {
-    backgroundColor: Colors.primary + '15',
-    borderRadius: 12,
-    borderWidth: 2,
-    borderColor: Colors.primary,
-    padding: 14,
-    minHeight: 70,
-    justifyContent: 'center',
-  },
-  itemMatched: {
-    backgroundColor: Colors.secondary + '15',
-    borderRadius: 12,
-    borderWidth: 2,
-    borderColor: Colors.secondary,
-    padding: 14,
-    minHeight: 70,
-    justifyContent: 'center',
-  },
-  itemCorrect: {
-    backgroundColor: Colors.successLight,
-    borderRadius: 12,
-    borderWidth: 2,
-    borderColor: Colors.success,
-    padding: 14,
-    minHeight: 70,
-    justifyContent: 'center',
-  },
-  itemIncorrect: {
-    backgroundColor: Colors.errorLight,
-    borderRadius: 12,
-    borderWidth: 2,
-    borderColor: Colors.error,
-    padding: 14,
-    minHeight: 70,
-    justifyContent: 'center',
-  },
-  itemText: {
-    fontSize: 14,
-    color: Colors.text,
-    fontWeight: '500',
-  },
-  rightItemText: {
-    marginLeft: 32,
-  },
-  matchBadge: {
-    position: 'absolute',
-    top: 6,
-    right: 6,
-    width: 22,
-    height: 22,
-    borderRadius: 11,
-    backgroundColor: Colors.secondary,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  matchBadgeText: {
-    fontSize: 12,
-    fontWeight: '700',
-    color: Colors.white,
-  },
-  numberBadge: {
-    position: 'absolute',
-    top: 6,
-    left: 6,
-    width: 22,
-    height: 22,
-    borderRadius: 11,
-    backgroundColor: Colors.textLight,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  numberBadgeText: {
-    fontSize: 12,
-    fontWeight: '700',
-    color: Colors.white,
-  },
-});
+function createStyles(colors: ColorScheme) {
+  return StyleSheet.create({
+    container: {
+      flex: 1,
+    },
+    question: {
+      fontSize: 20,
+      fontWeight: '600',
+      color: colors.text,
+      marginBottom: 8,
+      lineHeight: 28,
+    },
+    hint: {
+      fontSize: 14,
+      color: colors.textSecondary,
+      marginBottom: 20,
+    },
+    matchContainer: {
+      flex: 1,
+    },
+    columns: {
+      flexDirection: 'row',
+      gap: 12,
+    },
+    column: {
+      flex: 1,
+      gap: 10,
+    },
+    item: {
+      backgroundColor: colors.surface,
+      borderRadius: 12,
+      borderWidth: 0,
+      padding: 14,
+      minHeight: 70,
+      justifyContent: 'center',
+    },
+    itemSelected: {
+      backgroundColor: colors.primary + '15',
+      borderRadius: 12,
+      borderWidth: 2,
+      borderColor: colors.primary,
+      padding: 14,
+      minHeight: 70,
+      justifyContent: 'center',
+    },
+    itemMatched: {
+      backgroundColor: colors.secondary + '15',
+      borderRadius: 12,
+      borderWidth: 2,
+      borderColor: colors.secondary,
+      padding: 14,
+      minHeight: 70,
+      justifyContent: 'center',
+    },
+    itemCorrect: {
+      backgroundColor: colors.successLight,
+      borderRadius: 12,
+      borderWidth: 2,
+      borderColor: colors.success,
+      padding: 14,
+      minHeight: 70,
+      justifyContent: 'center',
+    },
+    itemIncorrect: {
+      backgroundColor: colors.errorLight,
+      borderRadius: 12,
+      borderWidth: 2,
+      borderColor: colors.error,
+      padding: 14,
+      minHeight: 70,
+      justifyContent: 'center',
+    },
+    itemText: {
+      fontSize: 14,
+      color: colors.text,
+      fontWeight: '500',
+    },
+    rightItemText: {
+      marginLeft: 32,
+    },
+    matchBadge: {
+      position: 'absolute',
+      top: 6,
+      right: 6,
+      width: 22,
+      height: 22,
+      borderRadius: 11,
+      backgroundColor: colors.secondary,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    matchBadgeText: {
+      fontSize: 12,
+      fontWeight: '700',
+      color: colors.white,
+    },
+    numberBadge: {
+      position: 'absolute',
+      top: 6,
+      left: 6,
+      width: 22,
+      height: 22,
+      borderRadius: 11,
+      backgroundColor: colors.textLight,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    numberBadgeText: {
+      fontSize: 12,
+      fontWeight: '700',
+      color: colors.white,
+    },
+  });
+}

@@ -1,7 +1,8 @@
 import React, { useMemo } from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 import { TrueOrFalseQuestion } from '@/types/question';
-import { Colors } from '@/constants/Colors';
+import { useTheme } from '@/context/ThemeContext';
+import { ColorScheme } from '@/constants/Colors';
 
 interface TrueOrFalseProps {
   question: TrueOrFalseQuestion;
@@ -16,6 +17,9 @@ export function TrueOrFalse({
   onSelect,
   isSubmitted,
 }: TrueOrFalseProps) {
+  const { colors } = useTheme();
+  const styles = useMemo(() => createStyles(colors), [colors]);
+
   const shuffledOptions = useMemo(() => {
     const options = [
       { value: true, label: 'True' },
@@ -74,55 +78,57 @@ export function TrueOrFalse({
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  question: {
-    fontSize: 20,
-    fontWeight: '600',
-    color: Colors.text,
-    marginBottom: 32,
-    lineHeight: 28,
-  },
-  buttonsContainer: {
-    flexDirection: 'row',
-    gap: 16,
-  },
-  button: {
-    flex: 1,
-    backgroundColor: Colors.surface,
-    borderRadius: 24,
-    borderWidth: 0,
-    paddingVertical: 24,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  buttonSelected: {
-    backgroundColor: Colors.primary + '15',
-    borderColor: Colors.primary,
-  },
-  buttonCorrect: {
-    backgroundColor: Colors.successLight,
-    borderColor: Colors.success,
-  },
-  buttonIncorrect: {
-    backgroundColor: Colors.errorLight,
-    borderColor: Colors.error,
-  },
-  buttonText: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: Colors.text,
-  },
-  buttonTextSelected: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: Colors.primary,
-  },
-  buttonTextHighlighted: {
-    fontSize: 18,
-    fontWeight: '700',
-    color: Colors.text,
-  },
-});
+function createStyles(colors: ColorScheme) {
+  return StyleSheet.create({
+    container: {
+      flex: 1,
+    },
+    question: {
+      fontSize: 20,
+      fontWeight: '600',
+      color: colors.text,
+      marginBottom: 32,
+      lineHeight: 28,
+    },
+    buttonsContainer: {
+      flexDirection: 'row',
+      gap: 16,
+    },
+    button: {
+      flex: 1,
+      backgroundColor: colors.surface,
+      borderRadius: 24,
+      borderWidth: 0,
+      paddingVertical: 24,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    buttonSelected: {
+      backgroundColor: colors.primary + '15',
+      borderColor: colors.primary,
+    },
+    buttonCorrect: {
+      backgroundColor: colors.successLight,
+      borderColor: colors.success,
+    },
+    buttonIncorrect: {
+      backgroundColor: colors.errorLight,
+      borderColor: colors.error,
+    },
+    buttonText: {
+      fontSize: 18,
+      fontWeight: '600',
+      color: colors.text,
+    },
+    buttonTextSelected: {
+      fontSize: 18,
+      fontWeight: '600',
+      color: colors.primary,
+    },
+    buttonTextHighlighted: {
+      fontSize: 18,
+      fontWeight: '700',
+      color: colors.text,
+    },
+  });
+}

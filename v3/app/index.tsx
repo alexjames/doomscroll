@@ -1,13 +1,17 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React, { useMemo } from 'react';
+import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { router } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Ionicons } from '@expo/vector-icons';
 import { useQuiz } from '@/context/QuizContext';
+import { useTheme } from '@/context/ThemeContext';
 import { Button } from '@/components/common';
-import { Colors } from '@/constants/Colors';
+import { ColorScheme } from '@/constants/Colors';
 
 export default function HomeScreen() {
   const { startQuiz } = useQuiz();
+  const { mode, setThemeMode, colors, isDark } = useTheme();
+  const styles = useMemo(() => createStyles(colors, isDark), [colors, isDark]);
 
   const handleStartQuiz = () => {
     startQuiz();
@@ -25,6 +29,59 @@ export default function HomeScreen() {
           <Text style={styles.subtitle}>
             Test your programming and tech knowledge
           </Text>
+        </View>
+
+        <View style={styles.themeContainer}>
+          <Pressable
+            style={[styles.themeOption, mode === 'light' && styles.themeOptionActive]}
+            onPress={() => setThemeMode('light')}
+          >
+            <Ionicons
+              name="sunny-outline"
+              size={20}
+              color={mode === 'light' ? colors.primary : colors.textSecondary}
+            />
+            <Text
+              style={[
+                styles.themeLabel,
+                mode === 'light' && styles.themeLabelActive,
+              ]}
+            >
+              Light
+            </Text>
+          </Pressable>
+
+          <Pressable
+            style={[styles.themeOption, mode === 'auto' && styles.themeOptionActive]}
+            onPress={() => setThemeMode('auto')}
+          >
+            <Ionicons
+              name="phone-portrait-outline"
+              size={20}
+              color={mode === 'auto' ? colors.primary : colors.textSecondary}
+            />
+            <Text
+              style={[styles.themeLabel, mode === 'auto' && styles.themeLabelActive]}
+            >
+              Auto
+            </Text>
+          </Pressable>
+
+          <Pressable
+            style={[styles.themeOption, mode === 'dark' && styles.themeOptionActive]}
+            onPress={() => setThemeMode('dark')}
+          >
+            <Ionicons
+              name="moon-outline"
+              size={20}
+              color={mode === 'dark' ? colors.primary : colors.textSecondary}
+            />
+            <Text
+              style={[styles.themeLabel, mode === 'dark' && styles.themeLabelActive]}
+            >
+              Dark
+            </Text>
+          </Pressable>
         </View>
 
         <View style={styles.infoContainer}>
@@ -73,112 +130,144 @@ export default function HomeScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Colors.background,
-  },
-  content: {
-    flex: 1,
-    padding: 24,
-  },
-  header: {
-    alignItems: 'center',
-    marginTop: 40,
-    marginBottom: 40,
-  },
-  iconContainer: {
-    width: 80,
-    height: 80,
-    borderRadius: 20,
-    backgroundColor: Colors.primary,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 20,
-  },
-  icon: {
-    fontSize: 32,
-    fontWeight: '700',
-    color: Colors.white,
-  },
-  title: {
-    fontSize: 36,
-    fontWeight: '700',
-    color: Colors.text,
-    marginBottom: 8,
-  },
-  subtitle: {
-    fontSize: 16,
-    color: Colors.textSecondary,
-    textAlign: 'center',
-  },
-  infoContainer: {
-    flexDirection: 'row',
-    backgroundColor: Colors.surface,
-    borderRadius: 16,
-    padding: 20,
-    marginBottom: 32,
-    shadowColor: Colors.black,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 8,
-    elevation: 2,
-  },
-  infoItem: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  infoNumber: {
-    fontSize: 32,
-    fontWeight: '700',
-    color: Colors.primary,
-    marginBottom: 4,
-  },
-  infoLabel: {
-    fontSize: 14,
-    color: Colors.textSecondary,
-  },
-  infoDivider: {
-    width: 1,
-    backgroundColor: Colors.border,
-    marginHorizontal: 20,
-  },
-  typesContainer: {
-    backgroundColor: Colors.surface,
-    borderRadius: 16,
-    padding: 20,
-    shadowColor: Colors.black,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 8,
-    elevation: 2,
-  },
-  typesTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: Colors.text,
-    marginBottom: 16,
-  },
-  typesList: {
-    gap: 10,
-  },
-  typeItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  typeBullet: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: Colors.primary,
-    marginRight: 12,
-  },
-  typeText: {
-    fontSize: 15,
-    color: Colors.textSecondary,
-  },
-  footer: {
-    padding: 24,
-    paddingBottom: 16,
-  },
-});
+function createStyles(colors: ColorScheme, isDark: boolean) {
+  return StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colors.background,
+    },
+    content: {
+      flex: 1,
+      padding: 24,
+    },
+    header: {
+      alignItems: 'center',
+      marginTop: 40,
+      marginBottom: 40,
+    },
+    iconContainer: {
+      width: 80,
+      height: 80,
+      borderRadius: 20,
+      backgroundColor: colors.primary,
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginBottom: 20,
+    },
+    icon: {
+      fontSize: 32,
+      fontWeight: '700',
+      color: colors.white,
+    },
+    title: {
+      fontSize: 36,
+      fontWeight: '700',
+      color: colors.text,
+      marginBottom: 8,
+    },
+    subtitle: {
+      fontSize: 16,
+      color: colors.textSecondary,
+      textAlign: 'center',
+    },
+    themeContainer: {
+      flexDirection: 'row',
+      backgroundColor: colors.surface,
+      borderRadius: 12,
+      padding: 4,
+      marginBottom: 32,
+      gap: 4,
+    },
+    themeOption: {
+      flex: 1,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      paddingVertical: 10,
+      paddingHorizontal: 8,
+      borderRadius: 8,
+      gap: 6,
+    },
+    themeOptionActive: {
+      backgroundColor: colors.primary + '15',
+    },
+    themeLabel: {
+      fontSize: 14,
+      fontWeight: '500',
+      color: colors.textSecondary,
+    },
+    themeLabelActive: {
+      color: colors.primary,
+      fontWeight: '600',
+    },
+    infoContainer: {
+      flexDirection: 'row',
+      backgroundColor: colors.surface,
+      borderRadius: 16,
+      padding: 20,
+      marginBottom: 32,
+      shadowColor: colors.shadowColor,
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: isDark ? 0.4 : 0.05,
+      shadowRadius: 8,
+      elevation: 2,
+    },
+    infoItem: {
+      flex: 1,
+      alignItems: 'center',
+    },
+    infoNumber: {
+      fontSize: 32,
+      fontWeight: '700',
+      color: colors.primary,
+      marginBottom: 4,
+    },
+    infoLabel: {
+      fontSize: 14,
+      color: colors.textSecondary,
+    },
+    infoDivider: {
+      width: 1,
+      backgroundColor: colors.border,
+      marginHorizontal: 20,
+    },
+    typesContainer: {
+      backgroundColor: colors.surface,
+      borderRadius: 16,
+      padding: 20,
+      shadowColor: colors.shadowColor,
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: isDark ? 0.4 : 0.05,
+      shadowRadius: 8,
+      elevation: 2,
+    },
+    typesTitle: {
+      fontSize: 16,
+      fontWeight: '600',
+      color: colors.text,
+      marginBottom: 16,
+    },
+    typesList: {
+      gap: 10,
+    },
+    typeItem: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    typeBullet: {
+      width: 8,
+      height: 8,
+      borderRadius: 4,
+      backgroundColor: colors.primary,
+      marginRight: 12,
+    },
+    typeText: {
+      fontSize: 15,
+      color: colors.textSecondary,
+    },
+    footer: {
+      padding: 24,
+      paddingBottom: 16,
+    },
+  });
+}

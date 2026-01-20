@@ -1,6 +1,7 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useMemo } from 'react';
 import { View, StyleSheet, Animated } from 'react-native';
-import { Colors } from '@/constants/Colors';
+import { useTheme } from '@/context/ThemeContext';
+import { ColorScheme } from '@/constants/Colors';
 
 interface ProgressBarProps {
   progress: number;
@@ -12,9 +13,15 @@ interface ProgressBarProps {
 export function ProgressBar({
   progress,
   height = 8,
-  backgroundColor = Colors.border,
-  progressColor = Colors.primary,
+  backgroundColor,
+  progressColor,
 }: ProgressBarProps) {
+  const { colors } = useTheme();
+  const styles = useMemo(() => createStyles(colors), [colors]);
+
+  const defaultBgColor = backgroundColor || colors.border;
+  const defaultProgressColor = progressColor || colors.primary;
+
   const clampedProgress = Math.min(Math.max(progress, 0), 1);
   const widthAnim = useRef(new Animated.Value(0)).current;
 
@@ -27,11 +34,11 @@ export function ProgressBar({
   }, [clampedProgress, widthAnim]);
 
   return (
-    <View style={[styles.container, { height, backgroundColor }]}>
+    <View style={[styles.container, { height, backgroundColor: defaultBgColor }]}>
       <Animated.View
         style={[
           styles.progress,
-          { backgroundColor: progressColor },
+          { backgroundColor: defaultProgressColor },
           {
             width: widthAnim.interpolate({
               inputRange: [0, 1],
@@ -44,14 +51,16 @@ export function ProgressBar({
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    width: '100%',
-    borderRadius: 100,
-    overflow: 'hidden',
-  },
-  progress: {
-    height: '100%',
-    borderRadius: 100,
-  },
-});
+function createStyles(colors: ColorScheme) {
+  return StyleSheet.create({
+    container: {
+      width: '100%',
+      borderRadius: 100,
+      overflow: 'hidden',
+    },
+    progress: {
+      height: '100%',
+      borderRadius: 100,
+    },
+  });
+}

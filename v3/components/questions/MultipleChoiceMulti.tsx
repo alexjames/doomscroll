@@ -1,7 +1,8 @@
 import React, { useMemo } from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 import { MultipleChoiceMultiQuestion } from '@/types/question';
-import { Colors } from '@/constants/Colors';
+import { useTheme } from '@/context/ThemeContext';
+import { ColorScheme } from '@/constants/Colors';
 import { shuffleArray } from '@/utils/shuffle';
 
 interface MultipleChoiceMultiProps {
@@ -17,6 +18,9 @@ export function MultipleChoiceMulti({
   onToggle,
   isSubmitted,
 }: MultipleChoiceMultiProps) {
+  const { colors } = useTheme();
+  const styles = useMemo(() => createStyles(colors), [colors]);
+
   const shuffledOptions = useMemo(() => {
     const optionsWithIndices = question.options.map((option, originalIndex) => ({
       option,
@@ -96,112 +100,114 @@ export function MultipleChoiceMulti({
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  question: {
-    fontSize: 20,
-    fontWeight: '600',
-    color: Colors.text,
-    marginBottom: 8,
-    lineHeight: 28,
-  },
-  hint: {
-    fontSize: 14,
-    color: Colors.textSecondary,
-    marginBottom: 20,
-  },
-  optionsContainer: {
-    gap: 12,
-  },
-  option: {
-    backgroundColor: Colors.surface,
-    borderRadius: 24,
-    borderWidth: 0,
-    padding: 16,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  optionSelected: {
-    backgroundColor: Colors.primary + '15',
-    borderRadius: 24,
-    borderWidth: 2,
-    borderColor: Colors.primary,
-    padding: 16,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  optionCorrect: {
-    backgroundColor: Colors.successLight,
-    borderRadius: 24,
-    borderWidth: 2,
-    borderColor: Colors.success,
-    padding: 16,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  optionIncorrect: {
-    backgroundColor: Colors.errorLight,
-    borderRadius: 24,
-    borderWidth: 2,
-    borderColor: Colors.error,
-    padding: 16,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  checkbox: {
-    width: 24,
-    height: 24,
-    borderRadius: 6,
-    borderWidth: 2,
-    borderColor: Colors.border,
-    marginRight: 14,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  checkboxSelected: {
-    width: 24,
-    height: 24,
-    borderRadius: 6,
-    borderWidth: 2,
-    borderColor: Colors.primary,
-    backgroundColor: Colors.primary,
-    marginRight: 14,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  checkboxCorrect: {
-    width: 24,
-    height: 24,
-    borderRadius: 6,
-    borderWidth: 2,
-    borderColor: Colors.success,
-    backgroundColor: Colors.success,
-    marginRight: 14,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  checkboxIncorrect: {
-    width: 24,
-    height: 24,
-    borderRadius: 6,
-    borderWidth: 2,
-    borderColor: Colors.error,
-    backgroundColor: Colors.error,
-    marginRight: 14,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  checkmark: {
-    width: 10,
-    height: 10,
-    borderRadius: 2,
-    backgroundColor: Colors.white,
-  },
-  optionText: {
-    fontSize: 16,
-    color: Colors.text,
-    flex: 1,
-  },
-});
+function createStyles(colors: ColorScheme) {
+  return StyleSheet.create({
+    container: {
+      flex: 1,
+    },
+    question: {
+      fontSize: 20,
+      fontWeight: '600',
+      color: colors.text,
+      marginBottom: 8,
+      lineHeight: 28,
+    },
+    hint: {
+      fontSize: 14,
+      color: colors.textSecondary,
+      marginBottom: 20,
+    },
+    optionsContainer: {
+      gap: 12,
+    },
+    option: {
+      backgroundColor: colors.surface,
+      borderRadius: 24,
+      borderWidth: 0,
+      padding: 16,
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    optionSelected: {
+      backgroundColor: colors.primary + '15',
+      borderRadius: 24,
+      borderWidth: 2,
+      borderColor: colors.primary,
+      padding: 16,
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    optionCorrect: {
+      backgroundColor: colors.successLight,
+      borderRadius: 24,
+      borderWidth: 2,
+      borderColor: colors.success,
+      padding: 16,
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    optionIncorrect: {
+      backgroundColor: colors.errorLight,
+      borderRadius: 24,
+      borderWidth: 2,
+      borderColor: colors.error,
+      padding: 16,
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    checkbox: {
+      width: 24,
+      height: 24,
+      borderRadius: 6,
+      borderWidth: 2,
+      borderColor: colors.border,
+      marginRight: 14,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    checkboxSelected: {
+      width: 24,
+      height: 24,
+      borderRadius: 6,
+      borderWidth: 2,
+      borderColor: colors.primary,
+      backgroundColor: colors.primary,
+      marginRight: 14,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    checkboxCorrect: {
+      width: 24,
+      height: 24,
+      borderRadius: 6,
+      borderWidth: 2,
+      borderColor: colors.success,
+      backgroundColor: colors.success,
+      marginRight: 14,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    checkboxIncorrect: {
+      width: 24,
+      height: 24,
+      borderRadius: 6,
+      borderWidth: 2,
+      borderColor: colors.error,
+      backgroundColor: colors.error,
+      marginRight: 14,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    checkmark: {
+      width: 10,
+      height: 10,
+      borderRadius: 2,
+      backgroundColor: colors.white,
+    },
+    optionText: {
+      fontSize: 16,
+      color: colors.text,
+      flex: 1,
+    },
+  });
+}
