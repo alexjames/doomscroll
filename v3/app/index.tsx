@@ -34,7 +34,7 @@ export default function HomeScreen() {
           </View>
           <View style={styles.infoDivider} />
           <View style={styles.infoItem}>
-            <Text style={styles.infoNumber}>7</Text>
+            <Text style={styles.infoNumber}>8</Text>
             <Text style={styles.infoLabel}>Question Types</Text>
           </View>
         </View>
@@ -50,6 +50,7 @@ export default function HomeScreen() {
               'Multi-Select',
               'Match Pairs',
               'Tap to Reveal',
+              'Order Items',
             ].map((type, index) => (
               <View key={index} style={styles.typeItem}>
                 <View style={styles.typeBullet} />

@@ -7,6 +7,7 @@ import {
   TypeAnswerQuestion,
   MultipleChoiceMultiQuestion,
   MatchTheFollowingQuestion,
+  OrderItemsQuestion,
 } from '@/types/question';
 import {
   UserAnswer,
@@ -20,6 +21,7 @@ import {
   MultipleChoiceMultiAnswer,
   MatchTheFollowingAnswer,
   TapToRevealAnswer,
+  OrderItemsAnswer,
 } from '@/types/quiz';
 
 function normalizeText(text: string, caseSensitive: boolean): string {
@@ -162,6 +164,19 @@ export function evaluateAnswer(
     case QuestionFormat.TAP_TO_REVEAL: {
       const a = answer as TapToRevealAnswer;
       const isCorrect = a.selfMarkedCorrect === true;
+      return { isCorrect, pointsEarned: isCorrect ? maxPoints : 0 };
+    }
+
+    case QuestionFormat.ORDER_ITEMS: {
+      const q = question as OrderItemsQuestion;
+      const a = answer as OrderItemsAnswer;
+      const userOrder = a.orderedItemIds ?? [];
+
+      if (userOrder.length !== q.correctOrder.length) {
+        return { isCorrect: false, pointsEarned: 0 };
+      }
+
+      const isCorrect = userOrder.every((id, index) => id === q.correctOrder[index]);
       return { isCorrect, pointsEarned: isCorrect ? maxPoints : 0 };
     }
 

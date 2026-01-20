@@ -10,6 +10,7 @@ import {
   MultipleChoiceMultiAnswer,
   MatchTheFollowingAnswer,
   TapToRevealAnswer,
+  OrderItemsAnswer,
 } from '@/types/quiz';
 import { evaluateAnswer } from '@/utils/scoring';
 import { Colors } from '@/constants/Colors';
@@ -21,6 +22,7 @@ import { TypeAnswer } from './TypeAnswer';
 import { MultipleChoiceMulti } from './MultipleChoiceMulti';
 import { MatchTheFollowing } from './MatchTheFollowing';
 import { TapToReveal } from './TapToReveal';
+import { OrderItems } from './OrderItems';
 
 interface QuestionContainerProps {
   question: Question;
@@ -46,6 +48,8 @@ function createInitialAnswer(format: QuestionFormat): UserAnswer {
       return { format, matches: {} };
     case QuestionFormat.TAP_TO_REVEAL:
       return { format, revealed: false, selfMarkedCorrect: null };
+    case QuestionFormat.ORDER_ITEMS:
+      return { format, orderedItemIds: [] };
   }
 }
 
@@ -99,6 +103,8 @@ export function QuestionContainer({
         return Object.keys(matches).length > 0;
       case QuestionFormat.TAP_TO_REVEAL:
         return (localAnswer as TapToRevealAnswer).selfMarkedCorrect !== null;
+      case QuestionFormat.ORDER_ITEMS:
+        return ((localAnswer as OrderItemsAnswer).orderedItemIds?.length ?? 0) > 0;
     }
   }, [localAnswer]);
 
@@ -204,6 +210,35 @@ export function QuestionContainer({
                 selfMarkedCorrect: correct,
               } as TapToRevealAnswer)
             }
+            isSubmitted={isSubmitted}
+          />
+        );
+
+      case QuestionFormat.ORDER_ITEMS:
+        return (
+          <OrderItems
+            question={question}
+            orderedItemIds={(localAnswer as OrderItemsAnswer).orderedItemIds}
+            onAddItem={(itemId) => {
+              const current = (localAnswer as OrderItemsAnswer).orderedItemIds ?? [];
+              setLocalAnswer({
+                ...localAnswer,
+                orderedItemIds: [...current, itemId],
+              } as OrderItemsAnswer);
+            }}
+            onRemoveItem={(index) => {
+              const current = (localAnswer as OrderItemsAnswer).orderedItemIds ?? [];
+              setLocalAnswer({
+                ...localAnswer,
+                orderedItemIds: current.filter((_, i) => i !== index),
+              } as OrderItemsAnswer);
+            }}
+            onClear={() => {
+              setLocalAnswer({
+                ...localAnswer,
+                orderedItemIds: [],
+              } as OrderItemsAnswer);
+            }}
             isSubmitted={isSubmitted}
           />
         );

@@ -6,6 +6,7 @@ export enum QuestionFormat {
   MULTIPLE_CHOICE_MULTI = 'MULTIPLE_CHOICE_MULTI',
   MATCH_THE_FOLLOWING = 'MATCH_THE_FOLLOWING',
   TAP_TO_REVEAL = 'TAP_TO_REVEAL',
+  ORDER_ITEMS = 'ORDER_ITEMS',
 }
 
 export interface BaseQuestion {
@@ -66,6 +67,19 @@ export interface TapToRevealQuestion extends BaseQuestion {
   answer: string;
 }
 
+export interface OrderItem {
+  id: string;
+  text: string;
+}
+
+export interface OrderItemsQuestion extends BaseQuestion {
+  format: QuestionFormat.ORDER_ITEMS;
+  correctOrder: string[];
+  items: OrderItem[];
+  distractors?: OrderItem[];
+  preview?: string;
+}
+
 export type Question =
   | MultipleChoiceSingleQuestion
   | TrueOrFalseQuestion
@@ -73,4 +87,5 @@ export type Question =
   | TypeAnswerQuestion
   | MultipleChoiceMultiQuestion
   | MatchTheFollowingQuestion
-  | TapToRevealQuestion;
+  | TapToRevealQuestion
+  | OrderItemsQuestion;

@@ -5,4 +5,5 @@ export { TypeAnswer } from './TypeAnswer';
 export { MultipleChoiceMulti } from './MultipleChoiceMulti';
 export { MatchTheFollowing } from './MatchTheFollowing';
 export { TapToReveal } from './TapToReveal';
+export { OrderItems } from './OrderItems';
 export { QuestionContainer } from './QuestionContainer';

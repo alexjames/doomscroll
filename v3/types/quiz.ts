@@ -36,6 +36,11 @@ export interface TapToRevealAnswer {
   selfMarkedCorrect: boolean | null;
 }
 
+export interface OrderItemsAnswer {
+  format: QuestionFormat.ORDER_ITEMS;
+  orderedItemIds: string[];
+}
+
 export type UserAnswer =
   | MultipleChoiceSingleAnswer
   | TrueOrFalseAnswer
@@ -43,7 +48,8 @@ export type UserAnswer =
   | TypeAnswerAnswer
   | MultipleChoiceMultiAnswer
   | MatchTheFollowingAnswer
-  | TapToRevealAnswer;
+  | TapToRevealAnswer
+  | OrderItemsAnswer;
 
 export interface QuestionResult {
   questionId: string;

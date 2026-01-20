@@ -8,6 +8,7 @@ import {
   MultipleChoiceMultiQuestion,
   MatchTheFollowingQuestion,
   TapToRevealQuestion,
+  OrderItemsQuestion,
 } from '@/types/question';
 
 const multipleChoiceSingleQuestions: MultipleChoiceSingleQuestion[] = [
@@ -201,6 +202,114 @@ const tapToRevealQuestions: TapToRevealQuestion[] = [
   },
 ];
 
+const orderItemsQuestions: OrderItemsQuestion[] = [
+  {
+    id: 'oi-1',
+    format: QuestionFormat.ORDER_ITEMS,
+    question: 'Arrange the parts to form a valid HTTP GET request:',
+    preview: 'GET /api/users HTTP/1.1',
+    correctOrder: ['get', 'path', 'http', 'slash', 'version'],
+    items: [
+      { id: 'get', text: 'GET' },
+      { id: 'path', text: '/api/users' },
+      { id: 'http', text: 'HTTP' },
+      { id: 'slash', text: '/' },
+      { id: 'version', text: '1.1' },
+    ],
+    distractors: [
+      { id: 'post', text: 'POST' },
+      { id: 'v2', text: '2.0' },
+    ],
+    category: 'HTTP',
+    difficulty: 'medium',
+    points: 2,
+  },
+  {
+    id: 'oi-2',
+    format: QuestionFormat.ORDER_ITEMS,
+    question: 'Arrange the parts to form a valid HTTP POST request:',
+    preview: 'POST /api/login HTTP/1.1',
+    correctOrder: ['post', 'path', 'http', 'slash', 'version'],
+    items: [
+      { id: 'post', text: 'POST' },
+      { id: 'path', text: '/api/login' },
+      { id: 'http', text: 'HTTP' },
+      { id: 'slash', text: '/' },
+      { id: 'version', text: '1.1' },
+    ],
+    distractors: [
+      { id: 'get', text: 'GET' },
+      { id: 'put', text: 'PUT' },
+    ],
+    category: 'HTTP',
+    difficulty: 'medium',
+    points: 2,
+  },
+  {
+    id: 'oi-3',
+    format: QuestionFormat.ORDER_ITEMS,
+    question: 'Arrange the parts to form a valid HTTP PUT request:',
+    preview: 'PUT /api/users/123 HTTP/1.1',
+    correctOrder: ['put', 'path', 'http', 'slash', 'version'],
+    items: [
+      { id: 'put', text: 'PUT' },
+      { id: 'path', text: '/api/users/123' },
+      { id: 'http', text: 'HTTP' },
+      { id: 'slash', text: '/' },
+      { id: 'version', text: '1.1' },
+    ],
+    distractors: [
+      { id: 'patch', text: 'PATCH' },
+      { id: 'delete', text: 'DELETE' },
+    ],
+    category: 'HTTP',
+    difficulty: 'medium',
+    points: 2,
+  },
+  {
+    id: 'oi-4',
+    format: QuestionFormat.ORDER_ITEMS,
+    question: 'Arrange the parts to form a valid HTTP DELETE request:',
+    preview: 'DELETE /api/posts/456 HTTP/1.1',
+    correctOrder: ['delete', 'path', 'http', 'slash', 'version'],
+    items: [
+      { id: 'delete', text: 'DELETE' },
+      { id: 'path', text: '/api/posts/456' },
+      { id: 'http', text: 'HTTP' },
+      { id: 'slash', text: '/' },
+      { id: 'version', text: '1.1' },
+    ],
+    distractors: [
+      { id: 'get', text: 'GET' },
+      { id: 'remove', text: 'REMOVE' },
+    ],
+    category: 'HTTP',
+    difficulty: 'medium',
+    points: 2,
+  },
+  {
+    id: 'oi-5',
+    format: QuestionFormat.ORDER_ITEMS,
+    question: 'Arrange the parts to form a valid HTTP PATCH request:',
+    preview: 'PATCH /api/settings HTTP/1.1',
+    correctOrder: ['patch', 'path', 'http', 'slash', 'version'],
+    items: [
+      { id: 'patch', text: 'PATCH' },
+      { id: 'path', text: '/api/settings' },
+      { id: 'http', text: 'HTTP' },
+      { id: 'slash', text: '/' },
+      { id: 'version', text: '1.1' },
+    ],
+    distractors: [
+      { id: 'put', text: 'PUT' },
+      { id: 'update', text: 'UPDATE' },
+    ],
+    category: 'HTTP',
+    difficulty: 'medium',
+    points: 2,
+  },
+];
+
 export const questions: Question[] = [
   ...multipleChoiceSingleQuestions,
   ...trueOrFalseQuestions,
@@ -209,4 +318,5 @@ export const questions: Question[] = [
   ...multipleChoiceMultiQuestions,
   ...matchTheFollowingQuestions,
   ...tapToRevealQuestions,
+  ...orderItemsQuestions,
 ];
