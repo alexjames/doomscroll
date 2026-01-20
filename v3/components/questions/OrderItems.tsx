@@ -50,57 +50,60 @@ export function OrderItems({
 
   return (
     <View style={styles.container}>
-      <Text style={styles.question}>{question.question}</Text>
-      <Text style={styles.hint}>Tap cards to build your answer</Text>
+      {/* Upper half - Question and Answer Zone */}
+      <View style={styles.upperSection}>
+        <Text style={styles.question}>{question.question}</Text>
+        <Text style={styles.hint}>Tap cards to build your answer</Text>
 
-      {/* Answer Zone */}
-      <View style={styles.answerSection}>
-        <View style={styles.answerHeader}>
-          <Text style={styles.answerLabel}>Your Answer:</Text>
-          {safeOrderedItemIds.length > 0 && !isSubmitted && (
-            <Pressable onPress={onClear}>
-              <Text style={styles.clearButtonText}>Clear</Text>
-            </Pressable>
-          )}
+        {/* Answer Zone */}
+        <View style={styles.answerSection}>
+          <View style={styles.answerHeader}>
+            <Text style={styles.answerLabel}>Your Answer:</Text>
+            {safeOrderedItemIds.length > 0 && !isSubmitted && (
+              <Pressable onPress={onClear}>
+                <Text style={styles.clearButtonText}>Clear</Text>
+              </Pressable>
+            )}
+          </View>
+          <View
+            style={[
+              styles.dropZone,
+              isSubmitted && (isCorrectOrder ? styles.dropZoneCorrect : styles.dropZoneIncorrect),
+            ]}
+          >
+            {safeOrderedItemIds.length === 0 ? (
+              <Text style={styles.placeholderText}>Tap cards below to add them here</Text>
+            ) : (
+              <View style={styles.placedCards}>
+                {safeOrderedItemIds.map((itemId, index) => {
+                  const item = getItemById(itemId);
+                  return (
+                    <Pressable
+                      key={`${itemId}-${index}`}
+                      style={styles.placedCard}
+                      onPress={() => !isSubmitted && onRemoveItem(index)}
+                      disabled={isSubmitted}
+                    >
+                      <Text style={styles.placedCardText}>{item?.text}</Text>
+                    </Pressable>
+                  );
+                })}
+              </View>
+            )}
+          </View>
         </View>
-        <View
-          style={[
-            styles.dropZone,
-            isSubmitted && (isCorrectOrder ? styles.dropZoneCorrect : styles.dropZoneIncorrect),
-          ]}
-        >
-          {safeOrderedItemIds.length === 0 ? (
-            <Text style={styles.placeholderText}>Tap cards below to add them here</Text>
-          ) : (
-            <View style={styles.placedCards}>
-              {safeOrderedItemIds.map((itemId, index) => {
-                const item = getItemById(itemId);
-                return (
-                  <Pressable
-                    key={`${itemId}-${index}`}
-                    style={styles.placedCard}
-                    onPress={() => !isSubmitted && onRemoveItem(index)}
-                    disabled={isSubmitted}
-                  >
-                    <Text style={styles.placedCardText}>{item?.text}</Text>
-                  </Pressable>
-                );
-              })}
-            </View>
-          )}
-        </View>
+
+        {/* Show correct answer after submission */}
+        {isSubmitted && !isCorrectOrder && (
+          <View style={styles.correctAnswerBox}>
+            <Text style={styles.correctAnswerLabel}>Correct answer:</Text>
+            <Text style={styles.correctAnswerText}>{getCorrectPreview()}</Text>
+          </View>
+        )}
       </View>
 
-      {/* Show correct answer after submission */}
-      {isSubmitted && !isCorrectOrder && (
-        <View style={styles.correctAnswerBox}>
-          <Text style={styles.correctAnswerLabel}>Correct answer:</Text>
-          <Text style={styles.correctAnswerText}>{getCorrectPreview()}</Text>
-        </View>
-      )}
-
-      {/* Available Cards */}
-      <View style={styles.availableSection}>
+      {/* Lower half - Available Cards */}
+      <View style={styles.lowerSection}>
         <Text style={styles.availableLabel}>Available:</Text>
         <View style={styles.availableCards}>
           {allItems.map((item) => {
@@ -132,6 +135,13 @@ export function OrderItems({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  upperSection: {
+    flex: 1,
+  },
+  lowerSection: {
+    flex: 1,
+    justifyContent: 'center',
   },
   question: {
     fontSize: 20,
@@ -232,9 +242,6 @@ const styles = StyleSheet.create({
     fontFamily: 'monospace',
   },
   // Available Cards Section
-  availableSection: {
-    marginBottom: 16,
-  },
   availableLabel: {
     fontSize: 13,
     fontWeight: '600',
