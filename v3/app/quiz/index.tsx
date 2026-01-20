@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { router } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Ionicons } from '@expo/vector-icons';
 import { useQuiz } from '@/context/QuizContext';
 import { QuestionContainer } from '@/components/questions';
 import { ProgressBar } from '@/components/common';
@@ -47,7 +48,7 @@ export default function QuizScreen() {
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <Pressable onPress={handleExit} style={styles.exitButton}>
-          <Text style={styles.exitText}>Exit</Text>
+          <Ionicons name="close" size={24} color={Colors.textSecondary} />
         </Pressable>
         <View style={styles.progressInfo}>
           <Text style={styles.questionNumber}>

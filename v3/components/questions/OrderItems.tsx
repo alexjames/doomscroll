@@ -104,7 +104,6 @@ export function OrderItems({
 
       {/* Lower half - Available Cards */}
       <View style={styles.lowerSection}>
-        <Text style={styles.availableLabel}>Available:</Text>
         <View style={styles.availableCards}>
           {allItems.map((item) => {
             const used = isItemUsed(item.id);
