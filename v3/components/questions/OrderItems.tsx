@@ -125,13 +125,6 @@ export function OrderItems({
           })}
         </View>
       </View>
-
-      {question.preview && (
-        <View style={styles.previewHint}>
-          <Text style={styles.previewHintLabel}>Expected format:</Text>
-          <Text style={styles.previewHintText}>{question.preview}</Text>
-        </View>
-      )}
     </View>
   );
 }
