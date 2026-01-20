@@ -69,13 +69,12 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     backgroundColor: Colors.surface,
-    borderRadius: 16,
-    borderWidth: 2,
-    borderColor: Colors.border,
+    borderRadius: 24,
+    borderWidth: 0,
     overflow: 'hidden',
   },
   input: {
-    fontSize: 18,
+    fontSize: 16,
     color: Colors.text,
     padding: 20,
     minHeight: 60,
@@ -100,7 +99,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     padding: 16,
     backgroundColor: Colors.successLight,
-    borderRadius: 12,
+    borderRadius: 24,
   },
   correctAnswerLabel: {
     fontSize: 14,
@@ -116,7 +115,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     padding: 16,
     backgroundColor: Colors.successLight,
-    borderRadius: 12,
+    borderRadius: 24,
     alignItems: 'center',
   },
   successText: {

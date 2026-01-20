@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
   },
   dropZone: {
     backgroundColor: Colors.surface,
-    borderRadius: 8,
+    borderRadius: 24,
     borderWidth: 2,
     borderColor: Colors.border,
     borderStyle: 'dashed',
@@ -222,7 +222,7 @@ const styles = StyleSheet.create({
   // Correct Answer
   correctAnswerBox: {
     backgroundColor: Colors.successLight,
-    borderRadius: 8,
+    borderRadius: 24,
     padding: 12,
     marginBottom: 16,
   },
@@ -256,11 +256,10 @@ const styles = StyleSheet.create({
   },
   availableCard: {
     backgroundColor: Colors.surfaceSecondary,
-    borderRadius: 6,
+    borderRadius: 16,
     paddingVertical: 8,
     paddingHorizontal: 12,
-    borderWidth: 1,
-    borderColor: Colors.border,
+    borderWidth: 0,
   },
   availableCardUsed: {
     backgroundColor: Colors.border,

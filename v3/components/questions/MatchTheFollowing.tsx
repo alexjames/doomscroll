@@ -156,8 +156,7 @@ const styles = StyleSheet.create({
   item: {
     backgroundColor: Colors.surface,
     borderRadius: 12,
-    borderWidth: 2,
-    borderColor: Colors.border,
+    borderWidth: 0,
     padding: 14,
     minHeight: 70,
     justifyContent: 'center',

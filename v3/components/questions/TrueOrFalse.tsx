@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 import { TrueOrFalseQuestion } from '@/types/question';
 import { Colors } from '@/constants/Colors';
@@ -16,6 +16,14 @@ export function TrueOrFalse({
   onSelect,
   isSubmitted,
 }: TrueOrFalseProps) {
+  const shuffledOptions = useMemo(() => {
+    const options = [
+      { value: true, label: 'True' },
+      { value: false, label: 'False' },
+    ];
+    return Math.random() < 0.5 ? options : [options[1], options[0]];
+  }, []);
+
   const getButtonStyle = (value: boolean) => {
     const isSelected = selectedAnswer === value;
     const isCorrect = value === question.correctAnswer;
@@ -51,20 +59,16 @@ export function TrueOrFalse({
     <View style={styles.container}>
       <Text style={styles.question}>{question.question}</Text>
       <View style={styles.buttonsContainer}>
-        <Pressable
-          style={getButtonStyle(true)}
-          onPress={() => !isSubmitted && onSelect(true)}
-          disabled={isSubmitted}
-        >
-          <Text style={getButtonTextStyle(true)}>True</Text>
-        </Pressable>
-        <Pressable
-          style={getButtonStyle(false)}
-          onPress={() => !isSubmitted && onSelect(false)}
-          disabled={isSubmitted}
-        >
-          <Text style={getButtonTextStyle(false)}>False</Text>
-        </Pressable>
+        {shuffledOptions.map((option) => (
+          <Pressable
+            key={option.label}
+            style={getButtonStyle(option.value)}
+            onPress={() => !isSubmitted && onSelect(option.value)}
+            disabled={isSubmitted}
+          >
+            <Text style={getButtonTextStyle(option.value)}>{option.label}</Text>
+          </Pressable>
+        ))}
       </View>
     </View>
   );
@@ -88,9 +92,8 @@ const styles = StyleSheet.create({
   button: {
     flex: 1,
     backgroundColor: Colors.surface,
-    borderRadius: 16,
-    borderWidth: 2,
-    borderColor: Colors.border,
+    borderRadius: 24,
+    borderWidth: 0,
     paddingVertical: 24,
     alignItems: 'center',
     justifyContent: 'center',

@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 import { MultipleChoiceMultiQuestion } from '@/types/question';
 import { Colors } from '@/constants/Colors';
+import { shuffleArray } from '@/utils/shuffle';
 
 interface MultipleChoiceMultiProps {
   question: MultipleChoiceMultiQuestion;
@@ -16,13 +17,31 @@ export function MultipleChoiceMulti({
   onToggle,
   isSubmitted,
 }: MultipleChoiceMultiProps) {
-  const isSelected = (index: number) => selectedIndices?.includes(index) ?? false;
-  const isCorrectOption = (index: number) =>
-    question.correctAnswerIndices.includes(index);
+  const shuffledOptions = useMemo(() => {
+    const optionsWithIndices = question.options.map((option, originalIndex) => ({
+      option,
+      originalIndex,
+    }));
+    return shuffleArray(optionsWithIndices);
+  }, [question.options]);
 
-  const getOptionStyle = (index: number) => {
-    const selected = isSelected(index);
-    const correct = isCorrectOption(index);
+  const getOriginalIndex = (shuffledIndex: number) => {
+    return shuffledOptions[shuffledIndex].originalIndex;
+  };
+
+  const isSelected = (shuffledIndex: number) => {
+    const originalIndex = getOriginalIndex(shuffledIndex);
+    return selectedIndices?.includes(originalIndex) ?? false;
+  };
+
+  const isCorrectOption = (shuffledIndex: number) => {
+    const originalIndex = getOriginalIndex(shuffledIndex);
+    return question.correctAnswerIndices.includes(originalIndex);
+  };
+
+  const getOptionStyle = (shuffledIndex: number) => {
+    const selected = isSelected(shuffledIndex);
+    const correct = isCorrectOption(shuffledIndex);
 
     if (!isSubmitted) {
       return selected ? styles.optionSelected : styles.option;
@@ -37,9 +56,9 @@ export function MultipleChoiceMulti({
     return styles.option;
   };
 
-  const getCheckboxStyle = (index: number) => {
-    const selected = isSelected(index);
-    const correct = isCorrectOption(index);
+  const getCheckboxStyle = (shuffledIndex: number) => {
+    const selected = isSelected(shuffledIndex);
+    const correct = isCorrectOption(shuffledIndex);
 
     if (!isSubmitted) {
       return selected ? styles.checkboxSelected : styles.checkbox;
@@ -59,17 +78,17 @@ export function MultipleChoiceMulti({
       <Text style={styles.question}>{question.question}</Text>
       <Text style={styles.hint}>Select all that apply</Text>
       <View style={styles.optionsContainer}>
-        {question.options.map((option, index) => (
+        {shuffledOptions.map((item, shuffledIndex) => (
           <Pressable
-            key={index}
-            style={getOptionStyle(index)}
-            onPress={() => !isSubmitted && onToggle(index)}
+            key={shuffledIndex}
+            style={getOptionStyle(shuffledIndex)}
+            onPress={() => !isSubmitted && onToggle(item.originalIndex)}
             disabled={isSubmitted}
           >
-            <View style={getCheckboxStyle(index)}>
-              {isSelected(index) && <View style={styles.checkmark} />}
+            <View style={getCheckboxStyle(shuffledIndex)}>
+              {isSelected(shuffledIndex) && <View style={styles.checkmark} />}
             </View>
-            <Text style={styles.optionText}>{option}</Text>
+            <Text style={styles.optionText}>{item.option}</Text>
           </Pressable>
         ))}
       </View>
@@ -98,16 +117,15 @@ const styles = StyleSheet.create({
   },
   option: {
     backgroundColor: Colors.surface,
-    borderRadius: 12,
-    borderWidth: 2,
-    borderColor: Colors.border,
+    borderRadius: 24,
+    borderWidth: 0,
     padding: 16,
     flexDirection: 'row',
     alignItems: 'center',
   },
   optionSelected: {
     backgroundColor: Colors.primary + '15',
-    borderRadius: 12,
+    borderRadius: 24,
     borderWidth: 2,
     borderColor: Colors.primary,
     padding: 16,
@@ -116,7 +134,7 @@ const styles = StyleSheet.create({
   },
   optionCorrect: {
     backgroundColor: Colors.successLight,
-    borderRadius: 12,
+    borderRadius: 24,
     borderWidth: 2,
     borderColor: Colors.success,
     padding: 16,
@@ -125,7 +143,7 @@ const styles = StyleSheet.create({
   },
   optionIncorrect: {
     backgroundColor: Colors.errorLight,
-    borderRadius: 12,
+    borderRadius: 24,
     borderWidth: 2,
     borderColor: Colors.error,
     padding: 16,
