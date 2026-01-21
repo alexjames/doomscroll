@@ -95,28 +95,6 @@ export default function ReviewScreen() {
             <Text style={styles.infoLabel}>Question Types</Text>
           </View>
         </View>
-
-        <View style={styles.typesContainer}>
-          <Text style={styles.typesTitle}>Question Formats</Text>
-          <View style={styles.typesList}>
-            {[
-              'Multiple Choice',
-              'True or False',
-              'Fill in the Blank',
-              'Type Answer',
-              'Multi-Select',
-              'Match Pairs',
-              'Tap to Reveal',
-              'Order Items',
-              'Stack Items',
-            ].map((type, index) => (
-              <View key={index} style={styles.typeItem}>
-                <View style={styles.typeBullet} />
-                <Text style={styles.typeText}>{type}</Text>
-              </View>
-            ))}
-          </View>
-        </View>
       </ScrollView>
 
       <View style={styles.footer}>
