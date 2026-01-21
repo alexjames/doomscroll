@@ -9,6 +9,7 @@ import {
   MatchTheFollowingQuestion,
   TapToRevealQuestion,
   OrderItemsQuestion,
+  StackItemsQuestion,
 } from '@/types/question';
 
 const multipleChoiceSingleQuestions: MultipleChoiceSingleQuestion[] = [
@@ -72,6 +73,34 @@ const tapToRevealQuestions: TapToRevealQuestion[] = [
 const orderItemsQuestions: OrderItemsQuestion[] = [
 ];
 
+const stackItemsQuestions: StackItemsQuestion[] = [
+  {
+    id: 'stack-1',
+    format: QuestionFormat.STACK_ITEMS,
+    question: 'Order the OSI model layers from bottom to top',
+    correctOrder: [
+      'physical',
+      'datalink',
+      'network',
+      'transport',
+      'session',
+      'presentation',
+      'application',
+    ],
+    items: [
+      { id: 'physical', text: 'Physical Layer' },
+      { id: 'datalink', text: 'Data Link Layer' },
+      { id: 'network', text: 'Network Layer' },
+      { id: 'transport', text: 'Transport Layer' },
+      { id: 'session', text: 'Session Layer' },
+      { id: 'presentation', text: 'Presentation Layer' },
+      { id: 'application', text: 'Application Layer' },
+    ],
+    category: 'Networking',
+    difficulty: 'medium',
+  },
+];
+
 export const questions: Question[] = [
   ...multipleChoiceSingleQuestions,
   ...trueOrFalseQuestions,
@@ -81,4 +110,5 @@ export const questions: Question[] = [
   ...matchTheFollowingQuestions,
   ...tapToRevealQuestions,
   ...orderItemsQuestions,
+  ...stackItemsQuestions,
 ];

@@ -6,4 +6,5 @@ export { MultipleChoiceMulti } from './MultipleChoiceMulti';
 export { MatchTheFollowing } from './MatchTheFollowing';
 export { TapToReveal } from './TapToReveal';
 export { OrderItems } from './OrderItems';
+export { StackItems } from './StackItems';
 export { QuestionContainer } from './QuestionContainer';

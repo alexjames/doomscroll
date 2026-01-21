@@ -41,6 +41,11 @@ export interface OrderItemsAnswer {
   orderedItemIds: string[];
 }
 
+export interface StackItemsAnswer {
+  format: QuestionFormat.STACK_ITEMS;
+  stackedItemIds: string[];
+}
+
 export type UserAnswer =
   | MultipleChoiceSingleAnswer
   | TrueOrFalseAnswer
@@ -49,7 +54,8 @@ export type UserAnswer =
   | MultipleChoiceMultiAnswer
   | MatchTheFollowingAnswer
   | TapToRevealAnswer
-  | OrderItemsAnswer;
+  | OrderItemsAnswer
+  | StackItemsAnswer;
 
 export interface QuestionResult {
   questionId: string;

@@ -11,6 +11,7 @@ import {
   MatchTheFollowingAnswer,
   TapToRevealAnswer,
   OrderItemsAnswer,
+  StackItemsAnswer,
 } from '@/types/quiz';
 import { evaluateAnswer } from '@/utils/scoring';
 import { Button } from '@/components/common';
@@ -22,6 +23,7 @@ import { MultipleChoiceMulti } from './MultipleChoiceMulti';
 import { MatchTheFollowing } from './MatchTheFollowing';
 import { TapToReveal } from './TapToReveal';
 import { OrderItems } from './OrderItems';
+import { StackItems } from './StackItems';
 
 interface QuestionContainerProps {
   question: Question;
@@ -49,6 +51,8 @@ function createInitialAnswer(format: QuestionFormat): UserAnswer {
       return { format, revealed: false, selfMarkedCorrect: null };
     case QuestionFormat.ORDER_ITEMS:
       return { format, orderedItemIds: [] };
+    case QuestionFormat.STACK_ITEMS:
+      return { format, stackedItemIds: [] };
   }
 }
 
@@ -104,6 +108,8 @@ export function QuestionContainer({
         return (localAnswer as TapToRevealAnswer).selfMarkedCorrect !== null;
       case QuestionFormat.ORDER_ITEMS:
         return ((localAnswer as OrderItemsAnswer).orderedItemIds?.length ?? 0) > 0;
+      case QuestionFormat.STACK_ITEMS:
+        return ((localAnswer as StackItemsAnswer).stackedItemIds?.length ?? 0) > 0;
     }
   }, [localAnswer]);
 
@@ -237,6 +243,35 @@ export function QuestionContainer({
                 ...localAnswer,
                 orderedItemIds: [],
               } as OrderItemsAnswer);
+            }}
+            isSubmitted={isSubmitted}
+          />
+        );
+
+      case QuestionFormat.STACK_ITEMS:
+        return (
+          <StackItems
+            question={question}
+            stackedItemIds={(localAnswer as StackItemsAnswer).stackedItemIds}
+            onAddItem={(itemId) => {
+              const current = (localAnswer as StackItemsAnswer).stackedItemIds ?? [];
+              setLocalAnswer({
+                ...localAnswer,
+                stackedItemIds: [...current, itemId],
+              } as StackItemsAnswer);
+            }}
+            onRemoveItem={(index) => {
+              const current = (localAnswer as StackItemsAnswer).stackedItemIds ?? [];
+              setLocalAnswer({
+                ...localAnswer,
+                stackedItemIds: current.filter((_, i) => i !== index),
+              } as StackItemsAnswer);
+            }}
+            onClear={() => {
+              setLocalAnswer({
+                ...localAnswer,
+                stackedItemIds: [],
+              } as StackItemsAnswer);
             }}
             isSubmitted={isSubmitted}
           />

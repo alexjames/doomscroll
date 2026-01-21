@@ -8,6 +8,7 @@ import {
   MultipleChoiceMultiQuestion,
   MatchTheFollowingQuestion,
   OrderItemsQuestion,
+  StackItemsQuestion,
 } from '@/types/question';
 import {
   UserAnswer,
@@ -22,6 +23,7 @@ import {
   MatchTheFollowingAnswer,
   TapToRevealAnswer,
   OrderItemsAnswer,
+  StackItemsAnswer,
 } from '@/types/quiz';
 
 function normalizeText(text: string, caseSensitive: boolean): string {
@@ -177,6 +179,19 @@ export function evaluateAnswer(
       }
 
       const isCorrect = userOrder.every((id, index) => id === q.correctOrder[index]);
+      return { isCorrect, pointsEarned: isCorrect ? maxPoints : 0 };
+    }
+
+    case QuestionFormat.STACK_ITEMS: {
+      const q = question as StackItemsQuestion;
+      const a = answer as StackItemsAnswer;
+      const userStack = a.stackedItemIds ?? [];
+
+      if (userStack.length !== q.correctOrder.length) {
+        return { isCorrect: false, pointsEarned: 0 };
+      }
+
+      const isCorrect = userStack.every((id, index) => id === q.correctOrder[index]);
       return { isCorrect, pointsEarned: isCorrect ? maxPoints : 0 };
     }
 
