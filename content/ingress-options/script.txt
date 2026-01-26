@@ -1,0 +1,32 @@
+Ingress Options
+Directly Hit VM
+* No network hop
+* minimal infrastructure + cost
+* can't easily scale
+* single point of failure
+* traffic spikes can overwhelm instance
+* logging, rate-limiting and TLS termination needs to be built into the VM
+* Best suited for low traffic and non-critical apps.
+
+Add a loadbalancer
+A load balancer spreads requests across attached instances
+* Can have high availability if one instance fails.
+* Can scalre by adding and removing instances
+* Health checks can remove unhealthy instances
+* TLS termination converts HTTPs traffic to HTTP, offloading CPU intensive crypto from the backend servers & cnetralizes certificate management
+* auth and rate-limiting still need to be implemented by the VM
+* needs configuration management and tuning
+* Best suited for apps that need scalability and availability, works for both monoliths and simple micro-services.
+
+Hit an API Gateway
+specialized entry point that manages APU requests before routing them to the backend
+* centralized API management
+* performs authn & authz (e.g. OAuth, JWT, API keys)
+* rate-limiting and throttling
+* request / responst validation
+* routes requests - path-based validation, header-based or API version-based
+* observability through logging, metrics and tracing
+* adds a network hop and latency
+* adds operational overhead & expense
+* needs to tbe scaled horizontally & typically requires a multi-AZ deployment
+* Best suited for large microservices ecosystems, heterogeneous consumers (web, mobile, partners) and environments requirisng strong governance and security

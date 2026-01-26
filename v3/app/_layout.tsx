@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View } from 'react-native';
+import { AuthProvider } from '@/context/AuthContext';
 import { QuizProvider } from '@/context/QuizContext';
 import { ThemeProvider, useTheme } from '@/context/ThemeContext';
 import { StudyProvider } from '@/context/StudyContext';
@@ -30,11 +31,13 @@ export default function RootLayout() {
   return (
     <View style={styles.container}>
       <ThemeProvider>
-        <QuizProvider>
-          <StudyProvider>
-            <RootContent />
-          </StudyProvider>
-        </QuizProvider>
+        <AuthProvider>
+          <QuizProvider>
+            <StudyProvider>
+              <RootContent />
+            </StudyProvider>
+          </QuizProvider>
+        </AuthProvider>
       </ThemeProvider>
     </View>
   );

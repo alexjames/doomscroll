@@ -1,6 +1,7 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, StyleSheet, Animated } from 'react-native';
 import { useTheme } from '@/context/ThemeContext';
+import { useAuth } from '@/context/AuthContext';
 
 interface SplashScreenProps {
   onFinish: () => void;
@@ -8,9 +9,13 @@ interface SplashScreenProps {
 
 export function SplashScreen({ onFinish }: SplashScreenProps) {
   const { colors } = useTheme();
+  const { isInitialized, error } = useAuth();
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const scaleAnim = useRef(new Animated.Value(0.8)).current;
+  const [minTimeElapsed, setMinTimeElapsed] = useState(false);
+  const [isExiting, setIsExiting] = useState(false);
 
+  // Handle entrance animations and minimum display time
   useEffect(() => {
     // Fade in and scale up animation
     Animated.parallel([
@@ -27,8 +32,18 @@ export function SplashScreen({ onFinish }: SplashScreenProps) {
       }),
     ]).start();
 
-    // After delay, fade out and call onFinish
+    // Minimum display time of 2 seconds
     const timer = setTimeout(() => {
+      setMinTimeElapsed(true);
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, [fadeAnim, scaleAnim]);
+
+  // Dismiss splash when both conditions are met
+  useEffect(() => {
+    if (minTimeElapsed && isInitialized && !isExiting) {
+      setIsExiting(true);
       Animated.timing(fadeAnim, {
         toValue: 0,
         duration: 400,
@@ -36,10 +51,8 @@ export function SplashScreen({ onFinish }: SplashScreenProps) {
       }).start(() => {
         onFinish();
       });
-    }, 2000);
-
-    return () => clearTimeout(timer);
-  }, [fadeAnim, scaleAnim, onFinish]);
+    }
+  }, [minTimeElapsed, isInitialized, isExiting, fadeAnim, onFinish]);
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
@@ -59,6 +72,11 @@ export function SplashScreen({ onFinish }: SplashScreenProps) {
         <Text style={[styles.subtitle, { color: colors.textSecondary }]}>
           Learn. Quiz. Master.
         </Text>
+        {error && (
+          <Text style={[styles.errorText, { color: colors.error }]}>
+            {error}
+          </Text>
+        )}
       </Animated.View>
     </View>
   );
@@ -95,5 +113,11 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: 18,
     fontWeight: '500',
+  },
+  errorText: {
+    fontSize: 14,
+    marginTop: 16,
+    textAlign: 'center',
+    paddingHorizontal: 32,
   },
 });
