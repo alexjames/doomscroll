@@ -15,50 +15,82 @@ export const courses: Course[] = [
           {
             id: 'big-o-1',
             title: 'What is Big O?',
-            content: `Big O notation is a mathematical notation that describes the limiting behavior of a function when the argument tends towards a particular value or infinity.
+            content: '',
+            blocks: [
+              {
+                type: 'text',
+                content: `Big O notation is a mathematical notation that describes the limiting behavior of a function when the argument tends towards a particular value or infinity.
 
-In computer science, we use Big O to classify algorithms according to how their run time or space requirements grow as the input size grows.
-
-Why does this matter? Because as your data grows from 100 items to 100 million items, the difference between O(n) and O(n²) becomes the difference between 1 second and 11 days of processing time.`,
+In computer science, we use Big O to classify algorithms according to how their run time or space requirements grow as the input size grows.`,
+              },
+              {
+                type: 'image',
+                url: 'https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=600',
+                caption: 'Algorithm complexity affects how your code scales',
+              },
+              {
+                type: 'text',
+                content: `Why does this matter? Because as your data grows from 100 items to 100 million items, the difference between O(n) and O(n²) becomes the difference between 1 second and 11 days of processing time.`,
+              },
+            ],
           },
           {
             id: 'big-o-2',
             title: 'Common Time Complexities',
-            content: `Here are the most common time complexities you'll encounter:
-
-O(1) - Constant Time
-The algorithm takes the same time regardless of input size. Example: accessing an array element by index.
-
-O(log n) - Logarithmic Time
-The algorithm's time increases logarithmically. Example: binary search.
-
-O(n) - Linear Time
-Time grows proportionally with input. Example: iterating through an array once.
-
-O(n log n) - Linearithmic Time
-Common in efficient sorting algorithms. Example: merge sort, quicksort.
-
-O(n²) - Quadratic Time
-Time grows with the square of input. Example: nested loops over the same data.`,
+            content: '',
+            blocks: [
+              {
+                type: 'text',
+                content: `Here are the most common time complexities you'll encounter:`,
+              },
+              {
+                type: 'table',
+                headers: ['Notation', 'Name', 'Example'],
+                rows: [
+                  ['O(1)', 'Constant', 'Array index access'],
+                  ['O(log n)', 'Logarithmic', 'Binary search'],
+                  ['O(n)', 'Linear', 'Simple loop'],
+                  ['O(n log n)', 'Linearithmic', 'Merge sort'],
+                  ['O(n²)', 'Quadratic', 'Nested loops'],
+                ],
+              },
+              {
+                type: 'text',
+                content: `The key insight: as n grows larger, the differences between these complexities become dramatic. An O(n²) algorithm that runs instantly on 100 items might take hours on 100,000 items.`,
+              },
+            ],
           },
           {
             id: 'big-o-3',
-            title: 'Analyzing Your Code',
-            content: `To analyze Big O, follow these steps:
+            title: 'Comparing Growth Rates',
+            content: '',
+            blocks: [
+              {
+                type: 'text',
+                content: `Let's visualize how different time complexities compare as input size grows:`,
+              },
+              {
+                type: 'chart',
+                chartType: 'bar',
+                title: 'Operations needed for n=1000',
+                data: [
+                  { label: 'O(1)', value: 1, color: '#10B981' },
+                  { label: 'O(log n)', value: 10, color: '#3B82F6' },
+                  { label: 'O(n)', value: 1000, color: '#F59E0B' },
+                  { label: 'O(n log n)', value: 10000, color: '#F97316' },
+                  { label: 'O(n²)', value: 1000000, color: '#EF4444' },
+                ],
+              },
+              {
+                type: 'text',
+                content: `To analyze Big O:
 
-1. Count the operations
-Look at loops, recursive calls, and function invocations. Each operation that depends on input size contributes to complexity.
-
-2. Drop constants
-O(2n) simplifies to O(n). Constants don't affect growth rate at scale.
-
-3. Keep the dominant term
-O(n² + n) simplifies to O(n²). The largest term dominates as n grows.
-
-4. Consider worst case
-Unless specified otherwise, Big O represents worst-case performance.
-
-Practice tip: Start by identifying the innermost operations and work outward to determine how many times each executes.`,
+1. Count the operations - Look at loops and recursive calls
+2. Drop constants - O(2n) simplifies to O(n)
+3. Keep the dominant term - O(n² + n) simplifies to O(n²)
+4. Consider worst case - Big O represents worst-case by default`,
+              },
+            ],
           },
         ],
       },
@@ -69,60 +101,94 @@ Practice tip: Start by identifying the innermost operations and work outward to 
           {
             id: 'arrays-1',
             title: 'Understanding Arrays',
-            content: `Arrays are the most fundamental data structure in programming. They store elements in contiguous memory locations.
-
-Key characteristics:
+            content: '',
+            blocks: [
+              {
+                type: 'text',
+                content: `Arrays are the most fundamental data structure in programming. They store elements in contiguous memory locations.`,
+              },
+              {
+                type: 'image',
+                url: 'https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=600',
+                caption: 'Arrays store data in sequential memory blocks',
+              },
+              {
+                type: 'text',
+                content: `Key characteristics:
 • Fixed size (in most languages)
 • Random access in O(1) time
 • Cache-friendly due to memory locality
 • Insertions/deletions are O(n) in the middle
 
-Arrays excel when you need fast lookups by index and know the size upfront. They're the backbone of many other data structures.
-
-Memory layout: [A][B][C][D][E]
-Each element sits right next to the other in memory.`,
+Arrays excel when you need fast lookups by index and know the size upfront. They're the backbone of many other data structures.`,
+              },
+            ],
           },
           {
             id: 'arrays-2',
-            title: 'Understanding Linked Lists',
-            content: `Linked lists store elements in nodes scattered throughout memory. Each node contains data and a pointer to the next node.
+            title: 'Operation Comparison',
+            content: '',
+            blocks: [
+              {
+                type: 'text',
+                content: `Let's compare the time complexity of common operations:`,
+              },
+              {
+                type: 'table',
+                headers: ['Operation', 'Array', 'Linked List'],
+                rows: [
+                  ['Access by index', 'O(1)', 'O(n)'],
+                  ['Search', 'O(n)', 'O(n)'],
+                  ['Insert at start', 'O(n)', 'O(1)'],
+                  ['Insert at end', 'O(1)*', 'O(1)'],
+                  ['Delete at start', 'O(n)', 'O(1)'],
+                  ['Memory overhead', 'Low', 'High'],
+                ],
+              },
+              {
+                type: 'text',
+                content: `* Arrays have O(1) insertion at end only if there's space. Otherwise, resizing costs O(n).
 
-Key characteristics:
-• Dynamic size
-• Sequential access only - O(n) to find element
-• O(1) insertions/deletions (once you have the position)
-• More memory overhead (storing pointers)
-
-Types of linked lists:
-• Singly linked: each node points to next
-• Doubly linked: nodes point to both next and previous
-• Circular: last node points back to first
-
-Memory layout: [A]→[B]→[C]→[D]→null
-Nodes can be anywhere in memory.`,
+Linked lists shine when you need frequent insertions/deletions at known positions, while arrays win for random access patterns.`,
+              },
+            ],
           },
           {
             id: 'arrays-3',
-            title: 'When to Use Which',
-            content: `Choosing between arrays and linked lists depends on your access patterns:
-
-Use Arrays when:
+            title: 'Real-World Usage',
+            content: '',
+            blocks: [
+              {
+                type: 'text',
+                content: `In practice, which data structure is used more often?`,
+              },
+              {
+                type: 'chart',
+                chartType: 'pie',
+                title: 'Data Structure Usage in Production Code',
+                data: [
+                  { label: 'Dynamic Arrays', value: 60, color: '#8B5CF6' },
+                  { label: 'Hash Tables', value: 25, color: '#3B82F6' },
+                  { label: 'Linked Lists', value: 8, color: '#F97316' },
+                  { label: 'Trees', value: 5, color: '#10B981' },
+                  { label: 'Other', value: 2, color: '#9CA3AF' },
+                ],
+              },
+              {
+                type: 'text',
+                content: `Use Arrays when:
 • You need random access (arr[i])
-• Size is known and fixed
+• Size is known or changes rarely
 • Memory efficiency matters
-• You're iterating sequentially often
 
 Use Linked Lists when:
 • Size changes frequently
-• Insertions/deletions at known positions are common
+• Insertions/deletions are common
 • You don't need random access
-• Memory fragmentation is a concern
-
-Real-world examples:
-• Arrays: lookup tables, buffers, matrices
-• Linked Lists: undo functionality, music playlists, memory allocators
 
 Most modern applications favor arrays or dynamic arrays (like ArrayList, Vector) due to cache performance benefits.`,
+              },
+            ],
           },
         ],
       },

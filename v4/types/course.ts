@@ -1,7 +1,21 @@
+// Content block types for rich content support
+export type ContentBlock =
+  | { type: 'text'; content: string }
+  | { type: 'image'; url: string; caption?: string }
+  | { type: 'table'; headers: string[]; rows: string[][] }
+  | { type: 'chart'; chartType: 'bar' | 'line' | 'pie'; title: string; data: ChartData[] };
+
+export interface ChartData {
+  label: string;
+  value: number;
+  color?: string;
+}
+
 export interface CoursePage {
   id: string;
   title: string;
-  content: string;
+  content: string; // Plain text content (for backwards compatibility)
+  blocks?: ContentBlock[]; // Rich content blocks (optional)
 }
 
 export interface CourseSection {

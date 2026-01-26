@@ -14,6 +14,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../../../context/ThemeContext';
 import { ProgressDots } from '../../../components/ProgressDots';
+import { ContentRenderer } from '../../../components/ContentRenderer';
 import { courses } from '../../../data/courses';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
@@ -118,9 +119,13 @@ export default function ReadingScreen() {
 
                 {/* Page Content */}
                 <View style={styles.contentBody}>
-                  <Text style={[styles.pageContent, { color: colors.text }]}>
-                    {page.content}
-                  </Text>
+                  {page.blocks && page.blocks.length > 0 ? (
+                    <ContentRenderer blocks={page.blocks} />
+                  ) : (
+                    <Text style={[styles.pageContent, { color: colors.text }]}>
+                      {page.content}
+                    </Text>
+                  )}
                 </View>
               </View>
             </ScrollView>
@@ -226,7 +231,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   pageScrollContent: {
-    padding: 24,
+    padding: 12,
   },
   contentCard: {
     borderRadius: 20,
