@@ -98,25 +98,30 @@ export default function ReadingScreen() {
               contentContainerStyle={styles.pageScrollContent}
               showsVerticalScrollIndicator={false}
             >
-              {/* Content Card */}
+              {/* Single Content Card with all content */}
               <View style={[styles.contentCard, { backgroundColor: colors.card }]}>
-                <Text style={[styles.categoryLabel, { color: colors.textMuted }]}>
-                  {course.category}
-                </Text>
-                <Text style={[styles.sectionTitle, { color: colors.primary }]}>
-                  {section.title}
-                </Text>
-                <Text style={[styles.pageIndicator, { color: colors.textMuted }]}>
-                  Page {index + 1} / {totalPages}
-                </Text>
-              </View>
+                {/* Header */}
+                <View style={styles.cardHeader}>
+                  <Text style={[styles.categoryLabel, { color: colors.textMuted }]}>
+                    {course.category}
+                  </Text>
+                  <Text style={[styles.sectionTitle, { color: colors.primary }]}>
+                    {section.title}
+                  </Text>
+                  <Text style={[styles.pageIndicator, { color: colors.textMuted }]}>
+                    Page {index + 1} / {totalPages}
+                  </Text>
+                </View>
 
-              {/* Page Content */}
-              <View style={styles.contentBody}>
-                <Text style={[styles.pageTitle, { color: colors.text }]}>{page.title}</Text>
-                <Text style={[styles.pageContent, { color: colors.textSecondary }]}>
-                  {page.content}
-                </Text>
+                {/* Divider */}
+                <View style={[styles.divider, { backgroundColor: colors.border }]} />
+
+                {/* Page Content */}
+                <View style={styles.contentBody}>
+                  <Text style={[styles.pageContent, { color: colors.text }]}>
+                    {page.content}
+                  </Text>
+                </View>
               </View>
             </ScrollView>
           </View>
@@ -224,36 +229,40 @@ const styles = StyleSheet.create({
     padding: 24,
   },
   contentCard: {
-    padding: 20,
-    borderRadius: 16,
-    marginBottom: 24,
+    borderRadius: 20,
+    overflow: 'hidden',
+  },
+  cardHeader: {
+    alignItems: 'center',
+    paddingTop: 24,
+    paddingHorizontal: 24,
+    paddingBottom: 16,
   },
   categoryLabel: {
-    fontSize: 12,
-    fontWeight: '600',
-    textTransform: 'uppercase',
-    letterSpacing: 1,
-    marginBottom: 8,
+    fontSize: 14,
+    fontWeight: '500',
+    marginBottom: 4,
   },
   sectionTitle: {
-    fontSize: 20,
+    fontSize: 22,
     fontWeight: '700',
-    marginBottom: 8,
+    marginBottom: 4,
+    textAlign: 'center',
   },
   pageIndicator: {
-    fontSize: 14,
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  divider: {
+    height: 1,
+    marginHorizontal: 24,
   },
   contentBody: {
-    flex: 1,
-  },
-  pageTitle: {
-    fontSize: 24,
-    fontWeight: '700',
-    marginBottom: 16,
+    padding: 24,
   },
   pageContent: {
-    fontSize: 16,
-    lineHeight: 26,
+    fontSize: 17,
+    lineHeight: 30,
   },
   bottomBar: {
     paddingHorizontal: 16,
