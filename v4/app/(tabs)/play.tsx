@@ -1,14 +1,15 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   View,
   Text,
   StyleSheet,
   Dimensions,
   ScrollView,
+  Animated,
   NativeSyntheticEvent,
   NativeScrollEvent,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '../../context/ThemeContext';
 import { FlashCard } from '../../components/FlashCard';
 import { flashcards } from '../../data/flashcards';
@@ -17,18 +18,25 @@ const { height: SCREEN_HEIGHT } = Dimensions.get('window');
 
 export default function PlayScreen() {
   const { colors } = useTheme();
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const insets = useSafeAreaInsets();
   const [revealedCards, setRevealedCards] = useState<Set<string>>(new Set());
-  const scrollViewRef = useRef<ScrollView>(null);
+  const [hasScrolled, setHasScrolled] = useState(false);
+  const hintOpacity = useRef(new Animated.Value(1)).current;
 
-  // Calculate card height (screen height minus header and safe areas)
-  const cardHeight = SCREEN_HEIGHT - 160;
+  // Calculate card height (screen height minus header, top safe area, and bottom tab bar)
+  // Header is ~44px, tab bar is ~80px (including bottom safe area)
+  const headerHeight = 44;
+  const tabBarHeight = 80;
+  const cardHeight = SCREEN_HEIGHT - insets.top - headerHeight - tabBarHeight;
 
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
-    const offsetY = event.nativeEvent.contentOffset.y;
-    const newIndex = Math.round(offsetY / cardHeight);
-    if (newIndex !== currentIndex && newIndex >= 0 && newIndex < flashcards.length) {
-      setCurrentIndex(newIndex);
+    if (!hasScrolled && event.nativeEvent.contentOffset.y > 10) {
+      setHasScrolled(true);
+      Animated.timing(hintOpacity, {
+        toValue: 0,
+        duration: 300,
+        useNativeDriver: true,
+      }).start();
     }
   };
 
@@ -49,35 +57,18 @@ export default function PlayScreen() {
       {/* Header */}
       <View style={styles.header}>
         <Text style={[styles.title, { color: colors.text }]}>Play</Text>
-        <View style={styles.progressContainer}>
-          {flashcards.map((_, index) => (
-            <View
-              key={index}
-              style={[
-                styles.progressDot,
-                {
-                  backgroundColor: index === currentIndex ? colors.primary : colors.border,
-                },
-              ]}
-            />
-          ))}
-        </View>
-        <Text style={[styles.counter, { color: colors.textMuted }]}>
-          {currentIndex + 1} / {flashcards.length}
-        </Text>
       </View>
 
       {/* Swipeable Cards */}
       <ScrollView
-        ref={scrollViewRef}
         pagingEnabled
         showsVerticalScrollIndicator={false}
-        onMomentumScrollEnd={handleScroll}
-        scrollEventThrottle={16}
         decelerationRate="fast"
         snapToInterval={cardHeight}
         snapToAlignment="start"
         contentContainerStyle={styles.scrollContent}
+        onScroll={handleScroll}
+        scrollEventThrottle={16}
       >
         {flashcards.map((card) => (
           <View key={card.id} style={[styles.cardContainer, { height: cardHeight }]}>
@@ -91,11 +82,11 @@ export default function PlayScreen() {
       </ScrollView>
 
       {/* Swipe hint */}
-      <View style={styles.swipeHint}>
+      <Animated.View style={[styles.swipeHint, { opacity: hintOpacity }]}>
         <Text style={[styles.swipeHintText, { color: colors.textMuted }]}>
           Swipe up for next card
         </Text>
-      </View>
+      </Animated.View>
     </SafeAreaView>
   );
 }
@@ -112,27 +103,9 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: '700',
-    marginBottom: 12,
-  },
-  progressContainer: {
-    flexDirection: 'row',
-    gap: 6,
-    marginBottom: 8,
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    maxWidth: 200,
-  },
-  progressDot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-  },
-  counter: {
-    fontSize: 14,
-    fontWeight: '500',
   },
   scrollContent: {
-    paddingBottom: 40,
+    paddingBottom: 0,
   },
   cardContainer: {
     width: '100%',

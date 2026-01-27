@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Animated } from 'react-native';
+import React, { useRef, useEffect, useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, Animated, LayoutChangeEvent } from 'react-native';
 import { Flashcard } from '../types/flashcard';
 
 interface FlashCardProps {
@@ -9,39 +9,76 @@ interface FlashCardProps {
 }
 
 export function FlashCard({ card, isRevealed, onTap }: FlashCardProps) {
+  const coverOpacity = useRef(new Animated.Value(1)).current;
+  const [answerLayout, setAnswerLayout] = useState({ width: 0, height: 0 });
+
+  useEffect(() => {
+    Animated.timing(coverOpacity, {
+      toValue: isRevealed ? 0 : 1,
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+  }, [isRevealed]);
+
+  const onAnswerLayout = (event: LayoutChangeEvent) => {
+    const { width, height } = event.nativeEvent.layout;
+    setAnswerLayout({ width, height });
+  };
+
   const renderContent = () => {
     if (card.type === 'tap_reveal') {
       return (
         <View style={styles.contentContainer}>
           <Text style={styles.category}>{card.category}</Text>
           <Text style={styles.question}>{card.question}</Text>
-          {isRevealed ? (
-            <View style={styles.answerContainer}>
+          <View style={styles.answerWrapper}>
+            <View style={styles.answerContainer} onLayout={onAnswerLayout}>
               <Text style={styles.answer}>{card.answer}</Text>
             </View>
-          ) : (
-            <Text style={styles.tapHint}>Tap to reveal</Text>
-          )}
+            <Animated.View
+              style={[
+                styles.answerCover,
+                {
+                  opacity: coverOpacity,
+                  width: answerLayout.width || '100%',
+                  height: answerLayout.height || '100%',
+                },
+              ]}
+              pointerEvents={isRevealed ? 'none' : 'auto'}
+            />
+          </View>
         </View>
       );
     }
 
-    // Fill in the blank
+    // Fill in the blank - use flexWrap to position text parts
     if (card.type === 'fill_blank') {
       const parts = card.question.split('_____');
       return (
         <View style={styles.contentContainer}>
           <Text style={styles.category}>{card.category}</Text>
-          <Text style={styles.fillBlankText}>
-            {parts[0]}
-            {isRevealed ? (
-              <Text style={styles.revealedWord}>{card.answer}</Text>
-            ) : (
-              <Text style={styles.blank}>_____</Text>
-            )}
-            {parts[1]}
-          </Text>
-          {!isRevealed && <Text style={styles.tapHint}>Tap to reveal</Text>}
+          <View style={styles.fillBlankRow}>
+            <Text style={styles.fillBlankText}>{parts[0]}</Text>
+            <View style={styles.blankAnswerWrapper}>
+              <Text
+                style={styles.revealedWord}
+                onLayout={onAnswerLayout}
+              >
+                {card.answer}
+              </Text>
+              <Animated.View
+                style={[
+                  styles.inlineCover,
+                  {
+                    opacity: coverOpacity,
+                  },
+                ]}
+                pointerEvents={isRevealed ? 'none' : 'auto'}
+              />
+            </View>
+            <Text style={styles.fillBlankText}>{parts[1]}</Text>
+          </View>
+          {!isRevealed && <Text style={styles.tapHintBottom}>Tap to reveal</Text>}
         </View>
       );
     }
@@ -95,23 +132,11 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     lineHeight: 34,
   },
-  fillBlankText: {
-    fontSize: 22,
-    fontWeight: '500',
-    color: '#1F2937',
-    textAlign: 'center',
-    lineHeight: 34,
-  },
-  blank: {
-    color: '#9CA3AF',
-    fontWeight: '700',
-  },
-  revealedWord: {
-    color: '#8B5CF6',
-    fontWeight: '700',
+  answerWrapper: {
+    marginTop: 32,
+    position: 'relative',
   },
   answerContainer: {
-    marginTop: 32,
     paddingHorizontal: 24,
     paddingVertical: 16,
     backgroundColor: 'rgba(139, 92, 246, 0.1)',
@@ -123,7 +148,60 @@ const styles = StyleSheet.create({
     color: '#8B5CF6',
     textAlign: 'center',
   },
+  answerCover: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    backgroundColor: '#6B7280',
+    borderRadius: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  fillBlankRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  fillBlankText: {
+    fontSize: 22,
+    fontWeight: '500',
+    color: '#1F2937',
+    textAlign: 'center',
+    lineHeight: 34,
+  },
+  blankAnswerWrapper: {
+    position: 'relative',
+    marginHorizontal: 4,
+  },
+  revealedWord: {
+    color: '#8B5CF6',
+    fontWeight: '700',
+    fontSize: 22,
+    lineHeight: 34,
+  },
+  inlineCover: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: '#6B7280',
+    borderRadius: 6,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  blankCoverText: {
+    fontSize: 18,
+    fontWeight: '700',
+    color: '#FFFFFF',
+  },
   tapHint: {
+    fontSize: 14,
+    color: '#FFFFFF',
+    fontWeight: '500',
+  },
+  tapHintBottom: {
     position: 'absolute',
     bottom: 48,
     fontSize: 14,
