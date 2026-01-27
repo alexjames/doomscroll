@@ -15,14 +15,20 @@ import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../../../context/ThemeContext';
 import { ProgressDots } from '../../../components/ProgressDots';
 import { ContentRenderer } from '../../../components/ContentRenderer';
+import { QuizContainer } from '../../../components/quiz/QuizContainer';
 import { courses } from '../../../data/courses';
+import { QuizResult } from '../../../types/quiz';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
+
+type ScreenMode = 'reading' | 'quiz' | 'results';
 
 export default function ReadingScreen() {
   const { courseId, sectionId } = useLocalSearchParams<{ courseId: string; sectionId: string }>();
   const { colors, isDark, toggleTheme } = useTheme();
   const [currentPage, setCurrentPage] = useState(0);
+  const [screenMode, setScreenMode] = useState<ScreenMode>('reading');
+  const [quizResult, setQuizResult] = useState<QuizResult | null>(null);
   const scrollViewRef = useRef<ScrollView>(null);
 
   const course = courses.find((c) => c.id === courseId);
@@ -38,6 +44,7 @@ export default function ReadingScreen() {
 
   const pages = section.pages;
   const totalPages = pages.length;
+  const hasQuiz = section.quiz && section.quiz.questions.length > 0;
 
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const offsetX = event.nativeEvent.contentOffset.x;
@@ -64,13 +71,92 @@ export default function ReadingScreen() {
 
   const handleNext = () => {
     if (currentPage === totalPages - 1) {
-      // Last page - go back to course
-      router.back();
+      if (hasQuiz) {
+        setScreenMode('quiz');
+      } else {
+        router.back();
+      }
     } else {
       goToPage(currentPage + 1);
     }
   };
 
+  const handleQuizComplete = (result: QuizResult) => {
+    setQuizResult(result);
+    setScreenMode('results');
+  };
+
+  const handleQuizExit = () => {
+    router.back();
+  };
+
+  // Quiz Results Screen
+  if (screenMode === 'results' && quizResult) {
+    const isPassing = quizResult.percentage >= 70;
+    return (
+      <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]} edges={['top', 'bottom']}>
+        <View style={styles.resultsContainer}>
+          <View style={[styles.resultsCard, { backgroundColor: colors.card }]}>
+            <View style={[styles.scoreCircle, { borderColor: isPassing ? colors.success : colors.error }]}>
+              <Text style={[styles.scoreText, { color: isPassing ? colors.success : colors.error }]}>
+                {quizResult.percentage}%
+              </Text>
+            </View>
+            <Text style={[styles.resultsTitle, { color: colors.text }]}>
+              {isPassing ? 'Great job!' : 'Keep practicing!'}
+            </Text>
+            <Text style={[styles.resultsSubtitle, { color: colors.textSecondary }]}>
+              You got {quizResult.correctAnswers} out of {quizResult.totalQuestions} questions correct
+            </Text>
+          </View>
+
+          <View style={styles.resultsButtons}>
+            <TouchableOpacity
+              style={[styles.resultButton, { backgroundColor: colors.surface, borderColor: colors.border, borderWidth: 1 }]}
+              onPress={() => {
+                setScreenMode('reading');
+                setCurrentPage(0);
+                goToPage(0);
+              }}
+            >
+              <Ionicons name="book-outline" size={20} color={colors.text} />
+              <Text style={[styles.resultButtonText, { color: colors.text }]}>Review Content</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[styles.resultButton, { backgroundColor: colors.primary }]}
+              onPress={handleExit}
+            >
+              <Ionicons name="checkmark" size={20} color="white" />
+              <Text style={[styles.resultButtonText, { color: 'white' }]}>Done</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </SafeAreaView>
+    );
+  }
+
+  // Quiz Screen
+  if (screenMode === 'quiz' && hasQuiz) {
+    return (
+      <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]} edges={['top', 'bottom']}>
+        <View style={[styles.topBar, { borderBottomColor: colors.border }]}>
+          <TouchableOpacity onPress={handleQuizExit} style={styles.exitButton}>
+            <Ionicons name="close" size={28} color={colors.text} />
+          </TouchableOpacity>
+          <Text style={[styles.quizTitle, { color: colors.text }]}>Quiz</Text>
+          <View style={styles.placeholder} />
+        </View>
+        <QuizContainer
+          questions={section.quiz!.questions}
+          onComplete={handleQuizComplete}
+          onExit={handleQuizExit}
+        />
+      </SafeAreaView>
+    );
+  }
+
+  // Reading Screen
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]} edges={['top', 'bottom']}>
       {/* Top Bar */}
@@ -78,7 +164,7 @@ export default function ReadingScreen() {
         <TouchableOpacity onPress={handleExit} style={styles.exitButton}>
           <Ionicons name="close" size={28} color={colors.text} />
         </TouchableOpacity>
-        <ProgressDots total={totalPages} current={currentPage} />
+        <ProgressDots total={totalPages + (hasQuiz ? 1 : 0)} current={currentPage} />
         <View style={styles.placeholder} />
       </View>
 
@@ -185,10 +271,10 @@ export default function ReadingScreen() {
             onPress={handleNext}
           >
             <Text style={styles.navButtonTextLight}>
-              {currentPage === totalPages - 1 ? 'Finish' : 'Next'}
+              {currentPage === totalPages - 1 ? (hasQuiz ? 'Start Quiz' : 'Finish') : 'Next'}
             </Text>
             <Ionicons
-              name={currentPage === totalPages - 1 ? 'checkmark' : 'arrow-forward'}
+              name={currentPage === totalPages - 1 ? (hasQuiz ? 'school' : 'checkmark') : 'arrow-forward'}
               size={20}
               color="white"
             />
@@ -220,6 +306,10 @@ const styles = StyleSheet.create({
   },
   placeholder: {
     width: 40,
+  },
+  quizTitle: {
+    fontSize: 18,
+    fontWeight: '600',
   },
   scrollContent: {
     flexGrow: 1,
@@ -320,5 +410,53 @@ const styles = StyleSheet.create({
     fontSize: 18,
     textAlign: 'center',
     marginTop: 100,
+  },
+  resultsContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    padding: 24,
+  },
+  resultsCard: {
+    borderRadius: 20,
+    padding: 32,
+    alignItems: 'center',
+  },
+  scoreCircle: {
+    width: 120,
+    height: 120,
+    borderRadius: 60,
+    borderWidth: 6,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 24,
+  },
+  scoreText: {
+    fontSize: 36,
+    fontWeight: '700',
+  },
+  resultsTitle: {
+    fontSize: 24,
+    fontWeight: '700',
+    marginBottom: 8,
+  },
+  resultsSubtitle: {
+    fontSize: 16,
+    textAlign: 'center',
+  },
+  resultsButtons: {
+    marginTop: 32,
+    gap: 12,
+  },
+  resultButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 16,
+    borderRadius: 12,
+    gap: 8,
+  },
+  resultButtonText: {
+    fontSize: 16,
+    fontWeight: '600',
   },
 });

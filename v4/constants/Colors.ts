@@ -9,6 +9,9 @@ export interface ColorScheme {
   textMuted: string;
   border: string;
   success: string;
+  successLight: string;
+  error: string;
+  errorLight: string;
   tabBar: string;
   tabBarBorder: string;
 }
@@ -24,6 +27,9 @@ export const LightTheme: ColorScheme = {
   textMuted: '#9CA3AF',
   border: '#E5E7EB',
   success: '#58CC02',
+  successLight: '#E8F5E9',
+  error: '#EF4444',
+  errorLight: '#FFEBEE',
   tabBar: '#FFFFFF',
   tabBarBorder: '#E5E7EB',
 };
@@ -39,6 +45,9 @@ export const DarkTheme: ColorScheme = {
   textMuted: '#9CA3AF',
   border: '#374151',
   success: '#58CC02',
+  successLight: '#1B3A1B',
+  error: '#EF4444',
+  errorLight: '#3A1B1B',
   tabBar: '#1F2937',
   tabBarBorder: '#374151',
 };

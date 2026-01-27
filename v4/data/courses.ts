@@ -1,4 +1,5 @@
 import { Course } from '../types/course';
+import { QuestionFormat } from '../types/quiz';
 
 export const courses: Course[] = [
   {
@@ -93,6 +94,33 @@ In computer science, we use Big O to classify algorithms according to how their 
             ],
           },
         ],
+        quiz: {
+          questions: [
+            {
+              id: 'bigo-q1',
+              format: QuestionFormat.MULTIPLE_CHOICE,
+              question: 'What is the time complexity of binary search?',
+              options: ['O(n)', 'O(log n)', 'O(1)', 'O(n²)'],
+              correctAnswerIndex: 1,
+              explanation: 'Binary search divides the search space in half with each step, resulting in logarithmic time complexity O(log n).',
+            },
+            {
+              id: 'bigo-q2',
+              format: QuestionFormat.TRUE_FALSE,
+              question: 'O(2n) and O(n) represent the same growth rate in Big O notation.',
+              correctAnswer: true,
+              explanation: 'In Big O notation, we drop constants. O(2n) simplifies to O(n) because constants don\'t affect the growth rate as n approaches infinity.',
+            },
+            {
+              id: 'bigo-q3',
+              format: QuestionFormat.MULTIPLE_CHOICE,
+              question: 'Which time complexity is most efficient for large inputs?',
+              options: ['O(n²)', 'O(n log n)', 'O(n)', 'O(log n)'],
+              correctAnswerIndex: 3,
+              explanation: 'O(log n) grows the slowest as input size increases, making it the most efficient among these options for large inputs.',
+            },
+          ],
+        },
       },
       {
         id: 'arrays-lists',
@@ -191,6 +219,33 @@ Most modern applications favor arrays or dynamic arrays (like ArrayList, Vector)
             ],
           },
         ],
+        quiz: {
+          questions: [
+            {
+              id: 'arrays-q1',
+              format: QuestionFormat.MULTIPLE_CHOICE,
+              question: 'What is the time complexity of accessing an element by index in an array?',
+              options: ['O(1)', 'O(n)', 'O(log n)', 'O(n²)'],
+              correctAnswerIndex: 0,
+              explanation: 'Arrays provide constant time O(1) access because elements are stored in contiguous memory, so you can directly calculate the memory address.',
+            },
+            {
+              id: 'arrays-q2',
+              format: QuestionFormat.TRUE_FALSE,
+              question: 'Linked lists are better than arrays for random access operations.',
+              correctAnswer: false,
+              explanation: 'Arrays excel at random access with O(1) time, while linked lists require O(n) time to traverse to a specific index.',
+            },
+            {
+              id: 'arrays-q3',
+              format: QuestionFormat.MULTIPLE_CHOICE,
+              question: 'Which operation is faster in a linked list compared to an array?',
+              options: ['Inserting at the beginning', 'Accessing by index', 'Binary search', 'Sorting'],
+              correctAnswerIndex: 0,
+              explanation: 'Inserting at the beginning of a linked list is O(1) because you only need to update the head pointer. Arrays require shifting all elements, making it O(n).',
+            },
+          ],
+        },
       },
     ],
   },
@@ -263,6 +318,33 @@ UDP (User Datagram Protocol)
 HTTP/HTTPS runs on top of TCP to deliver web content. When you load a page, hundreds of TCP packets carry the HTML, CSS, JavaScript, and images.`,
           },
         ],
+        quiz: {
+          questions: [
+            {
+              id: 'internet-q1',
+              format: QuestionFormat.MULTIPLE_CHOICE,
+              question: 'What is the primary protocol that makes the Internet work?',
+              options: ['HTTP', 'TCP/IP', 'DNS', 'FTP'],
+              correctAnswerIndex: 1,
+              explanation: 'TCP/IP is the fundamental protocol suite that enables communication across the Internet. HTTP, DNS, and FTP all run on top of TCP/IP.',
+            },
+            {
+              id: 'internet-q2',
+              format: QuestionFormat.TRUE_FALSE,
+              question: 'TCP guarantees reliable, ordered delivery of data.',
+              correctAnswer: true,
+              explanation: 'TCP (Transmission Control Protocol) ensures that data arrives correctly and in order, retransmitting lost packets as needed.',
+            },
+            {
+              id: 'internet-q3',
+              format: QuestionFormat.MULTIPLE_CHOICE,
+              question: 'Which protocol would be better for live video streaming?',
+              options: ['TCP', 'UDP', 'HTTP', 'SMTP'],
+              correctAnswerIndex: 1,
+              explanation: 'UDP is preferred for streaming because some packet loss is acceptable, and the lower latency is more important than perfect delivery.',
+            },
+          ],
+        },
       },
       {
         id: 'dns',
@@ -337,6 +419,33 @@ Used for email security (SPF, DKIM)
 You can query these yourself using 'nslookup' or 'dig' commands in your terminal!`,
           },
         ],
+        quiz: {
+          questions: [
+            {
+              id: 'dns-q1',
+              format: QuestionFormat.MULTIPLE_CHOICE,
+              question: 'What does DNS stand for?',
+              options: ['Domain Name System', 'Digital Network Service', 'Data Name Server', 'Domain Network Security'],
+              correctAnswerIndex: 0,
+              explanation: 'DNS stands for Domain Name System. It translates human-readable domain names into IP addresses.',
+            },
+            {
+              id: 'dns-q2',
+              format: QuestionFormat.TRUE_FALSE,
+              question: 'An A record maps a domain name to an IPv6 address.',
+              correctAnswer: false,
+              explanation: 'An A record maps to an IPv4 address. AAAA records are used for IPv6 addresses.',
+            },
+            {
+              id: 'dns-q3',
+              format: QuestionFormat.MULTIPLE_CHOICE,
+              question: 'Which DNS record type is used to specify mail servers for a domain?',
+              options: ['A Record', 'CNAME Record', 'MX Record', 'TXT Record'],
+              correctAnswerIndex: 2,
+              explanation: 'MX (Mail Exchange) records specify the mail servers responsible for accepting email for a domain.',
+            },
+          ],
+        },
       },
     ],
   },

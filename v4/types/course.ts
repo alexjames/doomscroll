@@ -18,10 +18,15 @@ export interface CoursePage {
   blocks?: ContentBlock[]; // Rich content blocks (optional)
 }
 
+export interface SectionQuiz {
+  questions: import('./quiz').Question[];
+}
+
 export interface CourseSection {
   id: string;
   title: string;
   pages: CoursePage[];
+  quiz?: SectionQuiz;
 }
 
 export interface Course {
