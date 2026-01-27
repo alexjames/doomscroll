@@ -26,36 +26,6 @@ export default function ExploreScreen() {
           <Text style={[styles.title, { color: colors.text }]}>Explore</Text>
         </View>
 
-        {/* Trending Section */}
-        <View style={styles.section}>
-          <Text style={[styles.sectionTitle, { color: colors.text }]}>
-            Trending now
-          </Text>
-          <FlatList
-            data={courses}
-            renderItem={renderCourseItem}
-            keyExtractor={(item) => item.id}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.horizontalList}
-          />
-        </View>
-
-        {/* Find Something New Section */}
-        <View style={styles.section}>
-          <Text style={[styles.sectionTitle, { color: colors.text }]}>
-            Find something new
-          </Text>
-          <FlatList
-            data={[...courses].reverse()}
-            renderItem={renderCourseItem}
-            keyExtractor={(item) => `new-${item.id}`}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.horizontalList}
-          />
-        </View>
-
         {/* All Courses Section */}
         <View style={styles.section}>
           <Text style={[styles.sectionTitle, { color: colors.text }]}>
