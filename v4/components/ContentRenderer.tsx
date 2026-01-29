@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, Image, StyleSheet, Dimensions, TextStyle } from 'react-native';
 import { useTheme } from '../context/ThemeContext';
 import { ContentBlock, ChartData } from '../types/course';
 
@@ -21,6 +21,80 @@ export function ContentRenderer({ blocks }: ContentRendererProps) {
   );
 }
 
+// Export formatted text component for use elsewhere
+interface FormattedTextProps {
+  children: string;
+  style?: TextStyle | TextStyle[];
+}
+
+export function FormattedText({ children, style }: FormattedTextProps) {
+  const formattedParts = parseFormatting(children);
+
+  return (
+    <Text style={style}>
+      {formattedParts.map((part, index) => (
+        <Text
+          key={index}
+          style={[
+            part.bold && styles.boldText,
+            part.italic && styles.italicText,
+          ]}
+        >
+          {part.text}
+        </Text>
+      ))}
+    </Text>
+  );
+}
+
+// Shared formatting parser
+function parseFormatting(text: string) {
+  const parts: Array<{ text: string; bold?: boolean; italic?: boolean }> = [];
+  let currentIndex = 0;
+
+  // Regex to match **bold**, *italic*, or ***bold+italic***
+  const regex = /(\*\*\*[^*]+\*\*\*|\*\*[^*]+\*\*|\*[^*]+\*)/g;
+  let match;
+
+  while ((match = regex.exec(text)) !== null) {
+    // Add text before the match
+    if (match.index > currentIndex) {
+      parts.push({ text: text.substring(currentIndex, match.index) });
+    }
+
+    const matchedText = match[0];
+    if (matchedText.startsWith('***') && matchedText.endsWith('***')) {
+      // Bold + Italic
+      parts.push({
+        text: matchedText.slice(3, -3),
+        bold: true,
+        italic: true,
+      });
+    } else if (matchedText.startsWith('**') && matchedText.endsWith('**')) {
+      // Bold
+      parts.push({
+        text: matchedText.slice(2, -2),
+        bold: true,
+      });
+    } else if (matchedText.startsWith('*') && matchedText.endsWith('*')) {
+      // Italic
+      parts.push({
+        text: matchedText.slice(1, -1),
+        italic: true,
+      });
+    }
+
+    currentIndex = match.index + matchedText.length;
+  }
+
+  // Add remaining text
+  if (currentIndex < text.length) {
+    parts.push({ text: text.substring(currentIndex) });
+  }
+
+  return parts;
+}
+
 function renderBlock(block: ContentBlock, colors: any) {
   switch (block.type) {
     case 'text':
@@ -36,13 +110,9 @@ function renderBlock(block: ContentBlock, colors: any) {
   }
 }
 
-// Text Block
+// Text Block with formatting support
 function TextBlock({ content, colors }: { content: string; colors: any }) {
-  return (
-    <Text style={[styles.text, { color: colors.text }]}>
-      {content}
-    </Text>
-  );
+  return <FormattedText style={[styles.text, { color: colors.text }]}>{content}</FormattedText>;
 }
 
 // Image Block
@@ -192,6 +262,12 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 17,
     lineHeight: 30,
+  },
+  boldText: {
+    fontWeight: '700',
+  },
+  italicText: {
+    fontStyle: 'italic',
   },
   imageContainer: {
     alignItems: 'center',

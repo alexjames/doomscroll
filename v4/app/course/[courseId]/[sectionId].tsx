@@ -14,7 +14,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../../../context/ThemeContext';
 import { ProgressDots } from '../../../components/ProgressDots';
-import { ContentRenderer } from '../../../components/ContentRenderer';
+import { ContentRenderer, FormattedText } from '../../../components/ContentRenderer';
 import { QuizContainer } from '../../../components/quiz/QuizContainer';
 import { courses } from '../../../data/courses';
 import { QuizResult } from '../../../types/quiz';
@@ -208,9 +208,9 @@ export default function ReadingScreen() {
                   {page.blocks && page.blocks.length > 0 ? (
                     <ContentRenderer blocks={page.blocks} />
                   ) : (
-                    <Text style={[styles.pageContent, { color: colors.text }]}>
+                    <FormattedText style={[styles.pageContent, { color: colors.text }]}>
                       {page.content}
-                    </Text>
+                    </FormattedText>
                   )}
                 </View>
               </View>

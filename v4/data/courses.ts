@@ -20,9 +20,9 @@ export const courses: Course[] = [
             blocks: [
               {
                 type: 'text',
-                content: `Big O notation is a mathematical notation that describes the limiting behavior of a function when the argument tends towards a particular value or infinity.
+                content: `**Big O notation** is a mathematical notation that describes the limiting behavior of a function when the argument tends towards a particular value or infinity.
 
-In computer science, we use Big O to classify algorithms according to how their run time or space requirements grow as the input size grows.`,
+In computer science, we use Big O to classify algorithms according to how their *run time* or *space requirements* grow as the input size grows.`,
               },
               {
                 type: 'image',
@@ -31,7 +31,7 @@ In computer science, we use Big O to classify algorithms according to how their 
               },
               {
                 type: 'text',
-                content: `Why does this matter? Because as your data grows from 100 items to 100 million items, the difference between O(n) and O(n²) becomes the difference between 1 second and 11 days of processing time.`,
+                content: `Why does this matter? Because as your data grows from 100 items to 100 million items, the difference between **O(n)** and **O(n²)** becomes the difference between *1 second* and ***11 days*** of processing time.`,
               },
             ],
           },
@@ -57,7 +57,7 @@ In computer science, we use Big O to classify algorithms according to how their 
               },
               {
                 type: 'text',
-                content: `The key insight: as n grows larger, the differences between these complexities become dramatic. An O(n²) algorithm that runs instantly on 100 items might take hours on 100,000 items.`,
+                content: `The key insight: as n grows larger, the differences between these complexities become ***dramatic***. An **O(n²)** algorithm that runs *instantly* on 100 items might take *hours* on 100,000 items.`,
               },
             ],
           },
@@ -86,10 +86,10 @@ In computer science, we use Big O to classify algorithms according to how their 
                 type: 'text',
                 content: `To analyze Big O:
 
-1. Count the operations - Look at loops and recursive calls
-2. Drop constants - O(2n) simplifies to O(n)
-3. Keep the dominant term - O(n² + n) simplifies to O(n²)
-4. Consider worst case - Big O represents worst-case by default`,
+1. **Count the operations** - Look at loops and recursive calls
+2. **Drop constants** - O(2n) simplifies to O(n)
+3. **Keep the dominant term** - O(n² + n) simplifies to O(n²)
+4. **Consider worst case** - Big O represents *worst-case* by default`,
               },
             ],
           },
@@ -453,7 +453,7 @@ You can query these yourself using 'nslookup' or 'dig' commands in your terminal
     id: 'webscalesystems',
     title: 'Building Web-Scale Systems',
     category: 'Computer Science',
-    icon: 'diagram-3',
+    icon: 'git-network',
     color: '#2ad0e2',
     sections: [
       {
@@ -479,14 +479,14 @@ There are good reasons for choosing each of these options depending on the use c
 The service endpoint could be a VM or a container with an exposed port.
 
 Pros:
-- Latency: No additional network hops required to reach a service
-- Cost: This setup requires minimal infrastructure and cost
+✅ **Latency**: No additional network hops required to reach a service
+✅ **Cost**: This setup requires minimal infrastructure and cost
 
 Cons:
-- Single Point of Failure (SPOF): If the service endpoint goes down, the entire service becomes unavailable
-- Scalability: This design does not scale well under high load as traffic spikes can overwhelm the single endpoint
-- Operational Excellence: Features such as logging, rate-limiting and TLS termination need to be handled directly by the service.
-- Security: Exposing service endpoints directly to the internet increases the attack surface
+❌ Single Point of Failure (SPOF): If the service endpoint goes down, the entire service becomes unavailable
+❌ Scalability: This design does not scale well under high load as traffic spikes can overwhelm the single endpoint
+❌ Operational Excellence: Features such as logging, rate-limiting and TLS termination need to be handled directly by the service.
+❌ Security: Exposing service endpoints directly to the internet increases the attack surface
 
 This architecture is best suited for simple, low-traffic, non-critical applications.`,
           },
