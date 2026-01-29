@@ -457,25 +457,40 @@ You can query these yourself using 'nslookup' or 'dig' commands in your terminal
     color: '#2ad0e2',
     sections: [
       {
-        id: 'internet-basics',
-        title: 'How the Internet Works',
+        id: 'client-ingress',
+        title: 'Client Ingress',
         pages: [
           {
-            id: 'internet-1',
+            id: 'client-ingress-1',
             title: 'The Network of Networks',
-            content: `The Internet is not a single network—it's a network of networks. Millions of private, public, academic, and government networks are interconnected.
+            content: `When it comes to ingress from a client, there are primarily three options for the client request on its next hop:
 
-When you visit a website, your request travels through multiple networks:
-1. Your home network (WiFi router)
-2. Your ISP's network
-3. Internet backbone networks
-4. The destination's network
+1. Service endpoint
+2. Load balancer
+3. API gateway
 
-This works because all networks agree to use the same protocols—rules for communication. The most important is TCP/IP, the "language" of the Internet.
-
-Fun fact: No single organization owns or controls the Internet. It works through cooperation and standardization.`,
+There are good reasons for choosing each of these options depending on the use case. Each has its own set of trade-offs, as we will see.`,
           },
-        ]
+          {
+            id: 'client-ingress-2',
+            title: 'Service Endpoints',
+            content: `In this case, the client makes a direct request to the service endpoint. This is the simplest architecture since there are no intermediares between the client and service.
+
+The service endpoint could be a VM or a container with an exposed port.
+
+Pros:
+- Latency: No additional network hops required to reach a service
+- Cost: This setup requires minimal infrastructure and cost
+
+Cons:
+- Single Point of Failure (SPOF): If the service endpoint goes down, the entire service becomes unavailable
+- Scalability: This design does not scale well under high load as traffic spikes can overwhelm the single endpoint
+- Operational Excellence: Features such as logging, rate-limiting and TLS termination need to be handled directly by the service.
+- Security: Exposing service endpoints directly to the internet increases the attack surface
+
+This architecture is best suited for simple, low-traffic, non-critical applications.`,
+          },
+        ],
       },
     ],
   },
