@@ -490,6 +490,41 @@ Cons:
 
 This architecture is best suited for simple, low-traffic, non-critical applications.`,
           },
+          {
+            id: 'client-ingress-3',
+            title: 'Service Endpoints',
+            content: `A load balancer distributes incoming client requests across multiple service instances.
+
+Pros:
+- Availability: The service remains available even if an individual instance goes down as the load balancer can route traffic to healthy instances
+- Scalability: The service can scale by adding or removing service instances
+- Operational Excellence: Load balancers can provide features such as logging and TLS termination. TLS-termination converts HTTPS traffic to HTTP before forwarding it to the service instances. This allows offloading CPU intensive work from the backend servers and centralizes certificate management.
+- Security: Load balancers can act as a security layer by hiding the details of the backend service instances from clients
+
+Cons:
+- Missing Features: Authentication, rate-limiting, and request/response transformations are not natively supported by load balancers and need to be implemented in the service or through additional components
+- Configuration Complexity: Configuring and managing load balancers adds operational overhead
+
+Load balancers are best suited for apps that need scalability and availability. They work well with both monoliths and micro-services.`,
+          },
+          {
+            id: 'client-ingress-4',
+            title: 'API Gateways',
+            content: `An API gateway is a specialized entry point that processes requests before routing them to backend services. They centralize cross-cutting concerns in larger micro-services ecosystems such as authentication, rate-limiting, logging, and request/response transformations.
+
+Pros:
+- Centralized Management: API gateways provide a single point to manage cross-cutting concerns such as authentication, rate-limiting, throttling, logging, and request/response transformations
+- Routing: Gateways can route requests to different services based on URL paths, headers, or other criteria
+- Observability: They can track metrics, enable logging and provide tracing for incoming requests
+- Security: API gateways can enforce security policies and hide the details of backend services from clients
+
+Cons:
+- Single Point of Failure (SPOF): The API gateway becomes a critical component. If it goes down, all backend micro-service behind the gateway become unavailable unless redundancy is built in
+- Latency: Introducing an API gateway adds an additional network hop, which can increase latency
+- Operational Complexity: Configuring and managing an API gateway adds significant operational overhead
+
+API gateways are best suited for complex applications with multiple services and diverse client requirements. They are commonly used in microservices architectures where strong governance and security are desired.`,
+          },
         ],
       },
     ],
