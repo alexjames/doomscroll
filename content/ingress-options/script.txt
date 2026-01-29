@@ -1,5 +1,5 @@
 Ingress Options
-Directly Hit VM
+Direct Service Endpoint
 * No network hop
 * minimal infrastructure + cost
 * can't easily scale

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, FlatList } from 'react-native';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { router } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../../context/ThemeContext';
@@ -14,10 +14,6 @@ export default function ExploreScreen() {
     router.push(`/course/${course.id}`);
   };
 
-  const renderCourseItem = ({ item }: { item: Course }) => (
-    <CourseCard course={item} onPress={() => handleCoursePress(item)} />
-  );
-
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]} edges={['top']}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -31,14 +27,13 @@ export default function ExploreScreen() {
           <Text style={[styles.sectionTitle, { color: colors.text }]}>
             All courses
           </Text>
-          <FlatList
-            data={courses}
-            renderItem={renderCourseItem}
-            keyExtractor={(item) => `all-${item.id}`}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.horizontalList}
-          />
+          <View style={styles.coursesGrid}>
+            {courses.map((course) => (
+              <View key={course.id} style={styles.courseWrapper}>
+                <CourseCard course={course} onPress={() => handleCoursePress(course)} />
+              </View>
+            ))}
+          </View>
         </View>
 
         <View style={styles.bottomPadding} />
@@ -72,8 +67,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     marginBottom: 16,
   },
-  horizontalList: {
-    paddingHorizontal: 24,
+  coursesGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    paddingHorizontal: 16,
+  },
+  courseWrapper: {
+    width: '50%',
+    paddingHorizontal: 8,
+    marginBottom: 16,
   },
   bottomPadding: {
     height: 32,

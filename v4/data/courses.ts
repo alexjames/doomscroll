@@ -449,6 +449,36 @@ You can query these yourself using 'nslookup' or 'dig' commands in your terminal
       },
     ],
   },
+  {
+    id: 'webscalesystems',
+    title: 'Building Web-Scale Systems',
+    category: 'Computer Science',
+    icon: 'diagram-3',
+    color: '#2ad0e2',
+    sections: [
+      {
+        id: 'internet-basics',
+        title: 'How the Internet Works',
+        pages: [
+          {
+            id: 'internet-1',
+            title: 'The Network of Networks',
+            content: `The Internet is not a single network—it's a network of networks. Millions of private, public, academic, and government networks are interconnected.
+
+When you visit a website, your request travels through multiple networks:
+1. Your home network (WiFi router)
+2. Your ISP's network
+3. Internet backbone networks
+4. The destination's network
+
+This works because all networks agree to use the same protocols—rules for communication. The most important is TCP/IP, the "language" of the Internet.
+
+Fun fact: No single organization owns or controls the Internet. It works through cooperation and standardization.`,
+          },
+        ]
+      },
+    ],
+  },
 ];
 
 export function getCourseById(id: string): Course | undefined {
