@@ -606,7 +606,7 @@ You can query these yourself using 'nslookup' or 'dig' commands in your terminal
           {
             id: 'client-ingress-1',
             title: 'Client Ingress Options',
-            content: `When it comes to ingress from a client, there are primarily three options for the client request on its next hop:
+            content: `When it comes to picking the ingress node for a micro service, there are primarily three options:
 
 1. Service endpoint
 2. Load balancer
@@ -667,6 +667,66 @@ Cons:
 ❌ **Operational Complexity**: Configuring and managing an API gateway adds significant operational overhead
 
 API gateways are best suited for complex applications with multiple services and diverse client requirements. They are commonly used in microservices architectures where strong governance and security are desired.`,
+          },
+        ],
+        slides: [
+          {
+            id: 'ci-slide-1',
+            elements: [
+              {
+                type: 'text',
+                content: '**Client Ingress Options**',
+                x: 10,
+                y: 5,
+                size: 'medium',
+                color: '#ffffff',
+              },
+              {
+                type: 'text',
+                content: 'When it comes to picking the ingress node for a micro service, there are primarily three options...',
+                x: 10,
+                y: 15,
+                size: 'medium',
+                color: '#FFFFFF',
+              },
+            ],
+          },
+          {
+            id: 'ci-slide-2',
+            elements: [
+              {
+                type: 'text',
+                content: '**Client Ingress Options**',
+                x: 10,
+                y: 5,
+                size: 'medium',
+                color: '#ffffff',
+              },
+              {
+                type: 'text',
+                content: 'When it comes to picking the ingress node for a micro service, there are primarily three options...',
+                x: 10,
+                y: 15,
+                size: 'medium',
+                color: '#FFFFFF',
+              },
+              {
+                type: 'text',
+                content: 'Service Endpoint',
+                x: 25,
+                y: 80,
+                size: 'large',
+                color: '#FFFFFF',
+              },
+              {
+                type: 'image',
+                url: 'https://blogger.googleusercontent.com/img/a/AVvXsEhFIJv-EPKimGb8VwRWnLEQZ1iaEJTILYDV27Bj3j2o5M-XsROMT8U_gsQRYpuG1QtAsErIBiRnTeavvf6cyILidIorusjPUSnraLeDDKWHl4X9ruKnI5b7uQnKyPc5VwIUtfE25Zlpb7sXjIPqBpq5_zBMKYjlJs-awhyZxmYZVtWe6DaNWkuxFsBZV-Y',
+                x: 30,
+                y: 40,
+                width: 40,
+                height: 40,
+              },
+            ],
           },
         ],
       },
