@@ -13,7 +13,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../../../context/ThemeContext';
-import { ProgressDots } from '../../../components/ProgressDots';
+import { ProgressRing } from '../../../components/ProgressRing';
 import { ContentRenderer, FormattedText } from '../../../components/ContentRenderer';
 import { QuizContainer } from '../../../components/quiz/QuizContainer';
 import { Slideshow } from '../../../components/slideshow';
@@ -184,7 +184,7 @@ export default function ReadingScreen() {
         <TouchableOpacity onPress={handleExit} style={styles.exitButton}>
           <Ionicons name="close" size={28} color={colors.text} />
         </TouchableOpacity>
-        <ProgressDots total={totalPages + (hasQuiz ? 1 : 0)} current={currentPage} />
+        <ProgressRing total={totalPages + (hasQuiz ? 1 : 0)} current={currentPage} />
         <View style={styles.placeholder} />
       </View>
 
