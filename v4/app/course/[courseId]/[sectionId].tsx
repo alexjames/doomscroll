@@ -209,14 +209,8 @@ export default function ReadingScreen() {
               <View style={[styles.contentCard, { backgroundColor: colors.card }]}>
                 {/* Header */}
                 <View style={styles.cardHeader}>
-                  <Text style={[styles.categoryLabel, { color: colors.textMuted }]}>
-                    {course.category}
-                  </Text>
                   <Text style={[styles.sectionTitle, { color: colors.primary }]}>
-                    {section.title}
-                  </Text>
-                  <Text style={[styles.pageIndicator, { color: colors.textMuted }]}>
-                    Page {index + 1} / {totalPages}
+                    {page.title}
                   </Text>
                 </View>
 

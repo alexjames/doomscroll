@@ -605,7 +605,7 @@ You can query these yourself using 'nslookup' or 'dig' commands in your terminal
         pages: [
           {
             id: 'client-ingress-1',
-            title: 'The Network of Networks',
+            title: 'Client Ingress Options',
             content: `When it comes to ingress from a client, there are primarily three options for the client request on its next hop:
 
 1. Service endpoint
