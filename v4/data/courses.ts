@@ -1,5 +1,6 @@
 import { Course } from '../types/course';
 import { QuestionFormat } from '../types/quiz';
+import { Slide } from '../types/slideshow';
 
 export const courses: Course[] = [
   {
@@ -121,6 +122,148 @@ In computer science, we use Big O to classify algorithms according to how their 
             },
           ],
         },
+        slides: [
+          {
+            id: 'bigo-slide-1',
+            elements: [
+              {
+                type: 'text',
+                content: '**Big O Notation**',
+                x: 10,
+                y: 20,
+                size: 'xxlarge',
+                color: '#FFFFFF',
+              },
+              {
+                type: 'text',
+                content: 'How algorithms *scale* with input size',
+                x: 10,
+                y: 45,
+                size: 'large',
+                color: '#9CA3AF',
+              },
+              {
+                type: 'image',
+                url: 'https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=400',
+                x: 55,
+                y: 25,
+                width: 40,
+                height: 40,
+              },
+            ],
+          },
+          {
+            id: 'bigo-slide-2',
+            elements: [
+              {
+                type: 'text',
+                content: 'O(1)',
+                x: 10,
+                y: 15,
+                size: 'xxlarge',
+                color: '#10B981',
+              },
+              {
+                type: 'text',
+                content: '**Constant Time**',
+                x: 10,
+                y: 40,
+                size: 'large',
+                color: '#FFFFFF',
+              },
+              {
+                type: 'text',
+                content: 'Array index access\nHash table lookup',
+                x: 10,
+                y: 60,
+                size: 'medium',
+                color: '#9CA3AF',
+              },
+              {
+                type: 'image',
+                url: 'https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=400',
+                x: 55,
+                y: 20,
+                width: 40,
+                height: 50,
+              },
+            ],
+          },
+          {
+            id: 'bigo-slide-3',
+            elements: [
+              {
+                type: 'text',
+                content: 'O(log n)',
+                x: 10,
+                y: 15,
+                size: 'xxlarge',
+                color: '#3B82F6',
+              },
+              {
+                type: 'text',
+                content: '**Logarithmic Time**',
+                x: 10,
+                y: 40,
+                size: 'large',
+                color: '#FFFFFF',
+              },
+              {
+                type: 'text',
+                content: 'Binary search\nBalanced tree operations',
+                x: 10,
+                y: 60,
+                size: 'medium',
+                color: '#9CA3AF',
+              },
+              {
+                type: 'image',
+                url: 'https://images.unsplash.com/photo-1509228627152-72ae9ae6848d?w=400',
+                x: 55,
+                y: 20,
+                width: 40,
+                height: 50,
+              },
+            ],
+          },
+          {
+            id: 'bigo-slide-4',
+            elements: [
+              {
+                type: 'text',
+                content: 'O(n) vs O(n²)',
+                x: 10,
+                y: 10,
+                size: 'xlarge',
+                color: '#FFFFFF',
+              },
+              {
+                type: 'text',
+                content: '**100 items**\nO(n) = 100 ops\nO(n²) = 10,000 ops',
+                x: 10,
+                y: 35,
+                size: 'medium',
+                color: '#F59E0B',
+              },
+              {
+                type: 'text',
+                content: '**1M items**\nO(n) = 1M ops\nO(n²) = ***1 trillion*** ops',
+                x: 55,
+                y: 35,
+                size: 'medium',
+                color: '#EF4444',
+              },
+              {
+                type: 'text',
+                content: 'Choose your algorithm wisely!',
+                x: 10,
+                y: 75,
+                size: 'large',
+                color: '#F59E0B',
+              },
+            ],
+          },
+        ] as Slide[],
       },
       {
         id: 'arrays-lists',

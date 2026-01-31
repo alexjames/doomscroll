@@ -27,6 +27,7 @@ export interface CourseSection {
   title: string;
   pages: CoursePage[];
   quiz?: SectionQuiz;
+  slides?: import('./slideshow').Slide[];
 }
 
 export interface Course {

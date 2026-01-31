@@ -16,12 +16,13 @@ import { useTheme } from '../../../context/ThemeContext';
 import { ProgressDots } from '../../../components/ProgressDots';
 import { ContentRenderer, FormattedText } from '../../../components/ContentRenderer';
 import { QuizContainer } from '../../../components/quiz/QuizContainer';
+import { Slideshow } from '../../../components/slideshow';
 import { courses } from '../../../data/courses';
 import { QuizResult } from '../../../types/quiz';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
-type ScreenMode = 'reading' | 'quiz' | 'results';
+type ScreenMode = 'reading' | 'quiz' | 'results' | 'slideshow';
 
 export default function ReadingScreen() {
   const { courseId, sectionId } = useLocalSearchParams<{ courseId: string; sectionId: string }>();
@@ -45,6 +46,7 @@ export default function ReadingScreen() {
   const pages = section.pages;
   const totalPages = pages.length;
   const hasQuiz = section.quiz && section.quiz.questions.length > 0;
+  const hasSlideshow = section.slides && section.slides.length > 0;
 
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const offsetX = event.nativeEvent.contentOffset.x;
@@ -89,6 +91,24 @@ export default function ReadingScreen() {
   const handleQuizExit = () => {
     router.back();
   };
+
+  const handleStartSlideshow = () => {
+    setScreenMode('slideshow');
+  };
+
+  const handleSlideshowExit = () => {
+    setScreenMode('reading');
+  };
+
+  // Slideshow Screen
+  if (screenMode === 'slideshow' && hasSlideshow) {
+    return (
+      <Slideshow
+        slides={section.slides!}
+        onExit={handleSlideshowExit}
+      />
+    );
+  }
 
   // Quiz Results Screen
   if (screenMode === 'results' && quizResult) {
@@ -231,6 +251,11 @@ export default function ReadingScreen() {
           <TouchableOpacity style={styles.actionButton}>
             <Text style={[styles.fontSizeText, { color: colors.textMuted }]}>Aa</Text>
           </TouchableOpacity>
+          {hasSlideshow && (
+            <TouchableOpacity style={styles.actionButton} onPress={handleStartSlideshow}>
+              <Ionicons name="easel-outline" size={24} color={colors.textMuted} />
+            </TouchableOpacity>
+          )}
           <TouchableOpacity style={styles.actionButton} onPress={toggleTheme}>
             <Ionicons
               name={isDark ? 'sunny-outline' : 'moon-outline'}
