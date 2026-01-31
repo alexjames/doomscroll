@@ -11,15 +11,25 @@ interface ProgressRingProps {
 export function ProgressRing({ total, current }: ProgressRingProps) {
   const { colors } = useTheme();
 
-  const size = 44;
-  const strokeWidth = 4;
+  // Calculate text width based on digit count
+  const displayText = `${current + 1}/${total}`;
+  const charCount = displayText.length;
+
+  // Adaptive sizing: fontSize 10, each char ~6px wide, plus padding
+  const fontSize = 10;
+  const textWidth = charCount * 6;
+  const padding = 6; // Space between text and ring
+  const strokeWidth = 3;
+
+  // Size = text width + padding on both sides + stroke on both sides
+  const size = textWidth + padding * 2 + strokeWidth * 2;
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
-  const progress = (current + 1) / total; // +1 because current is 0-indexed
+  const progress = (current + 1) / total;
   const strokeDashoffset = circumference * (1 - progress);
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { width: size, height: size }]}>
       <Svg width={size} height={size}>
         {/* Background circle */}
         <Circle
@@ -47,8 +57,8 @@ export function ProgressRing({ total, current }: ProgressRingProps) {
       </Svg>
       {/* Center text */}
       <View style={styles.textContainer}>
-        <Text style={[styles.text, { color: colors.text }]}>
-          {current + 1}/{total}
+        <Text style={[styles.text, { color: colors.text, fontSize }]}>
+          {displayText}
         </Text>
       </View>
     </View>
@@ -57,8 +67,6 @@ export function ProgressRing({ total, current }: ProgressRingProps) {
 
 const styles = StyleSheet.create({
   container: {
-    width: 44,
-    height: 44,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -68,7 +76,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   text: {
-    fontSize: 11,
     fontWeight: '600',
   },
 });

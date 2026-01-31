@@ -37,11 +37,20 @@ export function Slideshow({ slides, onExit }: SlideshowProps) {
     }
   };
 
+  const progress = (currentIndex + 1) / totalItems;
+
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#000000" />
 
-      {/* Exit button - always visible top-left */}
+      {/* Progress bar at top */}
+      <SafeAreaView style={styles.progressBarContainer} edges={['top']}>
+        <View style={styles.progressBarTrack}>
+          <View style={[styles.progressBarFill, { width: `${progress * 100}%` }]} />
+        </View>
+      </SafeAreaView>
+
+      {/* Exit button - below progress bar */}
       <SafeAreaView style={styles.exitContainer} edges={['top']}>
         <TouchableOpacity onPress={onExit} style={styles.exitButton}>
           <Ionicons name="close" size={28} color="#FFFFFF" />
@@ -63,18 +72,6 @@ export function Slideshow({ slides, onExit }: SlideshowProps) {
         ))}
         <SlideshowComplete onExit={onExit} />
       </ScrollView>
-
-      {/* Progress dots at bottom */}
-      <SafeAreaView style={styles.progressContainer} edges={['bottom']}>
-        <View style={styles.progressDots}>
-          {Array.from({ length: totalItems }).map((_, index) => (
-            <View
-              key={index}
-              style={[styles.dot, index === currentIndex && styles.dotActive]}
-            />
-          ))}
-        </View>
-      </SafeAreaView>
     </View>
   );
 }
@@ -83,6 +80,21 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#000000',
+  },
+  progressBarContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    zIndex: 11,
+  },
+  progressBarTrack: {
+    height: 3,
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+  },
+  progressBarFill: {
+    height: '100%',
+    backgroundColor: '#FFFFFF',
   },
   exitContainer: {
     position: 'absolute',
@@ -102,27 +114,5 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     flex: 1,
-  },
-  progressContainer: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-  },
-  progressDots: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    paddingVertical: 16,
-    gap: 8,
-  },
-  dot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: 'rgba(255, 255, 255, 0.3)',
-  },
-  dotActive: {
-    backgroundColor: '#FFFFFF',
-    transform: [{ scale: 1.2 }],
   },
 });

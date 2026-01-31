@@ -184,7 +184,7 @@ export default function ReadingScreen() {
         <TouchableOpacity onPress={handleExit} style={styles.exitButton}>
           <Ionicons name="close" size={28} color={colors.text} />
         </TouchableOpacity>
-        <ProgressRing total={totalPages + (hasQuiz ? 1 : 0)} current={currentPage} />
+        <ProgressRing total={totalPages} current={currentPage} />
         <View style={styles.placeholder} />
       </View>
 
